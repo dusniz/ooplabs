@@ -1,3 +1,5 @@
+import myfirstpackage.*;
+
 class MyFirstClass {
     public static void main(String[] args) {
         MySecondClass o = new MySecondClass(5, 2);

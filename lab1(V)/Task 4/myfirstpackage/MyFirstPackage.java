@@ -1,4 +1,6 @@
-class MySecondClass {
+package myfirstpackage;
+
+public class MySecondClass {
     private int x;
     private int y;
 
@@ -18,7 +20,7 @@ class MySecondClass {
         y = a;
     }
 
-    MySecondClass(int a, int b) {
+    public MySecondClass(int a, int b) {
         x = a;
         y = b;
     }
