@@ -1,4 +1,5 @@
 # Our OOP labs
 **Members:**
-* dusn1z (Абакумов Иван)
-* [VoltageRozayx](https://github.com/VoltageRozayx) (Волков Антон)
+**6202-010302D**
+* (X) dusn1z (Абакумов Иван)
+* (Y) [VoltageRozayx](https://github.com/VoltageRozayx) (Волков Антон)
