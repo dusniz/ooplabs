@@ -2,11 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 public class ConstantFunction implements MathFunction {
 
-    private final double x;
-
-    ConstantFunction() {
-        x = 0;
-    }
+    protected final double x;
 
     public ConstantFunction(double x) {
         this.x = x;
