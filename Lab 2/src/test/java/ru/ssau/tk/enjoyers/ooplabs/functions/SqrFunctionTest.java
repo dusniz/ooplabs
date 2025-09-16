@@ -7,9 +7,7 @@ public class SqrFunctionTest {
 
     @Test
     public void givenX_whenApply_thenReturnX() {
-        double expectedX = 5.29;
         SqrFunction sqrFunction = new SqrFunction();
-        double actualX = sqrFunction.apply(2.3);
-        Assert.assertEquals(expectedX, actualX, 0.1);
+        Assert.assertEquals(5.29, sqrFunction.apply(2.3), 0.1);
     }
 }
