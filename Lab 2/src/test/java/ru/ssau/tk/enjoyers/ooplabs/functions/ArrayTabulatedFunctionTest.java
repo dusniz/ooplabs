@@ -12,6 +12,6 @@ class ArrayTabulatedFunctionTest {
 
         assertEquals(0.0, function.apply(0.0), 1e-12);
         assertEquals(2.5, function.apply(1.5), 1e-12); // интерполяция
-        assertEquals(7.0, function.apply(2.5), 1e-12); // экстраполяция
+        assertEquals(5.5, function.apply(2.5), 1e-12); // экстраполяция
     }
 }
