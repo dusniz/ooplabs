@@ -10,6 +10,7 @@ public class IdentityFunctionTest {
         double expectedX = 10.58;
         IdentityFunction identityFunction = new IdentityFunction();
         double actualX = identityFunction.apply(expectedX);
-        Assert.assertEquals(expectedX, actualX);
+        double delta = 0.0000001;
+        Assert.assertEquals(expectedX, actualX, delta);
     }
 }
