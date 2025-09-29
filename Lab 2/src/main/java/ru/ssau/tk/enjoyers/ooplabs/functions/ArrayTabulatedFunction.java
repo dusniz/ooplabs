@@ -2,7 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
     private double[] xValues;
     private double[] yValues;
     private int count;
@@ -108,5 +108,36 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
         double rightY = yValues[floorIndex + 1];
 
         return interpolate(x, leftX, rightX, leftY, rightY);
+    }
+
+    @Override
+    public void insert(double x, double y) {
+        int index = indexOfX(x);
+        if (index != -1) {
+            setY(index, y);
+            return;
+        }
+
+        // Увеличиваем массивы
+        double[] newX = new double[count + 1];
+        double[] newY = new double[count + 1];
+
+        int i = 0;
+        // Ищем место для вставки
+        while (i < count && xValues[i] < x) {
+            i++;
+        }
+
+        System.arraycopy(xValues, 0, newX, 0, i);
+        newX[i] = x;
+        System.arraycopy(xValues, i, newX, i + 1, count - i);
+
+        System.arraycopy(yValues, 0, newY, 0, i);
+        newY[i] = y;
+        System.arraycopy(yValues, i, newY, i + 1, count - i);
+
+        xValues = newX;
+        yValues = newY;
+        count++;
     }
 }
