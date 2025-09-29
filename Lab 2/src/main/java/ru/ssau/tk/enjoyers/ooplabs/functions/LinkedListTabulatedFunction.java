@@ -1,6 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+
     private static class Node {
         public double x;
         public double y;
@@ -235,5 +236,20 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
         // Если все x меньше заданного, добавляем в конец
         addNode(x, y);
+    }
+
+    @Override
+    public void remove(int index) {
+        Node nodeToRemove = getNode(index);
+        if (count == 1) {
+            head = null;
+        } else {
+            nodeToRemove.prev.next = nodeToRemove.next;
+            nodeToRemove.next.prev = nodeToRemove.prev;
+            if (index == 0) {
+                head = nodeToRemove.next;
+            }
+        }
+        count--;
     }
 }
