@@ -2,7 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private double[] xValues;
     private double[] yValues;
     private int count;
@@ -139,5 +139,27 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
         xValues = newX;
         yValues = newY;
         count++;
+    }
+
+    @Override
+    public void remove(int index) {
+        if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+
+        double[] newX = new double[count - 1];
+        double[] newY = new double[count - 1];
+
+        // Копируем элементы до удаляемого
+        System.arraycopy(xValues, 0, newX, 0, index);
+        System.arraycopy(yValues, 0, newY, 0, index);
+
+        // Копируем элементы после удаляемого
+        System.arraycopy(xValues, index + 1, newX, index, count - index - 1);
+        System.arraycopy(yValues, index + 1, newY, index, count - index - 1);
+
+        xValues = newX;
+        yValues = newY;
+        count--;
     }
 }
