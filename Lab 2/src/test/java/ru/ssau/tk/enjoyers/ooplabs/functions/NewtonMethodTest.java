@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NewtonMethodTest {
 
@@ -14,8 +14,8 @@ public class NewtonMethodTest {
 
         NewtonMethod newton = new NewtonMethod(f, df, 1e-12, 100);
 
-        Assert.assertEquals(5.0, newton.apply(10.0), 1e-6);
-        Assert.assertEquals(5.0, newton.apply(1.0), 1e-6);
-        Assert.assertEquals(5.0, newton.apply(8.0), 1e-6);
+        assertEquals(5.0, newton.apply(10.0), 1e-6);
+        assertEquals(5.0, newton.apply(1.0), 1e-6);
+        assertEquals(5.0, newton.apply(8.0), 1e-6);
     }
 }

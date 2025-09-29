@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IdentityFunctionTest {
 
@@ -11,6 +11,6 @@ public class IdentityFunctionTest {
         IdentityFunction identityFunction = new IdentityFunction();
         double actualX = identityFunction.apply(expectedX);
         double delta = 0.0000001;
-        Assert.assertEquals(expectedX, actualX, delta);
+        assertEquals(expectedX, actualX, delta);
     }
 }
