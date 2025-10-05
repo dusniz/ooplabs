@@ -1,5 +1,8 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.DifferentLengthOfArraysException;
+
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected abstract int floorIndexOfX(double x);
@@ -28,4 +31,18 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
             }
         }
     }
+
+    public static void checkLengthIsTheSame(double[] xValues, double[] yValues) {
+        if (xValues.length != yValues.length)
+            throw new DifferentLengthOfArraysException("Length is not the same");
+    }
+
+    public static void checkSorted(double[] xValues) {
+        for (int i = 1; i < xValues.length; i++) {
+            if (xValues[i] <= xValues[i - 1]) {
+                throw new ArrayIsNotSortedException("Array is not sorted");
+            }
+        }
+    }
+
 }
