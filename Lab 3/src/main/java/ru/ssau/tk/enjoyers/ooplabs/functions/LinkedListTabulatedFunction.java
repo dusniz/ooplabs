@@ -18,9 +18,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     private int count;
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Arrays must have same length");
-        }
+
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
+
         for (int i = 0; i < xValues.length; i++) {
             addNode(xValues[i], yValues[i]);
         }

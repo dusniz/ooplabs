@@ -8,9 +8,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length) {
-            throw new IllegalArgumentException("Arrays must have same length");
-        }
+
+        checkLengthIsTheSame(xValues, yValues);
+        checkSorted(xValues);
+
         this.count = xValues.length;
         this.xValues = Arrays.copyOf(xValues, count);
         this.yValues = Arrays.copyOf(yValues, count);
