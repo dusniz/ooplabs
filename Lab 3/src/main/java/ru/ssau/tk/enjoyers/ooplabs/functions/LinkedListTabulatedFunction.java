@@ -1,5 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
+import java.util.Iterator;
+
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
 
     private static class Node {
@@ -252,5 +254,10 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             }
         }
         count--;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        throw new UnsupportedOperationException();
     }
 }
