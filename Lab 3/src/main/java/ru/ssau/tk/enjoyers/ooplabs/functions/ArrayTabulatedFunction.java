@@ -2,6 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private double[] xValues;
@@ -46,16 +47,24 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     }
 
     @Override
-    public int getCount() { return count; }
+    public int getCount() {
+        return count;
+    }
 
     @Override
-    public double getX(int index) { return xValues[index]; }
+    public double getX(int index) {
+        return xValues[index];
+    }
 
     @Override
-    public double getY(int index) { return yValues[index]; }
+    public double getY(int index) {
+        return yValues[index];
+    }
 
     @Override
-    public void setY(int index, double value) { yValues[index] = value; }
+    public void setY(int index, double value) {
+        yValues[index] = value;
+    }
 
     @Override
     public int indexOfX(double x) {
@@ -74,10 +83,14 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     }
 
     @Override
-    public double leftBound() { return xValues[0]; }
+    public double leftBound() {
+        return xValues[0];
+    }
 
     @Override
-    public double rightBound() { return xValues[count - 1]; }
+    public double rightBound() {
+        return xValues[count - 1];
+    }
 
     @Override
     protected int floorIndexOfX(double x) {
@@ -167,6 +180,23 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            private int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                Point point = new Point(xValues[i], yValues[i]);
+                i++;
+                return point;
+            }
+        };
     }
 }
