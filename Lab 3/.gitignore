@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 /input/
 /ouput/
+/temp/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

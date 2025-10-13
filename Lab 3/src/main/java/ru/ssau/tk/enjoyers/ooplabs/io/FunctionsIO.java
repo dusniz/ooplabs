@@ -1,5 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.io;
 
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.Point;
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.TabulatedFunctionFactory;
@@ -146,5 +147,74 @@ public final class FunctionsIO {
     public static TabulatedFunction deserialize(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         ObjectInputStream objectInputStream = new ObjectInputStream(stream);
         return (TabulatedFunction) objectInputStream.readObject();
+    }
+
+    public static void serializeXml(BufferedWriter writer, ArrayTabulatedFunction function) throws IOException {
+        writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        writer.newLine();
+        writer.write("<ArrayTabulatedFunction>");
+        writer.newLine();
+        writer.write("  <count>" + function.getCount() + "</count>");
+        writer.newLine();
+        writer.write("  <xValues>");
+
+        for (int i = 0; i < function.getCount(); i++) {
+            writer.write(String.format(Locale.US, "%.6f", function.getX(i)));
+            if (i < function.getCount() - 1) {
+                writer.write(",");
+            }
+        }
+
+        writer.write("</xValues>");
+        writer.newLine();
+        writer.write("  <yValues>");
+
+        for (int i = 0; i < function.getCount(); i++) {
+            writer.write(String.format(Locale.US, "%.6f", function.getY(i)));
+            if (i < function.getCount() - 1) {
+                writer.write(",");
+            }
+        }
+
+        writer.write("</yValues>");
+        writer.newLine();
+        writer.write("</ArrayTabulatedFunction>");
+        writer.newLine();
+        writer.flush();
+    }
+
+    public static ArrayTabulatedFunction deserializeXml(BufferedReader reader) throws IOException {
+        int count = 0;
+        double[] xValues = null;
+        double[] yValues = null;
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+
+            if (line.startsWith("<count>")) {
+                count = Integer.parseInt(line.replace("<count>", "").replace("</count>", ""));
+            } else if (line.startsWith("<xValues>")) {
+                String xData = line.replace("<xValues>", "").replace("</xValues>", "");
+                String[] xParts = xData.split(",");
+                xValues = new double[count];
+                for (int i = 0; i < count; i++) {
+                    xValues[i] = Double.parseDouble(xParts[i]);
+                }
+            } else if (line.startsWith("<yValues>")) {
+                String yData = line.replace("<yValues>", "").replace("</yValues>", "");
+                String[] yParts = yData.split(",");
+                yValues = new double[count];
+                for (int i = 0; i < count; i++) {
+                    yValues[i] = Double.parseDouble(yParts[i]);
+                }
+            }
+        }
+
+        if (xValues != null && yValues != null) {
+            return new ArrayTabulatedFunction(xValues, yValues);
+        } else {
+            throw new IOException("Invalid XML format");
+        }
     }
 }
