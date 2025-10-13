@@ -10,7 +10,7 @@ class MockTabulatedFunctionTest {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         // Интерполяция
-        assertEquals(1.0, mock.apply(0.5), 1e-12);
+        assertEquals(0.6, mock.apply(0.3), 1e-12);
 
         // Экстраполяция слева
         assertEquals(-1.0, mock.apply(-0.5), 1e-12);
