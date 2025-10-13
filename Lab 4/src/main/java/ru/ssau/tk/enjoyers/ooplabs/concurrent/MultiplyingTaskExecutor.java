@@ -1,7 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 
 import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.Point;
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.UnitFunction;
 
