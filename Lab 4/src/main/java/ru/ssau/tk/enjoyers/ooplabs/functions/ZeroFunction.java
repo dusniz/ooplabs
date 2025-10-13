@@ -2,7 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 public class ZeroFunction extends ConstantFunction {
 
-    ZeroFunction(){
+    public ZeroFunction(){
         super(0);
     }
 }
