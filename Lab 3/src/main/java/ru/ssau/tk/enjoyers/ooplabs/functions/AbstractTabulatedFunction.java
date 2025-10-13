@@ -13,6 +13,9 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
     protected double interpolate(double x, double leftX, double rightX,
                                  double leftY, double rightY) {
+        if (x <= leftX || x >= rightX) {
+            throw new InterpolationException("x is outside interpolation interval");
+        }
         return leftY + (rightY - leftY) * (x - leftX) / (rightX - leftX);
     }
 
@@ -28,9 +31,6 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 return getY(index);
             } else {
                 int floorIndex = floorIndexOfX(x);
-                if (floorIndex < 0 || floorIndex >= getCount() - 1) {
-                    throw new InterpolationException("x is outside interpolation interval");
-                }
                 return interpolate(x, floorIndex);
             }
         }

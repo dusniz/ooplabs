@@ -166,12 +166,36 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double extrapolateLeft(double x) {
-        return interpolate(x, 0);
+        if (count < 2) {
+            return head.y;
+        }
+
+        Node first = head;
+        Node second = head.next;
+
+        double x0 = first.x;
+        double x1 = second.x;
+        double y0 = first.y;
+        double y1 = second.y;
+
+        return y0 + (y1 - y0) / (x1 - x0) * (x - x0);
     }
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, count - 2);
+        if (count < 2) {
+            return head.prev.y;
+        }
+
+        Node last = head.prev;
+        Node prev = last.prev;
+
+        double x0 = prev.x;
+        double x1 = last.x;
+        double y0 = prev.y;
+        double y1 = last.y;
+
+        return y1 + (y1 - y0) / (x1 - x0) * (x - x1);
     }
 
     @Override
