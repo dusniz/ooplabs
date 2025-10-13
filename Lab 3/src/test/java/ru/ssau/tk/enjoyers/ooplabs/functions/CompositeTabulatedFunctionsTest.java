@@ -215,23 +215,6 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testEdgeCasesWithTabulatedComposition() {
-        // Тестируем граничные случаи
-
-        // Функция с одной точкой
-        double[] singleX = {5.0};
-        double[] singleY = {25.0};
-        ArrayTabulatedFunction singlePointFunc = new ArrayTabulatedFunction(singleX, singleY);
-
-        MathFunction composite = singlePointFunc.andThen(sqr);
-
-        // Для любой точки x, singlePointFunc возвращает 25, затем sqr(25) = 625
-        assertEquals(625.0, composite.apply(0.0), 1e-12);
-        assertEquals(625.0, composite.apply(10.0), 1e-12);
-        assertEquals(625.0, composite.apply(-5.0), 1e-12);
-    }
-
-    @Test
     void testCompositionWithDifferentDomains() {
         // Функции с разными областями определения
         double[] xValues1 = {0.0, 1.0, 2.0};          // [0, 2]

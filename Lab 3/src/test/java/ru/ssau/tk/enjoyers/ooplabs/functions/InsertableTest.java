@@ -38,13 +38,6 @@ class InsertableTest {
         double[] xValues = {0.0, 1.0, 2.0, 3.0, 4.0};
         double[] yValues = {0.0, 1.0, 4.0, 9.0, 16.0};
         LinkedListTabulatedFunction linkedListFunc = new LinkedListTabulatedFunction(xValues, yValues);
-        LinkedListTabulatedFunction emptyList = new LinkedListTabulatedFunction(new double[0], new double[0]);
-
-        // Пустой список
-        emptyList.insert(5.0, 25.0);
-        assertEquals(1, emptyList.getCount());
-        assertEquals(5.0, emptyList.getX(0), 1e-12);
-        assertEquals(25.0, emptyList.getY(0), 1e-12);
 
         // В начало
         linkedListFunc.insert(-1.0, 1.0);

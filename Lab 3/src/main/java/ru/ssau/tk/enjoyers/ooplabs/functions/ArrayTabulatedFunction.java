@@ -10,6 +10,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     private int count;
 
     public ArrayTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Length must be at least 2");
+        }
 
         checkLengthIsTheSame(xValues, yValues);
         checkSorted(xValues);
@@ -21,7 +24,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     public ArrayTabulatedFunction(MathFunction source, double xFrom,
                                   double xTo, int count) {
-        if (count < 2) throw new IllegalArgumentException("Count must be >= 2");
+        if (count < 2) {
+            throw new IllegalArgumentException("Count must be at least 2");
+        }
 
         if (xFrom > xTo) {
             double temp = xFrom;
@@ -53,16 +58,25 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     public double getX(int index) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
         return xValues[index];
     }
 
     @Override
     public double getY(int index) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
         return yValues[index];
     }
 
     @Override
     public void setY(int index, double value) {
+        if (index < 0 || index >= count) {
+            throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
         yValues[index] = value;
     }
 
@@ -94,7 +108,9 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected int floorIndexOfX(double x) {
-        if (x < xValues[0]) return 0;
+        if (x < xValues[0]) {
+            throw new IllegalArgumentException("x is less than left bound");
+        }
         if (x > xValues[count - 1]) return count;
 
         for (int i = 1; i < count; i++) {
@@ -115,8 +131,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
 
     @Override
     protected double interpolate(double x, int floorIndex) {
-        if (count == 1) return yValues[0];
-
         double leftX = xValues[floorIndex];
         double rightX = xValues[floorIndex + 1];
         double leftY = yValues[floorIndex];
@@ -133,12 +147,10 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
             return;
         }
 
-        // Увеличиваем массивы
         double[] newX = new double[count + 1];
         double[] newY = new double[count + 1];
 
         int i = 0;
-        // Ищем место для вставки
         while (i < count && xValues[i] < x) {
             i++;
         }
@@ -159,17 +171,15 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
     @Override
     public void remove(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Invalid index: " + index);
+            throw new IllegalArgumentException("Invalid index: " + index);
         }
 
         double[] newX = new double[count - 1];
         double[] newY = new double[count - 1];
 
-        // Копируем элементы до удаляемого
         System.arraycopy(xValues, 0, newX, 0, index);
         System.arraycopy(yValues, 0, newY, 0, index);
 
-        // Копируем элементы после удаляемого
         System.arraycopy(xValues, index + 1, newX, index, count - index - 1);
         System.arraycopy(yValues, index + 1, newY, index, count - index - 1);
 
@@ -198,5 +208,15 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements
                 return point;
             }
         };
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" size = ").append(count).append("\n");
+        for (Point point : this) {
+            sb.append("[").append(point.x).append("; ").append(point.y).append("]\n");
+        }
+        return sb.toString();
     }
 }

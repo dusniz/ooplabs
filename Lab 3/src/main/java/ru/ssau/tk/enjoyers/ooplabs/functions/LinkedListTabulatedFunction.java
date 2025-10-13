@@ -1,6 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
 
@@ -20,6 +21,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     private int count;
 
     public LinkedListTabulatedFunction(double[] xValues, double[] yValues) {
+        if (xValues.length < 2) {
+            throw new IllegalArgumentException("Length must be at least 2");
+        }
 
         checkLengthIsTheSame(xValues, yValues);
         checkSorted(xValues);
@@ -30,7 +34,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     }
 
     public LinkedListTabulatedFunction(MathFunction source, double xFrom, double xTo, int count) {
-        if (count < 2) throw new IllegalArgumentException("Count must be >= 2");
+        if (count < 2) {
+            throw new IllegalArgumentException("Count must be at least 2");
+        }
         if (xFrom > xTo) {
             double temp = xFrom;
             xFrom = xTo;
@@ -70,7 +76,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     private Node getNode(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("Index is out of bounds");
+            throw new IllegalArgumentException("Index is out of bounds: " + index);
         }
         Node current;
         if (index <= count / 2) {
@@ -143,7 +149,9 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected int floorIndexOfX(double x) {
-        if (x < head.x) return 0;
+        if (x < head.x) {
+            throw new IllegalArgumentException("x is less than left bound");
+        }
         if (x > head.prev.x) return count;
 
         Node current = head;
@@ -173,36 +181,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         return interpolate(x, leftNode.x, rightNode.x, leftNode.y, rightNode.y);
     }
 
-    // Для оптимизации (X*) переопределим apply, чтобы не искать дважды узел
-    @Override
-    public double apply(double x) {
-        if (x < leftBound()) {
-            return extrapolateLeft(x);
-        } else if (x > rightBound()) {
-            return extrapolateRight(x);
-        } else {
-            Node current = head;
-            for (int i = 0; i < count; i++) {
-                if (Math.abs(current.x - x) < 1e-12) {
-                    return current.y;
-                }
-                if (current.x > x) {
-                    // Тогда интерполируем между current.prev и current
-                    Node left = current.prev;
-                    return interpolate(x, left.x, current.x, left.y, current.y);
-                }
-                current = current.next;
-            }
-            // Если не нашли точного совпадения, но x в границах, то интерполируем между последним и первым?
-            // Но у нас отсортированный список, поэтому лучше искать как в floorIndexOfX, но без индекса
-            // Вместо этого мы уже в цикле нашли, что current.x > x, поэтому интерполируем между current.prev и current
-            // Этот случай уже обработан выше. Если мы дошли до конца, то x больше всех, но это уже обработано в rightBound
-            // Поэтому просто интерполируем между последним и предпоследним? Но это экстраполяция справа, а у нас x в границах.
-            // Значит, мы должны были найти интервал. Если не нашли, то возвращаем интерполяцию по последнему интервалу.
-            return interpolate(x, count - 2);
-        }
-    }
-
     @Override
     public void insert(double x, double y) {
         if (head == null) {
@@ -210,18 +188,15 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             return;
         }
 
-        // Проверяем, существует ли уже такой x
         int existingIndex = indexOfX(x);
         if (existingIndex != -1) {
             setY(existingIndex, y);
             return;
         }
 
-        // Ищем место для вставки
         Node current = head;
         do {
             if (current.x > x) {
-                // Вставляем перед current
                 Node newNode = new Node(x, y);
                 newNode.next = current;
                 newNode.prev = current.prev;
@@ -237,7 +212,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
             current = current.next;
         } while (current != head);
 
-        // Если все x меньше заданного, добавляем в конец
         addNode(x, y);
     }
 
@@ -258,6 +232,35 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public Iterator<Point> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<Point>() {
+            private Node node = head;
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < count;
+            }
+
+            @Override
+            public Point next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                Point point = new Point(node.x, node.y);
+                node = node.next;
+                currentIndex++;
+                return point;
+            }
+        };
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" size = ").append(count).append("\n");
+        for (Point point : this) {
+            sb.append("[").append(point.x).append("; ").append(point.y).append("]\n");
+        }
+        return sb.toString();
     }
 }
