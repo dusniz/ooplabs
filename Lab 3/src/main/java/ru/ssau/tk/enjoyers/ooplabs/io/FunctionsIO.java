@@ -217,4 +217,63 @@ public final class FunctionsIO {
             throw new IOException("Invalid XML format");
         }
     }
+
+    public static void serializeJson(BufferedWriter writer, ArrayTabulatedFunction function) throws IOException {
+        writer.write("{");
+        writer.newLine();
+        writer.write("  \"xValues\": [");
+
+        for (int i = 0; i < function.getCount(); i++) {
+            writer.write(String.format(Locale.US, "%.6f", function.getX(i)));
+            if (i < function.getCount() - 1) {
+                writer.write(", ");
+            }
+        }
+
+        writer.write("],");
+        writer.newLine();
+        writer.write("  \"yValues\": [");
+
+        for (int i = 0; i < function.getCount(); i++) {
+            writer.write(String.format(Locale.US, "%.6f", function.getY(i)));
+            if (i < function.getCount() - 1) {
+                writer.write(", ");
+            }
+        }
+
+        writer.write("]");
+        writer.newLine();
+        writer.write("}");
+        writer.newLine();
+        writer.flush();
+    }
+
+    public static ArrayTabulatedFunction deserializeJson(BufferedReader reader) throws IOException {
+        StringBuilder jsonBuilder = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            jsonBuilder.append(line);
+        }
+
+        String json = jsonBuilder.toString();
+
+        // Простой парсинг JSON
+        String xData = json.split("\"xValues\":\\s*\\[")[1].split("\\]")[0];
+        String yData = json.split("\"yValues\":\\s*\\[")[1].split("\\]")[0];
+
+        String[] xParts = xData.split(",");
+        String[] yParts = yData.split(",");
+
+        int count = xParts.length;
+        double[] xValues = new double[count];
+        double[] yValues = new double[count];
+
+        for (int i = 0; i < count; i++) {
+            xValues[i] = Double.parseDouble(xParts[i].trim());
+            yValues[i] = Double.parseDouble(yParts[i].trim());
+        }
+
+        return new ArrayTabulatedFunction(xValues, yValues);
+    }
 }
