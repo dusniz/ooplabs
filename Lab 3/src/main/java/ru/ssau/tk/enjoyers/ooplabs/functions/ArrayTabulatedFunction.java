@@ -1,10 +1,17 @@
 package ru.ssau.tk.enjoyers.ooplabs.functions;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.io.Serializable;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction
+        implements Insertable, Removable, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -5266056157116976907L;
+
     private double[] xValues;
     private double[] yValues;
     private int count;
