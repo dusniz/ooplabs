@@ -121,4 +121,25 @@ class FunctionsIOTest {
             assertEquals(4.0, xmlFunction.getY(2), 1e-12);
         }
     }
+
+    @Test
+    void testJsonSerialization() throws IOException {
+        double[] xValues = {0.0, 1.0, 2.0};
+        double[] yValues = {0.0, 1.0, 4.0};
+        ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);
+
+        // JSON запись
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP_DIR + "/test.json"))) {
+            FunctionsIO.serializeJson(writer, original);
+        }
+
+        // JSON чтение
+        try (BufferedReader reader = new BufferedReader(new FileReader(TEMP_DIR + "/test.json"))) {
+            ArrayTabulatedFunction jsonFunction = FunctionsIO.deserializeJson(reader);
+
+            assertEquals(3, jsonFunction.getCount());
+            assertEquals(1.0, jsonFunction.getX(1), 1e-12);
+            assertEquals(4.0, jsonFunction.getY(2), 1e-12);
+        }
+    }
 }
