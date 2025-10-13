@@ -3,6 +3,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 import org.junit.jupiter.api.Test;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.DifferentLengthOfArraysException;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.InterpolationException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,5 +103,20 @@ public class ArrayExceptionsTest {
         // Тест x меньше левой границы
         assertThrows(IllegalArgumentException.class, () -> arrayFunc.floorIndexOfX(0.0));
         assertThrows(IllegalArgumentException.class, () -> linkedFunc.floorIndexOfX(0.0));
+    }
+
+    @Test
+    void testInterpolationException() {
+        double[] xValues = {1.0, 2.0, 3.0};
+        double[] yValues = {1.0, 4.0, 9.0};
+        ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
+
+        assertEquals(1.0, function.apply(1.0), 1e-12);
+        assertEquals(4.0, function.apply(2.0), 1e-12);
+        assertEquals(9.0, function.apply(3.0), 1e-12);
+        assertEquals(2.5, function.apply(1.5), 1e-12);
+        assertEquals(6.5, function.apply(2.5), 1e-12);
+
+        assertThrows(InterpolationException.class, () -> function.interpolate(1000, 1.0, 3.0, 1.0, 9.0));
     }
 }

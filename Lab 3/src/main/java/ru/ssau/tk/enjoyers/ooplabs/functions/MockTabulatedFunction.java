@@ -59,12 +59,12 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     protected double extrapolateLeft(double x) {
-        return interpolate(x, 0);
+        return y0 + (y1 - y0) / (x1 - x0) * (x - x0);
     }
 
     @Override
     protected double extrapolateRight(double x) {
-        return interpolate(x, 0);
+        return y1 + (y1 - y0) / (x1 - x0) * (x - x1);
     }
 
     @Override
