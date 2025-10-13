@@ -6,6 +6,7 @@ import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.UnitFunction;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MultiplyingTaskExecutor {
@@ -13,10 +14,12 @@ public class MultiplyingTaskExecutor {
         TabulatedFunction function = new LinkedListTabulatedFunction(new UnitFunction(), 1, 1000, 1000);
 
         List<Thread> threads = new ArrayList<>();
+        List<MultiplyingTask> tasks = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             MultiplyingTask task = new MultiplyingTask(function);
             Thread thread = new Thread(task);
+            tasks.add(task);
             threads.add(thread);
         }
 
@@ -24,10 +27,13 @@ public class MultiplyingTaskExecutor {
             thread.start();
         }
 
-        try {
-            Thread.sleep(2000); // Pause for 3000 milliseconds (3 seconds)
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(!tasks.isEmpty()){
+            Iterator<MultiplyingTask> iterator = tasks.iterator();
+            while (iterator.hasNext()){
+                if (iterator.next().isCompleted()) {
+                    iterator.remove();
+                }
+            }
         }
 
         for (int i = 0; i < function.getCount(); i++) {
