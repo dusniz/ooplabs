@@ -24,6 +24,18 @@ public final class FunctionsIO {
         writer.flush();
     }
 
+    public static void writeTabulatedFunction(BufferedOutputStream outputStream, TabulatedFunction function) throws IOException {
+        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+        dataOutputStream.writeInt(function.getCount());
+
+        for (Point point : function) {
+            dataOutputStream.writeDouble(point.x);
+            dataOutputStream.writeDouble(point.y);
+        }
+
+        outputStream.flush();
+    }
+
     public static TabulatedFunction readTabulatedFunction(BufferedReader reader, TabulatedFunctionFactory factory) throws IOException {
         try {
             String countLine = reader.readLine();
@@ -66,12 +78,12 @@ public final class FunctionsIO {
     public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         int count = dataInputStream.readInt();
-        if (count <= 0 || count > 1000000) {
+        if (count <= 0 || count > 1000000000) {
             throw new IOException("Invalid count value in binary file: " + count);
         }
 
-        double[] xValues = new double[count];
-        double[] yValues = new double[count];
+        double[] xValues = new double[count + 1];
+        double[] yValues = new double[count + 1];
 
 
         for (int i = 0; i < count; i++) {
