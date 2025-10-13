@@ -1,8 +1,9 @@
-package ru.ssau.tk.enjoyers.ooplabs.operations;
+package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
+import ru.ssau.tk.enjoyers.ooplabs.operations.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DifferentialOperatorsTest {
