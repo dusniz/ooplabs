@@ -66,13 +66,21 @@ public final class FunctionsIO {
     public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         int count = dataInputStream.readInt();
+        if (count <= 0 || count > 1000000) {
+            throw new IOException("Invalid count value in binary file: " + count);
+        }
 
         double[] xValues = new double[count];
         double[] yValues = new double[count];
 
+
         for (int i = 0; i < count; i++) {
-            xValues[i] = dataInputStream.readDouble();
-            yValues[i] = dataInputStream.readDouble();
+            try {
+                xValues[i] = dataInputStream.readDouble();
+                yValues[i] = dataInputStream.readDouble();
+            } catch (EOFException e) {
+                throw new IOException("Unexpected end of binary file", e);
+            }
         }
 
         return factory.create(xValues, yValues);

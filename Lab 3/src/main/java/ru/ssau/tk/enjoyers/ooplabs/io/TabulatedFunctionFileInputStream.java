@@ -3,7 +3,6 @@ package ru.ssau.tk.enjoyers.ooplabs.io;
 import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
 import ru.ssau.tk.enjoyers.ooplabs.operations.TabulatedDifferentialOperator;
-
 import java.io.*;
 
 public class TabulatedFunctionFileInputStream {
