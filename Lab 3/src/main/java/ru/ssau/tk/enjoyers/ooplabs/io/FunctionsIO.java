@@ -6,6 +6,7 @@ import ru.ssau.tk.enjoyers.ooplabs.functions.factory.TabulatedFunctionFactory;
 import java.io.*;
 import java.text.*;
 import java.util.Locale;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
 
 public final class FunctionsIO {
 
@@ -77,14 +78,11 @@ public final class FunctionsIO {
 
     public static TabulatedFunction readTabulatedFunction(BufferedInputStream inputStream, TabulatedFunctionFactory factory) throws IOException {
         DataInputStream dataInputStream = new DataInputStream(inputStream);
+
         int count = dataInputStream.readInt();
-        if (count <= 0 || count > 1000000000) {
-            throw new IOException("Invalid count value in binary file: " + count);
-        }
 
-        double[] xValues = new double[count + 1];
-        double[] yValues = new double[count + 1];
-
+        double[] xValues = new double[count];
+        double[] yValues = new double[count];
 
         for (int i = 0; i < count; i++) {
             try {
@@ -95,7 +93,48 @@ public final class FunctionsIO {
             }
         }
 
-        return factory.create(xValues, yValues);
+        // ВАЖНО: Проверяем и сортируем данные
+        if (!isSorted(xValues)) {
+            System.err.println("Warning: X values are not sorted, sorting...");
+            sortArrays(xValues, yValues);
+        }
+
+        try {
+            return factory.create(xValues, yValues);
+        } catch (ArrayIsNotSortedException e) {
+            // Если всё ещё не отсортировано, пробуем исправить
+            sortArrays(xValues, yValues);
+            return factory.create(xValues, yValues);
+        }
+    }
+
+    // Вспомогательные методы для проверки и сортировки
+    private static boolean isSorted(double[] array) {
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] <= array[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void sortArrays(double[] xValues, double[] yValues) {
+        // Сортируем пары (x, y) по x значениям
+        for (int i = 0; i < xValues.length; i++) {
+            for (int j = i + 1; j < xValues.length; j++) {
+                if (xValues[i] > xValues[j]) {
+                    // Меняем местами x значения
+                    double tempX = xValues[i];
+                    xValues[i] = xValues[j];
+                    xValues[j] = tempX;
+
+                    // Меняем местами соответствующие y значения
+                    double tempY = yValues[i];
+                    yValues[i] = yValues[j];
+                    yValues[j] = tempY;
+                }
+            }
+        }
     }
 
     public static void serialize(BufferedOutputStream stream, TabulatedFunction function) throws IOException {
