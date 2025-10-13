@@ -20,10 +20,9 @@ public class TabulatedFunctionFileWriter {
 
             // Записываем функции в файлы
             FunctionsIO.writeTabulatedFunction(bufferedArrayWriter, arrayFunction);
-            FunctionsIO.writeTabulatedFunction(bufferedLinkedWriter, linkedListFunction);
-
             System.out.println("Функции успешно записаны в файлы:");
             System.out.println("- output/array function.txt");
+            FunctionsIO.writeTabulatedFunction(bufferedLinkedWriter, linkedListFunction);
             System.out.println("- output/linked list function.txt");
 
         } catch (IOException e) {
