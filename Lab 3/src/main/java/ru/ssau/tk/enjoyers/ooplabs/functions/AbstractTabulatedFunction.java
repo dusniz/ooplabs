@@ -2,6 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.functions;
 
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.DifferentLengthOfArraysException;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.InterpolationException;
 
 public abstract class AbstractTabulatedFunction implements TabulatedFunction {
 
@@ -27,14 +28,18 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
                 return getY(index);
             } else {
                 int floorIndex = floorIndexOfX(x);
+                if (floorIndex < 0 || floorIndex >= getCount() - 1) {
+                    throw new InterpolationException("x is outside interpolation interval");
+                }
                 return interpolate(x, floorIndex);
             }
         }
     }
 
     public static void checkLengthIsTheSame(double[] xValues, double[] yValues) {
-        if (xValues.length != yValues.length)
+        if (xValues.length != yValues.length) {
             throw new DifferentLengthOfArraysException("Length is not the same");
+        }
     }
 
     public static void checkSorted(double[] xValues) {
@@ -44,5 +49,4 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
             }
         }
     }
-
 }
