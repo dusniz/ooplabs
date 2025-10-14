@@ -13,7 +13,6 @@ class IteratorTest {
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
-        // Test with while loop
         Iterator<Point> iterator = function.iterator();
         int count = 0;
         while (iterator.hasNext()) {
@@ -24,7 +23,6 @@ class IteratorTest {
         }
         assertEquals(3, count);
 
-        // Test with for-each loop
         count = 0;
         for (Point point : function) {
             assertEquals(xValues[count], point.x, 1e-12);
@@ -40,7 +38,6 @@ class IteratorTest {
         double[] yValues = {0.0, 1.0, 4.0};
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
 
-        // Test with while loop
         Iterator<Point> iterator = function.iterator();
         int count = 0;
         while (iterator.hasNext()) {
@@ -51,7 +48,6 @@ class IteratorTest {
         }
         assertEquals(3, count);
 
-        // Test with for-each loop
         count = 0;
         for (Point point : function) {
             assertEquals(xValues[count], point.x, 1e-12);
@@ -68,8 +64,8 @@ class IteratorTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
         Iterator<Point> iterator = function.iterator();
-        iterator.next(); // first element
-        iterator.next(); // second element
+        iterator.next();
+        iterator.next();
 
         assertThrows(NoSuchElementException.class, iterator::next);
     }

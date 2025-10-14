@@ -1,10 +1,12 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.io;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
-import ru.ssau.tk.enjoyers.ooplabs.io.*;
+
 import java.io.*;
 import java.nio.file.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -95,7 +97,7 @@ class FunctionsIOTest {
                 new FileInputStream(TEMP_DIR + "/test.ser"))) {
             TabulatedFunction deserialized = FunctionsIO.deserialize(inputStream);
 
-            assertTrue(deserialized instanceof ArrayTabulatedFunction);
+            assertInstanceOf(ArrayTabulatedFunction.class, deserialized);
             assertEquals(3, deserialized.getCount());
             assertEquals(4.0, deserialized.apply(2.0), 1e-12);
         }

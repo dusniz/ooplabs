@@ -1,8 +1,10 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.operations;
 
 import org.junit.jupiter.api.Test;
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
-import ru.ssau.tk.enjoyers.ooplabs.operations.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,11 +38,11 @@ class DifferentialOperatorsTest {
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
 
         TabulatedFunction derivative = arrayOperator.derive(function);
-        assertTrue(derivative instanceof ArrayTabulatedFunction);
+        assertInstanceOf(ArrayTabulatedFunction.class, derivative);
 
         // Test with linked list factory
         TabulatedDifferentialOperator linkedOperator = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory());
         derivative = linkedOperator.derive(function);
-        assertTrue(derivative instanceof LinkedListTabulatedFunction);
+        assertInstanceOf(LinkedListTabulatedFunction.class, derivative);
     }
 }

@@ -11,7 +11,7 @@ public abstract class AbstractTabulatedFunction implements TabulatedFunction {
     protected abstract double extrapolateRight(double x);
     protected abstract double interpolate(double x, int floorIndex);
 
-    protected double interpolate(double x, double leftX, double rightX,
+    public double interpolate(double x, double leftX, double rightX,
                                  double leftY, double rightY) {
         if (x <= leftX || x >= rightX) {
             throw new InterpolationException("x is outside interpolation interval");

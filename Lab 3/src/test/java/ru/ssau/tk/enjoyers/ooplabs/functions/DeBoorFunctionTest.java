@@ -13,7 +13,6 @@ class DeBoorFunctionTest {
 
         DeBoorFunction deBoor = new DeBoorFunction(knots, controlPoints, degree);
 
-        // Тестируем в нескольких точках
         double result1 = deBoor.apply(0.5);
         double result2 = deBoor.apply(1.0);
         double result3 = deBoor.apply(1.5);

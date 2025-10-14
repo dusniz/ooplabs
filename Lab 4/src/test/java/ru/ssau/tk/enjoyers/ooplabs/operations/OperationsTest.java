@@ -1,7 +1,10 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.operations;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.operations.*;
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.Point;
+import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.InconsistentFunctionsException;
 import static org.junit.jupiter.api.Assertions.*;
 

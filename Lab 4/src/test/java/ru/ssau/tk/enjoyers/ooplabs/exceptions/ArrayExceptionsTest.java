@@ -1,9 +1,9 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.exceptions;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
-import ru.ssau.tk.enjoyers.ooplabs.exceptions.DifferentLengthOfArraysException;
-import ru.ssau.tk.enjoyers.ooplabs.exceptions.InterpolationException;
+import ru.ssau.tk.enjoyers.ooplabs.functions.AbstractTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,9 +12,8 @@ public class ArrayExceptionsTest {
     void testArrayIsNotSortedException() {
         double[] unsortedX = {0.0, 2.0, 1.0, 3.0}; // Не отсортирован
 
-        assertThrows(ArrayIsNotSortedException.class, () -> {
-            AbstractTabulatedFunction.checkSorted(unsortedX);
-        });
+        assertThrows(ArrayIsNotSortedException.class,
+                () -> AbstractTabulatedFunction.checkSorted(unsortedX));
     }
 
     @Test
@@ -22,9 +21,8 @@ public class ArrayExceptionsTest {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0}; // Разная длина
 
-        assertThrows(DifferentLengthOfArraysException.class, () -> {
-            AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues);
-        });
+        assertThrows(DifferentLengthOfArraysException.class,
+                () -> AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues));
     }
 
     @Test
@@ -33,25 +31,22 @@ public class ArrayExceptionsTest {
         double[] shortX = {0.0};
         double[] shortY = {0.0};
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new ArrayTabulatedFunction(shortX, shortY);
-        });
+        assertThrows(IllegalArgumentException.class,
+                () -> new ArrayTabulatedFunction(shortX, shortY));
 
         // Тест неотсортированного массива
         double[] unsortedX = {2.0, 1.0, 3.0};
         double[] unsortedY = {4.0, 1.0, 9.0};
 
-        assertThrows(ArrayIsNotSortedException.class, () -> {
-            new ArrayTabulatedFunction(unsortedX, unsortedY);
-        });
+        assertThrows(ArrayIsNotSortedException.class,
+                () -> new ArrayTabulatedFunction(unsortedX, unsortedY));
 
         // Тест разных длин массивов
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0};
 
-        assertThrows(DifferentLengthOfArraysException.class, () -> {
-            new ArrayTabulatedFunction(xValues, yValues);
-        });
+        assertThrows(DifferentLengthOfArraysException.class,
+                () -> new ArrayTabulatedFunction(xValues, yValues));
     }
 
     @Test
@@ -60,17 +55,15 @@ public class ArrayExceptionsTest {
         double[] shortX = {0.0};
         double[] shortY = {0.0};
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            new LinkedListTabulatedFunction(shortX, shortY);
-        });
+        assertThrows(IllegalArgumentException.class,
+                () -> new LinkedListTabulatedFunction(shortX, shortY));
 
         // Тест неотсортированного массива
         double[] unsortedX = {2.0, 1.0, 3.0};
         double[] unsortedY = {4.0, 1.0, 9.0};
 
-        assertThrows(ArrayIsNotSortedException.class, () -> {
-            new LinkedListTabulatedFunction(unsortedX, unsortedY);
-        });
+        assertThrows(ArrayIsNotSortedException.class,
+                () -> new LinkedListTabulatedFunction(unsortedX, unsortedY));
     }
 
     @Test
@@ -117,6 +110,7 @@ public class ArrayExceptionsTest {
         assertEquals(2.5, function.apply(1.5), 1e-12);
         assertEquals(6.5, function.apply(2.5), 1e-12);
 
-        assertThrows(InterpolationException.class, () -> function.interpolate(1000, 1.0, 3.0, 1.0, 9.0));
+        assertThrows(InterpolationException.class,
+                () -> function.interpolate(1000, 1.0, 3.0, 1.0, 9.0));
     }
 }

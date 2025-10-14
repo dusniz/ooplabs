@@ -1,8 +1,9 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.exceptions;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.exceptions.ArrayIsNotSortedException;
-import ru.ssau.tk.enjoyers.ooplabs.exceptions.DifferentLengthOfArraysException;
+import ru.ssau.tk.enjoyers.ooplabs.functions.AbstractTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +11,6 @@ public class FunctionExceptionsTest {
     @Test
     void testArrayIsNotSortedException() {
         double[] unsortedX = {0.0, 2.0, 1.0, 3.0}; // Не отсортирован
-        double[] yValues = {0.0, 4.0, 1.0, 9.0};
 
         assertThrows(ArrayIsNotSortedException.class,
                 () -> AbstractTabulatedFunction.checkSorted(unsortedX));

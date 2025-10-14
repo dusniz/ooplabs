@@ -1,7 +1,7 @@
-package ru.ssau.tk.enjoyers.ooplabs.functions;
+package ru.ssau.tk.enjoyers.ooplabs.functions.factory;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +14,7 @@ class FactoryTest {
         double[] yValues = {0.0, 1.0, 4.0};
 
         TabulatedFunction function = factory.create(xValues, yValues);
-        assertTrue(function instanceof ArrayTabulatedFunction);
+        assertInstanceOf(ArrayTabulatedFunction.class, function);
         assertEquals(3, function.getCount());
         assertEquals(4.0, function.apply(2.0), 1e-12);
     }
@@ -26,7 +26,7 @@ class FactoryTest {
         double[] yValues = {0.0, 1.0, 4.0};
 
         TabulatedFunction function = factory.create(xValues, yValues);
-        assertTrue(function instanceof LinkedListTabulatedFunction);
+        assertInstanceOf(LinkedListTabulatedFunction.class, function);
         assertEquals(3, function.getCount());
         assertEquals(4.0, function.apply(2.0), 1e-12);
     }
@@ -38,7 +38,7 @@ class FactoryTest {
         double[] yValues = {0.0, 1.0, 4.0};
 
         TabulatedFunction strictFunction = factory.createStrict(xValues, yValues);
-        assertTrue(strictFunction instanceof StrictTabulatedFunction);
+        assertInstanceOf(StrictTabulatedFunction.class, strictFunction);
 
         // Should work for exact points
         assertEquals(1.0, strictFunction.apply(1.0), 1e-12);
@@ -54,7 +54,7 @@ class FactoryTest {
         double[] yValues = {0.0, 1.0, 4.0};
 
         TabulatedFunction unmodifiableFunction = factory.createUnmodifiable(xValues, yValues);
-        assertTrue(unmodifiableFunction instanceof UnmodifiableTabulatedFunction);
+        assertInstanceOf(UnmodifiableTabulatedFunction.class, unmodifiableFunction);
 
         // Should allow reading
         assertEquals(1.0, unmodifiableFunction.getY(1), 1e-12);
