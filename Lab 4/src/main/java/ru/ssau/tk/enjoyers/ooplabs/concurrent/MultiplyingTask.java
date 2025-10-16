@@ -2,7 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 
-public class MultiplyingTask implements Runnable{
+public class MultiplyingTask implements Runnable {
     private boolean completed = false;
     private final TabulatedFunction function;
 

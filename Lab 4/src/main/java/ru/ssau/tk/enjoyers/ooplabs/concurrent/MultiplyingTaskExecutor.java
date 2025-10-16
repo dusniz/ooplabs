@@ -4,9 +4,7 @@ import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.UnitFunction;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class MultiplyingTaskExecutor {
     public static void main(String[] args) {
