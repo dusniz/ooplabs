@@ -14,6 +14,9 @@ public class ArrayExceptionsTest {
 
         assertThrows(ArrayIsNotSortedException.class,
                 () -> AbstractTabulatedFunction.checkSorted(unsortedX));
+
+        assertThrows(ArrayIsNotSortedException.class,
+                () -> { throw new ArrayIsNotSortedException(); });
     }
 
     @Test
@@ -23,6 +26,9 @@ public class ArrayExceptionsTest {
 
         assertThrows(DifferentLengthOfArraysException.class,
                 () -> AbstractTabulatedFunction.checkLengthIsTheSame(xValues, yValues));
+
+        assertThrows(DifferentLengthOfArraysException.class,
+                () -> { throw new DifferentLengthOfArraysException(); });
     }
 
     @Test
@@ -112,5 +118,8 @@ public class ArrayExceptionsTest {
 
         assertThrows(InterpolationException.class,
                 () -> function.interpolate(1000, 1.0, 3.0, 1.0, 9.0));
+
+        assertThrows(InterpolationException.class,
+                () -> { throw new InterpolationException(); });
     }
 }

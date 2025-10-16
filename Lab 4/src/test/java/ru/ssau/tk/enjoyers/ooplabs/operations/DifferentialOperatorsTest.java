@@ -1,10 +1,8 @@
 package ru.ssau.tk.enjoyers.ooplabs.operations;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,16 +19,59 @@ class DifferentialOperatorsTest {
         TabulatedFunction derivative = operator.derive(function);
 
         assertEquals(4, derivative.getCount());
-        // For x^2, derivative should be 2x
-        assertEquals(0.0, derivative.getY(0), 0.2); // at x=0: 2*0=0
-        assertEquals(0.2, derivative.getY(1), 0.2); // at x=1: 2*1=2
-        assertEquals(0.4, derivative.getY(2), 0.2); // at x=2: 2*2=4
-        assertEquals(0.6, derivative.getY(3), 0.2); // last point same as previous
+        assertEquals(0.0, derivative.getY(0), 0.2); // x=0: 2*0=0
+        assertEquals(0.2, derivative.getY(1), 0.2); // x=1: 2*1=2
+        assertEquals(0.4, derivative.getY(2), 0.2); // x=2: 2*2=4
+        assertEquals(0.6, derivative.getY(3), 0.2);
+    }
+
+    @Test
+    void testLeftSteppingDifferentialOperator() {
+        LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(0.001);
+        SqrFunction sqr = new SqrFunction();
+
+        MathFunction derivative = operator.derive(sqr);
+
+        // For f(x)=x^2, f'(x)=2x
+        assertEquals(0.0, derivative.apply(0.0), 0.1);
+        assertEquals(2.0, derivative.apply(1.0), 0.1);
+        assertEquals(4.0, derivative.apply(2.0), 0.1);
+    }
+
+    @Test
+    void testRightSteppingDifferentialOperator() {
+        RightSteppingDifferentialOperator operator = new RightSteppingDifferentialOperator(0.001);
+        SqrFunction sqr = new SqrFunction();
+
+        MathFunction derivative = operator.derive(sqr);
+
+        // For f(x)=x^2, f'(x)=2x
+        assertEquals(0.0, derivative.apply(0.0), 0.1);
+        assertEquals(2.0, derivative.apply(1.0), 0.1);
+        assertEquals(4.0, derivative.apply(2.0), 0.1);
+    }
+
+    @Test
+    void testMiddleSteppingDifferentialOperator() {
+        MiddleSteppingDifferentialOperator operator = new MiddleSteppingDifferentialOperator(0.001);
+        SqrFunction sqr = new SqrFunction();
+
+        MathFunction derivative = operator.derive(sqr);
+
+        assertEquals(0.0, derivative.apply(0.0), 0.1);
+        assertEquals(2.0, derivative.apply(1.0), 0.1);
+        assertEquals(4.0, derivative.apply(2.0), 0.1);
+    }
+
+    @Test
+    void testInvalidStep() {
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(0));
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(-1));
+        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(Double.POSITIVE_INFINITY));
     }
 
     @Test
     void testDifferentFactories() {
-        // Test with array factory
         TabulatedDifferentialOperator arrayOperator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
 
         double[] xValues = {0.0, 1.0, 2.0};
@@ -40,7 +81,6 @@ class DifferentialOperatorsTest {
         TabulatedFunction derivative = arrayOperator.derive(function);
         assertInstanceOf(ArrayTabulatedFunction.class, derivative);
 
-        // Test with linked list factory
         TabulatedDifferentialOperator linkedOperator = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory());
         derivative = linkedOperator.derive(function);
         assertInstanceOf(LinkedListTabulatedFunction.class, derivative);

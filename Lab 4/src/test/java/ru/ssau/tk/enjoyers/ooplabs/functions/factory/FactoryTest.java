@@ -40,10 +40,8 @@ class FactoryTest {
         TabulatedFunction strictFunction = factory.createStrict(xValues, yValues);
         assertInstanceOf(StrictTabulatedFunction.class, strictFunction);
 
-        // Should work for exact points
         assertEquals(1.0, strictFunction.apply(1.0), 1e-12);
 
-        // Should throw for interpolation
         assertThrows(UnsupportedOperationException.class, () -> strictFunction.apply(0.5));
     }
 
@@ -56,10 +54,8 @@ class FactoryTest {
         TabulatedFunction unmodifiableFunction = factory.createUnmodifiable(xValues, yValues);
         assertInstanceOf(UnmodifiableTabulatedFunction.class, unmodifiableFunction);
 
-        // Should allow reading
         assertEquals(1.0, unmodifiableFunction.getY(1), 1e-12);
 
-        // Should throw for modification
         assertThrows(UnsupportedOperationException.class, () -> unmodifiableFunction.setY(1, 10.0));
     }
 
@@ -71,7 +67,6 @@ class FactoryTest {
 
         TabulatedFunction doubleWrapped = factory.createStrictUnmodifiable(xValues, yValues);
 
-        // Should have both properties
         assertEquals(1.0, doubleWrapped.apply(1.0), 1e-12);
         assertThrows(UnsupportedOperationException.class, () -> doubleWrapped.apply(0.5)); // from Strict
         assertThrows(UnsupportedOperationException.class, () -> doubleWrapped.setY(1, 10.0)); // from Unmodifiable
