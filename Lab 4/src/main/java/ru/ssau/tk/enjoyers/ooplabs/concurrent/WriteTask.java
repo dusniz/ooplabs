@@ -17,6 +17,7 @@ public class WriteTask implements Runnable {
         for (int i = 0; i < function.getCount(); i++) {
             function.setY(i, value);
             System.out.printf("Writing for index %d complete", i);
+            System.out.println();
         }
     }
 }
