@@ -18,7 +18,7 @@ public class MultiplyingTask implements Runnable {
             }
         }
         completed = true;
-        System.out.println(Thread.currentThread().getName() + " закончил выполнение задачи");
+        System.out.println(Thread.currentThread().getName() + " закончил выполнение задачи MultiplyingTask");
     }
 
     public boolean isCompleted() {
