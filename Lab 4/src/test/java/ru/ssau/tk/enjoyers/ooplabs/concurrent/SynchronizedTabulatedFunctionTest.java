@@ -11,9 +11,8 @@ import java.util.*;
 
 public class SynchronizedTabulatedFunctionTest {
 
-
     @Test
-    void testSingleThread() {
+    public void testSingleThread() {
         double[] xValues = {1, 2, 3};
         double[] yValues = {583, 111, 743};
         TabulatedFunction anotherFunction = new LinkedListTabulatedFunction(xValues, yValues);
@@ -27,7 +26,7 @@ public class SynchronizedTabulatedFunctionTest {
     }
 
     @Test
-    void testMultiThread() {
+    public void testMultiThread() {
         TabulatedFunction function = new LinkedListTabulatedFunction(new UnitFunction(), 1, 1000, 1000);
         SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(function);
 
