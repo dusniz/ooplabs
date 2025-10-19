@@ -65,4 +65,67 @@ public class SynchronizedTabulatedFunctionTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    void testDoSynchronouslyWithReturnValue() {
+        TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
+        SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
+
+        // Операция с возвращаемым значением
+        Double result = syncFunction.doSynchronously(func -> {
+            double sum = 0;
+            for (int i = 0; i < func.getCount(); i++) {
+                sum += func.getY(i);
+            }
+            return sum;
+        });
+
+        assertEquals(11.0, result, 1e-9); // 11 точек × 1.0 = 11.0
+    }
+
+    @Test
+    void testDoSynchronouslyWithVoid() {
+        TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
+        SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
+
+        // Операция без возвращаемого значения (Void)
+        Void result = syncFunction.doSynchronously(func -> {
+            for (int i = 0; i < func.getCount(); i++) {
+                func.setY(i, func.getY(i) * 2);
+            }
+            return null;
+        });
+
+        assertNull(result);
+        assertEquals(2.0, syncFunction.getY(5), 1e-9);
+    }
+
+    @Test
+    void testComplexOperation() {
+        TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
+        SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
+
+        // Комплексная операция: находим максимум и умножаем все значения на него
+        Double maxValue = syncFunction.doSynchronously(func -> {
+            double max = Double.NEGATIVE_INFINITY;
+            for (int i = 0; i < func.getCount(); i++) {
+                if (func.getY(i) > max) {
+                    max = func.getY(i);
+                }
+            }
+            return max;
+        });
+
+        assertEquals(1.0, maxValue, 1e-9);
+
+        // Применяем другую операцию с использованием предыдущего результата
+        syncFunction.doSynchronously(func -> {
+            for (int i = 0; i < func.getCount(); i++) {
+                func.setY(i, func.getY(i) * maxValue * 10);
+            }
+            return null;
+        });
+
+        assertEquals(10.0, syncFunction.getY(5), 1e-9);
+    }
 }
