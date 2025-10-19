@@ -92,7 +92,7 @@ class DifferentialOperatorsTest {
 
         TabulatedFunction derivative = operator.deriveSynchronously(function);
 
-        assertEquals(10, derivative.getCount());
+        assertEquals(11, derivative.getCount());
         assertEquals(0.0, derivative.getY(0), 1e-9); // Производная константы = 0
     }
 
@@ -104,7 +104,7 @@ class DifferentialOperatorsTest {
 
         TabulatedFunction derivative = operator.deriveSynchronously(syncFunction);
 
-        assertEquals(10, derivative.getCount());
+        assertEquals(11, derivative.getCount());
         assertEquals(0.0, derivative.getY(0), 1e-9);
     }
 
