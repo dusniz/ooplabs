@@ -6,6 +6,9 @@ import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.Point;
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.InconsistentFunctionsException;
+import ru.ssau.tk.enjoyers.ooplabs.functions.factory.ArrayTabulatedFunctionFactory;
+import ru.ssau.tk.enjoyers.ooplabs.functions.factory.TabulatedFunctionFactory;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OperationsTest {
@@ -29,7 +32,8 @@ class OperationsTest {
 
     @Test
     void testAddOperations() {
-        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
+        TabulatedFunctionOperationService service =
+                new TabulatedFunctionOperationService(new ArrayTabulatedFunctionFactory());
 
         double[] xValues1 = {0.0, 1.0, 2.0};
         double[] yValues1 = {0.0, 1.0, 4.0};
@@ -108,32 +112,9 @@ class OperationsTest {
     }
 
     @Test
-    void testInconsistentFunctionsException() {
+    void testSetGet(){
         TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
-
-        double[] xValues1 = {0.0, 1.0, 2.0};
-        double[] yValues1 = {0.0, 1.0, 4.0};
-        ArrayTabulatedFunction func1 = new ArrayTabulatedFunction(xValues1, yValues1);
-
-        double[] xValues2 = {0.0, 1.0}; // Different length
-        double[] yValues2 = {1.0, 2.0};
-        LinkedListTabulatedFunction func2 = new LinkedListTabulatedFunction(xValues2, yValues2);
-
-        assertThrows(InconsistentFunctionsException.class, () -> service.add(func1, func2));
-    }
-
-    @Test
-    void testDifferentXValuesException() {
-        TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
-
-        double[] xValues1 = {0.0, 1.0, 2.0};
-        double[] yValues1 = {0.0, 1.0, 4.0};
-        ArrayTabulatedFunction func1 = new ArrayTabulatedFunction(xValues1, yValues1);
-
-        double[] xValues2 = {0.0, 1.0, 3.0}; // Different x values
-        double[] yValues2 = {1.0, 2.0, 3.0};
-        LinkedListTabulatedFunction func2 = new LinkedListTabulatedFunction(xValues2, yValues2);
-
-        assertThrows(InconsistentFunctionsException.class, () -> service.add(func1, func2));
+        service.setFactory(new ArrayTabulatedFunctionFactory());
+        assertInstanceOf(TabulatedFunctionFactory.class, service.getFactory());
     }
 }

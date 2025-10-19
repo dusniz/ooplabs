@@ -25,7 +25,7 @@ public class MockTabulatedFunction extends AbstractTabulatedFunction {
 
     @Override
     public void setY(int index, double value) {
-        // Mock - ничего не делаем
+        throw new UnsupportedOperationException("Called setY on mock object");
     }
 
     @Override

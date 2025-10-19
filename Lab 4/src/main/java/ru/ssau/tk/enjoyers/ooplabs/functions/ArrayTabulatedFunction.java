@@ -49,7 +49,7 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
             Arrays.fill(xValues, xFrom);
             double y = source.apply(xFrom);
             Arrays.fill(yValues, y);
-        } else {
+                   } else {
             double step = (xTo - xFrom) / (count - 1);
             for (int i = 0; i < count; i++) {
                 xValues[i] = xFrom + i * step;
@@ -128,10 +128,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double extrapolateLeft(double x) {
-        if (count < 2) {
-            return yValues[0];
-        }
-
         double x0 = xValues[0];
         double x1 = xValues[1];
         double y0 = yValues[0];
@@ -141,10 +137,6 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction
 
     @Override
     protected double extrapolateRight(double x) {
-        if (count < 2) {
-            return yValues[count - 1];
-        }
-
         double x0 = xValues[count - 2];
         double x1 = xValues[count - 1];
         double y0 = yValues[count - 2];

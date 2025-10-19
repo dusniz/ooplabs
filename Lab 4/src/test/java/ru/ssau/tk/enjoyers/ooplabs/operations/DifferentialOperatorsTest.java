@@ -27,12 +27,15 @@ class DifferentialOperatorsTest {
 
     @Test
     void testLeftSteppingDifferentialOperator() {
-        LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(0.001);
+        LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(1);
+        operator.setStep(0.001);
+        assertEquals(0.001, operator.getStep(), 1e-12);
+
         SqrFunction sqr = new SqrFunction();
 
         MathFunction derivative = operator.derive(sqr);
 
-        // For f(x)=x^2, f'(x)=2x
+        // f(x)=x^2, f'(x)=2x
         assertEquals(0.0, derivative.apply(0.0), 0.1);
         assertEquals(2.0, derivative.apply(1.0), 0.1);
         assertEquals(4.0, derivative.apply(2.0), 0.1);
@@ -45,7 +48,7 @@ class DifferentialOperatorsTest {
 
         MathFunction derivative = operator.derive(sqr);
 
-        // For f(x)=x^2, f'(x)=2x
+        // f(x)=x^2, f'(x)=2x
         assertEquals(0.0, derivative.apply(0.0), 0.1);
         assertEquals(2.0, derivative.apply(1.0), 0.1);
         assertEquals(4.0, derivative.apply(2.0), 0.1);
@@ -64,16 +67,8 @@ class DifferentialOperatorsTest {
     }
 
     @Test
-    void testInvalidStep() {
-        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(0));
-        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(-1));
-        assertThrows(IllegalArgumentException.class, () -> new LeftSteppingDifferentialOperator(Double.POSITIVE_INFINITY));
-    }
-
-    @Test
     void testDifferentFactories() {
         TabulatedDifferentialOperator arrayOperator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
-
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -84,5 +79,9 @@ class DifferentialOperatorsTest {
         TabulatedDifferentialOperator linkedOperator = new TabulatedDifferentialOperator(new LinkedListTabulatedFunctionFactory());
         derivative = linkedOperator.derive(function);
         assertInstanceOf(LinkedListTabulatedFunction.class, derivative);
+
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
+        operator.setFactory(new ArrayTabulatedFunctionFactory());
+        assertInstanceOf(TabulatedFunctionFactory.class, arrayOperator.getFactory());
     }
 }

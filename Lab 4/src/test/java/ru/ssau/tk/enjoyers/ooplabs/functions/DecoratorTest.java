@@ -15,8 +15,11 @@ class DecoratorTest {
         assertEquals(3, strictFunc.getCount());
         assertEquals(1.0, strictFunc.getX(1), 1e-12);
         assertEquals(4.0, strictFunc.getY(2), 1e-12);
+        assertEquals(2, strictFunc.indexOfX(2.0), 1e-12);
+        assertEquals(1, strictFunc.indexOfY(1.0), 1e-12);
         assertEquals(0.0, strictFunc.leftBound(), 1e-12);
         assertEquals(2.0, strictFunc.rightBound(), 1e-12);
+
 
         assertEquals(1.0, strictFunc.apply(1.0), 1e-12);
         assertEquals(4.0, strictFunc.apply(2.0), 1e-12);
@@ -37,6 +40,8 @@ class DecoratorTest {
         assertEquals(3, unmodifiableFunc.getCount());
         assertEquals(1.0, unmodifiableFunc.getX(1), 1e-12);
         assertEquals(4.0, unmodifiableFunc.getY(2), 1e-12);
+        assertEquals(1, unmodifiableFunc.indexOfX(1.0), 1e-12);
+        assertEquals(2, unmodifiableFunc.indexOfY(4.0), 1e-12);
         assertEquals(0.0, unmodifiableFunc.leftBound(), 1e-12);
         assertEquals(2.0, unmodifiableFunc.rightBound(), 1e-12);
 

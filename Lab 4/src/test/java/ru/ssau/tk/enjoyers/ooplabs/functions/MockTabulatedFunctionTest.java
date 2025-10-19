@@ -61,4 +61,12 @@ class MockTabulatedFunctionTest {
         assertEquals(1, mock.floorIndexOfX(0.7));
         assertEquals(2, mock.floorIndexOfX(2.0));
     }
+
+    @Test
+    void testMiscellaneous() {
+        MockTabulatedFunction mock = new MockTabulatedFunction();
+
+        assertThrows(UnsupportedOperationException.class, () -> mock.setY(0,1));
+        assertThrows(UnsupportedOperationException.class, mock::iterator);
+    }
 }

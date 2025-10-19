@@ -1,9 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.exceptions;
 
 import org.junit.jupiter.api.Test;
-import ru.ssau.tk.enjoyers.ooplabs.functions.AbstractTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.ArrayTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,6 +37,8 @@ public class ArrayExceptionsTest {
 
         assertThrows(IllegalArgumentException.class,
                 () -> new ArrayTabulatedFunction(shortX, shortY));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ArrayTabulatedFunction(new UnitFunction(), 1, 1, 1));
 
         // Тест неотсортированного массива
         double[] unsortedX = {2.0, 1.0, 3.0};
@@ -81,15 +81,24 @@ public class ArrayExceptionsTest {
 
         // Тест отрицательного индекса
         assertThrows(IllegalArgumentException.class, () -> arrayFunc.getX(-1));
-        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getX(-1));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getX(-19));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.getY(-228));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getY(-6));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.setY(-1488, 10.0));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.setY(-10, 10.0));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.remove(-123));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.remove(-111111));
+
 
         // Тест индекса больше размера
         assertThrows(IllegalArgumentException.class, () -> arrayFunc.getX(3));
-        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getX(3));
-
-        // Тест setY с невалидным индексом
-        assertThrows(IllegalArgumentException.class, () -> arrayFunc.setY(-1, 10.0));
-        assertThrows(IllegalArgumentException.class, () -> linkedFunc.setY(-1, 10.0));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getX(4));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.getY(911));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.getY(8));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.setY(5, 10.0));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.setY(6, 10.0));
+        assertThrows(IllegalArgumentException.class, () -> arrayFunc.remove(91232));
+        assertThrows(IllegalArgumentException.class, () -> linkedFunc.remove(25565));
     }
 
     @Test
@@ -118,6 +127,8 @@ public class ArrayExceptionsTest {
 
         assertThrows(InterpolationException.class,
                 () -> function.interpolate(1000, 1.0, 3.0, 1.0, 9.0));
+        assertThrows(InterpolationException.class,
+                () -> function.interpolate(-1000, 1.0, 3.0, 1.0, 9.0));
 
         assertThrows(InterpolationException.class,
                 () -> { throw new InterpolationException(); });
