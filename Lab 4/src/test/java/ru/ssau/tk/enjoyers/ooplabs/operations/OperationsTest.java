@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class OperationsTest {
 
     @Test
-    void testAsPoints() {
+    public void testAsPoints() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -31,7 +31,7 @@ class OperationsTest {
     }
 
     @Test
-    void testAddOperations() {
+    public void testAddOperations() {
         TabulatedFunctionOperationService service =
                 new TabulatedFunctionOperationService(new ArrayTabulatedFunctionFactory());
 
@@ -52,7 +52,7 @@ class OperationsTest {
     }
 
     @Test
-    void testSubtractOperations() {
+    public void testSubtractOperations() {
         TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
 
         double[] xValues1 = {0.0, 1.0, 2.0};
@@ -72,7 +72,7 @@ class OperationsTest {
     }
 
     @Test
-    void testMultiplyOperations() {
+    public void testMultiplyOperations() {
         TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
 
         double[] xValues1 = {0.0, 1.0, 2.0};
@@ -92,7 +92,7 @@ class OperationsTest {
     }
 
     @Test
-    void testDivideOperations() {
+    public void testDivideOperations() {
         TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
 
         double[] xValues1 = {1.0, 2.0, 3.0};
@@ -112,7 +112,7 @@ class OperationsTest {
     }
 
     @Test
-    void testSetGet(){
+    public void testSetGet(){
         TabulatedFunctionOperationService service = new TabulatedFunctionOperationService();
         service.setFactory(new ArrayTabulatedFunctionFactory());
         assertInstanceOf(TabulatedFunctionFactory.class, service.getFactory());

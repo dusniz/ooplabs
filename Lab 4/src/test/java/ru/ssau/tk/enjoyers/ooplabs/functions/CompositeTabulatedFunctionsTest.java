@@ -42,7 +42,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testArrayTabulatedWithLinkedListTabulated() {
+    public void testArrayTabulatedWithLinkedListTabulated() {
         // arrayFunc(x) -> linkedListFunc(result)
         MathFunction composite = arrayFunc.andThen(linkedListFunc);
 
@@ -58,7 +58,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testLinkedListTabulatedWithArrayTabulated() {
+    public void testLinkedListTabulatedWithArrayTabulated() {
         // linkedListFunc(x) -> arrayFunc(result)
         MathFunction composite = linkedListFunc.andThen(arrayFunc);
 
@@ -69,7 +69,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testDifferentTabulatedFunctionsComposition() {
+    public void testDifferentTabulatedFunctionsComposition() {
         // sinArrayFunc(x) -> cosLinkedListFunc(result)
         MathFunction composite = sinArrayFunc.andThen(cosLinkedListFunc);
 
@@ -83,7 +83,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testTabulatedFunctionChainWithMultipleTypes() {
+    public void testTabulatedFunctionChainWithMultipleTypes() {
         // Цепочка из разных типов табулированных функций
         MathFunction chain = arrayFunc                       // x^2
                 .andThen(linkedListFunc)                     // (x^2)^2 = x^4
@@ -98,7 +98,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testTabulatedWithSimpleFunction() {
+    public void testTabulatedWithSimpleFunction() {
         // arrayFunc(x) -> sqr(result)
         MathFunction composite1 = arrayFunc.andThen(sqr);
         // sqr(x) -> arrayFunc(result)
@@ -114,7 +114,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testTabulatedWithIdentityFunction() {
+    public void testTabulatedWithIdentityFunction() {
         // arrayFunc(x) -> identity(result)
         MathFunction composite1 = arrayFunc.andThen(identity);
         // identity(x) -> arrayFunc(result)
@@ -132,7 +132,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testTabulatedWithConstantFunction() {
+    public void testTabulatedWithConstantFunction() {
         // arrayFunc(x) -> constant(result)
         MathFunction composite1 = arrayFunc.andThen(constant);
         // constant(x) -> arrayFunc(result)
@@ -149,7 +149,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testComplexMixedComposition() {
+    public void testComplexMixedComposition() {
         // Сложная цепочка: identity -> arrayFunc -> sqr -> linkedListFunc -> constant
         MathFunction complexChain = identity
                 .andThen(arrayFunc)          // x^2
@@ -165,7 +165,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testCompositionWithModifiedTabulatedFunctions() {
+    public void testCompositionWithModifiedTabulatedFunctions() {
         // Создаем функцию и модифицируем её
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -187,7 +187,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testLargeTabulatedFunctionComposition() {
+    public void testLargeTabulatedFunctionComposition() {
         // Создаем большую табулированную функцию
         int size = 1000;
         double[] xValues = new double[size];
@@ -215,7 +215,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testCompositionWithDifferentDomains() {
+    public void testCompositionWithDifferentDomains() {
         // Функции с разными областями определения
         double[] xValues1 = {0.0, 1.0, 2.0};          // [0, 2]
         double[] yValues1 = {0.0, 1.0, 4.0};
@@ -240,7 +240,7 @@ class CompositeTabulatedFunctionsTest {
     }
 
     @Test
-    void testAndThenChainingWithMixedFunctions() {
+    public void testAndThenChainingWithMixedFunctions() {
         // Демонстрация удобства использования andThen для создания сложных цепочек
         MathFunction complexFunction = identity
                 .andThen(x -> x + 1)             // x + 1

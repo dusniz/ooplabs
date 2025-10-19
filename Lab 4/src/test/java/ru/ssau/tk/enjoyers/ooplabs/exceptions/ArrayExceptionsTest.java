@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ArrayExceptionsTest {
     @Test
-    void testArrayIsNotSortedException() {
+    public void testArrayIsNotSortedException() {
         double[] unsortedX = {0.0, 2.0, 1.0, 3.0}; // Не отсортирован
 
         assertThrows(ArrayIsNotSortedException.class,
@@ -18,7 +18,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testDifferentLengthOfArraysException() {
+    public void testDifferentLengthOfArraysException() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0}; // Разная длина
 
@@ -30,7 +30,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testArrayTabulatedFunctionInvalidConstructor() {
+    public void testArrayTabulatedFunctionInvalidConstructor() {
         // Тест слишком короткого массива
         double[] shortX = {0.0};
         double[] shortY = {0.0};
@@ -56,7 +56,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testLinkedListTabulatedFunctionInvalidConstructor() {
+    public void testLinkedListTabulatedFunctionInvalidConstructor() {
         // Тест слишком короткого массива
         double[] shortX = {0.0};
         double[] shortY = {0.0};
@@ -73,7 +73,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testInvalidIndexAccess() {
+    public void testInvalidIndexAccess() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);
@@ -102,7 +102,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testFloorIndexOfXWithInvalidX() {
+    public void testFloorIndexOfXWithInvalidX() {
         double[] xValues = {1.0, 2.0, 3.0};
         double[] yValues = {1.0, 4.0, 9.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);
@@ -114,7 +114,7 @@ public class ArrayExceptionsTest {
     }
 
     @Test
-    void testInterpolationException() {
+    public void testInterpolationException() {
         double[] xValues = {1.0, 2.0, 3.0};
         double[] yValues = {1.0, 4.0, 9.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);

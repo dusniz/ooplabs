@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArrayTabulatedFunctionTest {
+
     @Test
-    void testApply() {
+    public void testApply() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -16,7 +17,7 @@ class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    void testConstructor() {
+    public void testConstructor() {
         TabulatedFunction f1 = new ArrayTabulatedFunction(new UnitFunction(), 10, 1, 10);
 
         assertEquals(1, f1.apply(5), 1e-12);
@@ -27,7 +28,7 @@ class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    void testSetGet() {
+    public void testSetGet() {
         double[] xValues = {0.0, 1.0, 4.0};
         double[] yValues = {0.0, 1.0, 16.0};
         TabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -38,7 +39,7 @@ class ArrayTabulatedFunctionTest {
     }
 
     @Test
-    void testIndex() {
+    public void testIndex() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);

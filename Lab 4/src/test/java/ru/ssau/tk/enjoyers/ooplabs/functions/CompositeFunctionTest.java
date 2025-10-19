@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CompositeFunctionTest {
     @Test
-    void testApply() {
+    public void testApply() {
         MathFunction sqr = new SqrFunction();
         MathFunction identity = new IdentityFunction();
         CompositeFunction composite = new CompositeFunction(identity, sqr);

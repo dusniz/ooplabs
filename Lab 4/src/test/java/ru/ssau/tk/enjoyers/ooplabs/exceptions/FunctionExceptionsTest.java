@@ -8,8 +8,9 @@ import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FunctionExceptionsTest {
+
     @Test
-    void testArrayIsNotSortedException() {
+    public void testArrayIsNotSortedException() {
         double[] unsortedX = {0.0, 2.0, 1.0, 3.0}; // Не отсортирован
 
         assertThrows(ArrayIsNotSortedException.class,
@@ -17,7 +18,7 @@ public class FunctionExceptionsTest {
     }
 
     @Test
-    void testDifferentLengthOfArraysException() {
+    public void testDifferentLengthOfArraysException() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0}; // Разная длина
 
@@ -26,7 +27,7 @@ public class FunctionExceptionsTest {
     }
 
     @Test
-    void testArrayTabulatedFunctionInvalidConstructor() {
+    public void testArrayTabulatedFunctionInvalidConstructor() {
         // Тест неотсортированного массива
         double[] unsortedX = {2.0, 1.0, 3.0};
         double[] unsortedY = {4.0, 1.0, 9.0};
@@ -43,7 +44,7 @@ public class FunctionExceptionsTest {
     }
 
     @Test
-    void testLinkedListTabulatedFunctionInvalidConstructor() {
+    public void testLinkedListTabulatedFunctionInvalidConstructor() {
         // Тест неотсортированного массива
         double[] unsortedX = {2.0, 1.0, 3.0};
         double[] unsortedY = {4.0, 1.0, 9.0};

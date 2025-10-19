@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ToStringTest {
 
     @Test
-    void testArrayTabulatedFunctionToString() {
+    public void testArrayTabulatedFunctionToString() {
         double[] xValues = {0.0, 0.5, 1.0};
         double[] yValues = {0.0, 0.25, 1.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -20,7 +20,7 @@ class ToStringTest {
     }
 
     @Test
-    void testLinkedListTabulatedFunctionToString() {
+    public void testLinkedListTabulatedFunctionToString() {
         double[] xValues = {0.0, 0.5, 1.0};
         double[] yValues = {0.0, 0.25, 1.0};
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);

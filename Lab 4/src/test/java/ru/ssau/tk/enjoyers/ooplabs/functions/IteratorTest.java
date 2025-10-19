@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class IteratorTest {
 
     @Test
-    void testArrayTabulatedFunctionIterator() {
+    public void testArrayTabulatedFunctionIterator() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -33,7 +33,7 @@ class IteratorTest {
     }
 
     @Test
-    void testLinkedListTabulatedFunctionIterator() {
+    public void testLinkedListTabulatedFunctionIterator() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         LinkedListTabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
@@ -58,7 +58,7 @@ class IteratorTest {
     }
 
     @Test
-    void testIteratorNoSuchElementException() {
+    public void testIteratorNoSuchElementException() {
         double[] xValues = {0.0, 1.0};
         double[] yValues = {0.0, 1.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);

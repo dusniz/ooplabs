@@ -11,7 +11,7 @@ class AndThenTest {
 
     // Базовые тесты композиции
     @Test
-    void testBasicComposition() {
+    public void testBasicComposition() {
         MathFunction composite = identity.andThen(sqr);
 
         assertEquals(0.0, composite.apply(0.0), 1e-12);
@@ -22,7 +22,7 @@ class AndThenTest {
     }
 
     @Test
-    void testCompositionOrder() {
+    public void testCompositionOrder() {
         // f(x) = x^2, g(x) = x + 1 (через композицию с константой)
         MathFunction addOne = constant.andThen(x -> x + 1); // Всегда 6.0
         MathFunction composite1 = sqr.andThen(addOne); // (x^2) -> 6.0
@@ -35,7 +35,7 @@ class AndThenTest {
 
     // Тесты цепочек композиции
     @Test
-    void testThreeFunctionChain() {
+    public void testThreeFunctionChain() {
         MathFunction chain = identity.andThen(sqr).andThen(sqr); // x -> x^2 -> x^4
 
         assertEquals(0.0, chain.apply(0.0), 1e-12);
@@ -46,7 +46,7 @@ class AndThenTest {
     }
 
     @Test
-    void testComplexChain() {
+    public void testComplexChain() {
         MathFunction chain = identity
                 .andThen(sqr)                    // x^2
                 .andThen(x -> x * 2)      // 2x^2

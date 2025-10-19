@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DeBoorFunctionTest {
 
     @Test
-    void testApply() {
+    public void testApply() {
         double[] knots = {0, 0, 0, 1, 2, 2, 2};
         double[] controlPoints = {0, 1, 0};
         int degree = 2;

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FactoryTest {
 
     @Test
-    void testArrayTabulatedFunctionFactory() {
+    public void testArrayTabulatedFunctionFactory() {
         TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -20,7 +20,7 @@ class FactoryTest {
     }
 
     @Test
-    void testLinkedListTabulatedFunctionFactory() {
+    public void testLinkedListTabulatedFunctionFactory() {
         TabulatedFunctionFactory factory = new LinkedListTabulatedFunctionFactory();
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -32,7 +32,7 @@ class FactoryTest {
     }
 
     @Test
-    void testCreateStrict() {
+    public void testCreateStrict() {
         TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -46,7 +46,7 @@ class FactoryTest {
     }
 
     @Test
-    void testCreateUnmodifiable() {
+    public void testCreateUnmodifiable() {
         TabulatedFunctionFactory factory = new LinkedListTabulatedFunctionFactory();
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
@@ -60,7 +60,7 @@ class FactoryTest {
     }
 
     @Test
-    void testCreateStrictUnmodifiable() {
+    public void testCreateStrictUnmodifiable() {
         TabulatedFunctionFactory factory = new ArrayTabulatedFunctionFactory();
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};

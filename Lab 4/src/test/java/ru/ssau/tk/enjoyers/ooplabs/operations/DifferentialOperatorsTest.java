@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DifferentialOperatorsTest {
 
     @Test
-    void testTabulatedDifferentialOperator() {
+    public void testTabulatedDifferentialOperator() {
         TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
 
         double[] xValues = {0.0, 0.1, 0.2, 0.3};
@@ -26,7 +26,7 @@ class DifferentialOperatorsTest {
     }
 
     @Test
-    void testLeftSteppingDifferentialOperator() {
+    public void testLeftSteppingDifferentialOperator() {
         LeftSteppingDifferentialOperator operator = new LeftSteppingDifferentialOperator(1);
         operator.setStep(0.001);
         assertEquals(0.001, operator.getStep(), 1e-12);
@@ -42,7 +42,7 @@ class DifferentialOperatorsTest {
     }
 
     @Test
-    void testRightSteppingDifferentialOperator() {
+    public void testRightSteppingDifferentialOperator() {
         RightSteppingDifferentialOperator operator = new RightSteppingDifferentialOperator(0.001);
         SqrFunction sqr = new SqrFunction();
 
@@ -55,7 +55,7 @@ class DifferentialOperatorsTest {
     }
 
     @Test
-    void testMiddleSteppingDifferentialOperator() {
+    public void testMiddleSteppingDifferentialOperator() {
         MiddleSteppingDifferentialOperator operator = new MiddleSteppingDifferentialOperator(0.001);
         SqrFunction sqr = new SqrFunction();
 
@@ -67,7 +67,7 @@ class DifferentialOperatorsTest {
     }
 
     @Test
-    void testDifferentFactories() {
+    public void testDifferentFactories() {
         TabulatedDifferentialOperator arrayOperator = new TabulatedDifferentialOperator(new ArrayTabulatedFunctionFactory());
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};

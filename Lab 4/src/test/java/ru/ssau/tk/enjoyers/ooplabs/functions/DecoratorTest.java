@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DecoratorTest {
 
     @Test
-    void testStrictTabulatedFunction() {
+    public void testStrictTabulatedFunction() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);
@@ -31,7 +31,7 @@ class DecoratorTest {
     }
 
     @Test
-    void testUnmodifiableTabulatedFunction() {
+    public void testUnmodifiableTabulatedFunction() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);
@@ -54,7 +54,7 @@ class DecoratorTest {
     }
 
     @Test
-    void testStrictWithLinkedList() {
+    public void testStrictWithLinkedList() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         LinkedListTabulatedFunction linkedFunc = new LinkedListTabulatedFunction(xValues, yValues);
@@ -65,7 +65,7 @@ class DecoratorTest {
     }
 
     @Test
-    void testUnmodifiableWithLinkedList() {
+    public void testUnmodifiableWithLinkedList() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         LinkedListTabulatedFunction linkedFunc = new LinkedListTabulatedFunction(xValues, yValues);
@@ -77,7 +77,7 @@ class DecoratorTest {
     }
 
     @Test
-    void testDoubleDecoration() {
+    public void testDoubleDecoration() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);
@@ -98,7 +98,7 @@ class DecoratorTest {
     }
 
     @Test
-    void testIteratorInDecorators() {
+    public void testIteratorInDecorators() {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction arrayFunc = new ArrayTabulatedFunction(xValues, yValues);

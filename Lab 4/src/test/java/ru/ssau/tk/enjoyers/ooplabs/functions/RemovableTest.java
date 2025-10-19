@@ -8,7 +8,7 @@ class RemovableTest {
     private LinkedListTabulatedFunction linkedListFunc;
 
     @Test
-    void testListRemove() {
+    public void testListRemove() {
         // Основная функция с несколькими точками
         double[] xValues = {0.0, 1.0, 2.0, 3.0, 4.0};
         double[] yValues = {0.0, 1.0, 4.0, 9.0, 16.0};
@@ -36,7 +36,7 @@ class RemovableTest {
     }
 
     @Test
-    void testArrayRemove() {
+    public void testArrayRemove() {
         double[] xValues = {0.0, 1.0, 2.0, 3.0};
         double[] yValues = {0.0, 1.0, 4.0, 9.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);

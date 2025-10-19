@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MockTabulatedFunctionTest {
 
     @Test
-    void testApply() {
+    public void testApply() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         // Интерполяция
@@ -20,7 +20,7 @@ class MockTabulatedFunctionTest {
     }
 
     @Test
-    void testGetters() {
+    public void testGetters() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         assertEquals(2, mock.getCount());
@@ -31,7 +31,7 @@ class MockTabulatedFunctionTest {
     }
 
     @Test
-    void testBounds() {
+    public void testBounds() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         assertEquals(0.0, mock.leftBound(), 1e-12);
@@ -39,7 +39,7 @@ class MockTabulatedFunctionTest {
     }
 
     @Test
-    void testIndexOf() {
+    public void testIndexOf() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         assertEquals(0, mock.indexOfX(0.0));
@@ -52,7 +52,7 @@ class MockTabulatedFunctionTest {
     }
 
     @Test
-    void testFloorIndexOfX() {
+    public void testFloorIndexOfX() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         assertEquals(0, mock.floorIndexOfX(-1.0));
@@ -63,7 +63,7 @@ class MockTabulatedFunctionTest {
     }
 
     @Test
-    void testMiscellaneous() {
+    public void testMiscellaneous() {
         MockTabulatedFunction mock = new MockTabulatedFunction();
 
         assertThrows(UnsupportedOperationException.class, () -> mock.setY(0,1));

@@ -30,7 +30,7 @@ class FunctionsIOTest {
     }
 
     @Test
-    void testTextFileWriteAndRead() throws IOException {
+    public void testTextFileWriteAndRead() throws IOException {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);
@@ -56,7 +56,7 @@ class FunctionsIOTest {
     }
 
     @Test
-    void testBinaryFileWriteAndRead() throws IOException {
+    public void testBinaryFileWriteAndRead() throws IOException {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);
@@ -81,7 +81,7 @@ class FunctionsIOTest {
     }
 
     @Test
-    void testSerialization() throws IOException, ClassNotFoundException {
+    public void testSerialization() throws IOException, ClassNotFoundException {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);
@@ -104,7 +104,7 @@ class FunctionsIOTest {
     }
 
     @Test
-    void testXmlSerialization() throws IOException {
+    public void testXmlSerialization() throws IOException {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);
@@ -125,7 +125,7 @@ class FunctionsIOTest {
     }
 
     @Test
-    void testJsonSerialization() throws IOException {
+    public void testJsonSerialization() throws IOException {
         double[] xValues = {0.0, 1.0, 2.0};
         double[] yValues = {0.0, 1.0, 4.0};
         ArrayTabulatedFunction original = new ArrayTabulatedFunction(xValues, yValues);

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InsertableTest {
 
     @Test
-    void testArrayInsert() {
+    public void testArrayInsert() {
         double[] xValues = {0.0, 2.0};
         double[] yValues = {0.0, 4.0};
         ArrayTabulatedFunction function = new ArrayTabulatedFunction(xValues, yValues);
@@ -34,7 +34,7 @@ class InsertableTest {
     }
 
     @Test
-    void testListInsert() {
+    public void testListInsert() {
         double[] xValues = {0.0, 1.0, 2.0, 3.0, 4.0};
         double[] yValues = {0.0, 1.0, 4.0, 9.0, 16.0};
         LinkedListTabulatedFunction linkedListFunc = new LinkedListTabulatedFunction(xValues, yValues);
