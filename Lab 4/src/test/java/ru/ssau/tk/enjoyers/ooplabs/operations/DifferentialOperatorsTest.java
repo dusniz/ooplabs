@@ -1,10 +1,10 @@
 package ru.ssau.tk.enjoyers.ooplabs.operations;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import ru.ssau.tk.enjoyers.ooplabs.concurrent.SynchronizedTabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.*;
 import ru.ssau.tk.enjoyers.ooplabs.functions.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DifferentialOperatorsTest {
 
@@ -83,5 +83,43 @@ class DifferentialOperatorsTest {
         TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
         operator.setFactory(new ArrayTabulatedFunctionFactory());
         assertInstanceOf(TabulatedFunctionFactory.class, arrayOperator.getFactory());
+    }
+
+    @Test
+    void testDeriveSynchronouslyWithRegularFunction() {
+        TabulatedFunction function = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
+
+        TabulatedFunction derivative = operator.deriveSynchronously(function);
+
+        assertEquals(10, derivative.getCount());
+        assertEquals(0.0, derivative.getY(0), 1e-9); // Производная константы = 0
+    }
+
+    @Test
+    void testDeriveSynchronouslyWithSynchronizedFunction() {
+        TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
+        SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
+
+        TabulatedFunction derivative = operator.deriveSynchronously(syncFunction);
+
+        assertEquals(10, derivative.getCount());
+        assertEquals(0.0, derivative.getY(0), 1e-9);
+    }
+
+    @Test
+    void testDeriveSynchronouslyWithLinearFunction() {
+        // f(x) = 2x + 1, производная = 2
+        double[] xValues = {0, 1, 2, 3, 4};
+        double[] yValues = {1, 3, 5, 7, 9};
+        TabulatedFunction function = new LinkedListTabulatedFunction(xValues, yValues);
+        TabulatedDifferentialOperator operator = new TabulatedDifferentialOperator();
+
+        TabulatedFunction derivative = operator.deriveSynchronously(function);
+
+        for (int i = 0; i < derivative.getCount() - 1; i++) {
+            assertEquals(2.0, derivative.getY(i), 1e-9);
+        }
     }
 }
