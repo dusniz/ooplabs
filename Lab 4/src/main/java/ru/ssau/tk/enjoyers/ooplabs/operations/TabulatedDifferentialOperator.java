@@ -1,5 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.operations;
 
+import ru.ssau.tk.enjoyers.ooplabs.concurrent.SynchronizedTabulatedFunction;
 import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.TabulatedFunctionFactory;
 import ru.ssau.tk.enjoyers.ooplabs.functions.factory.ArrayTabulatedFunctionFactory;
@@ -46,5 +47,16 @@ public class TabulatedDifferentialOperator implements DifferentialOperator<Tabul
         yValues[count - 1] = yValues[count - 2];
 
         return factory.create(xValues, yValues);
+    }
+
+    public TabulatedFunction deriveSynchronously(TabulatedFunction function) {
+        if (function instanceof SynchronizedTabulatedFunction){
+            SynchronizedTabulatedFunction syncFunction = (SynchronizedTabulatedFunction) (function);
+            return syncFunction.doSynchronously(this::derive);
+        }
+        else {
+            SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(function);
+            return syncFunction.doSynchronously(this::derive);
+        }
     }
 }
