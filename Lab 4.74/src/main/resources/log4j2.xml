@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="FileAppender"
+                     fileName="logs/application.log"
+                     filePattern="logs/application-%d{yyyy-MM-dd-HH-mm-ss}.log">
+
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+
+        <Async name="AsyncFile">
+            <AppenderRef ref="FileAppender"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="ru.ssau.tk.enjoyers.ooplabs.concurrent" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console" level="DEBUG"/>
+            <AppenderRef ref="AsyncFile" level="INFO"/>
+        </Logger>
+
+        <Logger name="ru.ssau.tk.enjoyers.ooplabs.functions" level="INFO" additivity="false">
+            <AppenderRef ref="Console" level="INFO"/>
+            <AppenderRef ref="AsyncFile" level="INFO"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AsyncFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
