@@ -2,6 +2,8 @@ package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 
 import ru.ssau.tk.enjoyers.ooplabs.functions.Point;
 import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
+import ru.ssau.tk.enjoyers.ooplabs.operations.TabulatedFunctionOperationService;
+
 import java.util.Iterator;
 
 public class SynchronizedTabulatedFunction implements TabulatedFunction {
@@ -77,9 +79,25 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
     }
 
     public Iterator<Point> iterator() {
+        Point[] points;
         synchronized (lock) {
-            return function.iterator();
+            points = TabulatedFunctionOperationService.asPoints(function);
         }
+
+        return new Iterator<Point>() {
+            private int currentIndex = 0;
+            private final Point[] pointsCopy = points;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < pointsCopy.length;
+            }
+
+            @Override
+            public Point next() {
+                return pointsCopy[currentIndex++];
+            }
+        };
     }
 
     public interface Operation<T> {
