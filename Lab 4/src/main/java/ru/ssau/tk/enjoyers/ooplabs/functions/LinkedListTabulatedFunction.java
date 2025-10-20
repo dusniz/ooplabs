@@ -171,10 +171,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double extrapolateLeft(double x) {
-        if (count < 2) {
-            return head.y;
-        }
-
         Node first = head;
         Node second = head.next;
 
@@ -188,10 +184,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     protected double extrapolateRight(double x) {
-        if (count < 2) {
-            return head.prev.y;
-        }
-
         Node last = head.prev;
         Node prev = last.prev;
 
@@ -212,11 +204,6 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public void insert(double x, double y) {
-        if (head == null) {
-            addNode(x, y);
-            return;
-        }
-
         int existingIndex = indexOfX(x);
         if (existingIndex != -1) {
             setY(existingIndex, y);
@@ -247,15 +234,12 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
     @Override
     public void remove(int index) {
         Node nodeToRemove = getNode(index);
-        if (count == 1) {
-            head = null;
-        } else {
-            nodeToRemove.prev.next = nodeToRemove.next;
-            nodeToRemove.next.prev = nodeToRemove.prev;
-            if (index == 0) {
-                head = nodeToRemove.next;
-            }
-        }
+
+        nodeToRemove.prev.next = nodeToRemove.next;
+        nodeToRemove.next.prev = nodeToRemove.prev;
+        if (index == 0)
+            head = nodeToRemove.next;
+
         count--;
     }
 

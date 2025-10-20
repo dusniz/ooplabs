@@ -3,10 +3,8 @@ package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import ru.ssau.tk.enjoyers.ooplabs.functions.CompositeFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.LinkedListTabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.TabulatedFunction;
-import ru.ssau.tk.enjoyers.ooplabs.functions.UnitFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
+
 import java.util.*;
 
 public class SynchronizedTabulatedFunctionTest {
@@ -67,6 +65,29 @@ public class SynchronizedTabulatedFunctionTest {
     }
 
     @Test
+    void testIterator() {
+        TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 2, 3);
+        SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
+
+        Iterator<Point> iterator = syncFunction.iterator();
+        assertTrue(iterator.hasNext());
+
+        Point point1 = iterator.next();
+        assertEquals(0.0, point1.x, 1e-9);
+        assertEquals(1.0, point1.y, 1e-9);
+
+        Point point2 = iterator.next();
+        assertEquals(1.0, point2.x, 1e-9);
+        assertEquals(1.0, point2.y, 1e-9);
+
+        Point point3 = iterator.next();
+        assertEquals(2.0, point3.x, 1e-9);
+        assertEquals(1.0, point3.y, 1e-9);
+
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
     void testDoSynchronouslyWithReturnValue() {
         TabulatedFunction baseFunction = new LinkedListTabulatedFunction(new UnitFunction(), 0, 10, 11);
         SynchronizedTabulatedFunction syncFunction = new SynchronizedTabulatedFunction(baseFunction);
@@ -80,7 +101,7 @@ public class SynchronizedTabulatedFunctionTest {
             return sum;
         });
 
-        assertEquals(11.0, result, 1e-9); // 11 точек × 1.0 = 11.0
+        assertEquals(11.0, result, 1e-9); // 11 точек * 1.0 = 11.0
     }
 
     @Test
