@@ -19,6 +19,11 @@ public class SynchronizedTabulatedFunctionTest {
 
         assertEquals(1000, syncFunction.getCount());
         assertEquals(1, syncFunction.getY(23));
+        assertEquals(6, syncFunction.getX(5));
+        assertEquals(9, syncFunction.indexOfX(10));
+        assertEquals(-1, syncFunction.indexOfY(2));
+        assertEquals(1, syncFunction.leftBound());
+        assertEquals(1000, syncFunction.rightBound());
         assertEquals(1, syncFunction.apply(541));
         assertEquals(583, syncFunction.andThen(anotherFunction).apply(0));
     }
