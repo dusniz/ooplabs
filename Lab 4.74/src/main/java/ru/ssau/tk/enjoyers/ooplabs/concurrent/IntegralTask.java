@@ -1,27 +1,33 @@
 package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import java.util.concurrent.Callable;
 
 public class IntegralTask implements Callable<Double> {
+    private static final Logger logger = LogManager.getLogger(IntegralTask.class);
     private final TabulatedFunction function;
     private final double startX;     // Начало области интегрирования
     private final double endX;       // Конец области интегрирования
 
     public IntegralTask(TabulatedFunction function, double startX, double endX) {
+        logger.info("Создание IntegralTask");
         this.function = function;
         this.startX = startX;
         this.endX = endX;
+        logger.info("IntegralTask успешно создано");
     }
 
     @Override
     public Double call() {
+        logger.info("Запуск IntegralTask");
         // Находим, какие точки функции попадают в наш отрезок
         int startIndex = findNearestIndex(startX);
         int endIndex = findNearestIndex(endX);
 
         double sum = 0.0;
-
+        logger.info("Запущено IntegralTask");
         // Интегрируем методом трапеций на найденном участке
         for (int i = startIndex; i < endIndex; i++) {
             double x1 = function.getX(i);
@@ -33,7 +39,7 @@ public class IntegralTask implements Callable<Double> {
             double area = (y1 + y2) * (x2 - x1) / 2.0;
             sum += area;
         }
-        System.out.println(Thread.currentThread().getName() + " закончил выполнение задачи IntegralTask");
+        logger.info("Выполнено IntegralTask");
 
         return sum;
     }
