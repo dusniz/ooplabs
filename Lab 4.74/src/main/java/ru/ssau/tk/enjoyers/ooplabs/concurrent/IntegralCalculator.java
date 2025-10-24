@@ -15,8 +15,10 @@ public class IntegralCalculator {
     private final int numThreads;
 
     public IntegralCalculator(TabulatedFunction function, int numThreads) {
+        logger.info("Создание IntegralCalculator");
         this.function = function;
         this.numThreads = numThreads;
+        logger.info("Создано IntegralCalculator");
     }
 
     public double calculate() throws Exception {

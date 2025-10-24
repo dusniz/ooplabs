@@ -21,13 +21,12 @@ public class IntegralTask implements Callable<Double> {
 
     @Override
     public Double call() {
-        logger.info("Запуск IntegralTask");
+        logger.info("Запущено IntegralTask");
         // Находим, какие точки функции попадают в наш отрезок
         int startIndex = findNearestIndex(startX);
         int endIndex = findNearestIndex(endX);
 
         double sum = 0.0;
-        logger.info("Запущено IntegralTask");
         // Интегрируем методом трапеций на найденном участке
         for (int i = startIndex; i < endIndex; i++) {
             double x1 = function.getX(i);

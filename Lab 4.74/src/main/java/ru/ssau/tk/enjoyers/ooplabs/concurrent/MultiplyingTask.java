@@ -10,14 +10,14 @@ public class MultiplyingTask implements Runnable {
     private final TabulatedFunction function;
 
     public MultiplyingTask(TabulatedFunction function) {
-        logger.info("Создание MultiplyingTask...");
+        logger.info("Создание MultiplyingTask");
         this.function = function;
-        logger.info("MultiplyingTask успешно создано!");
+        logger.info("Создано MultiplyingTask");
     }
 
     @Override
     public void run() {
-        logger.info("Запуск MultiplyingTask");
+        logger.info("Запущено MultiplyingTask");
         for (int i = 0; i < function.getCount(); i++) {
             synchronized (function) {
                 function.setY(i, function.getY(i) * 2);
