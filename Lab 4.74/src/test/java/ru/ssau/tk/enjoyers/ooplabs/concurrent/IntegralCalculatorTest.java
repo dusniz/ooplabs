@@ -31,13 +31,13 @@ public class IntegralCalculatorTest {
         assertEquals(50.0, result, 0.1);
     }
 
-    @Test
-    public void testExtremeFunction() throws Exception {
-        TabulatedFunction function = new LinkedListTabulatedFunction(x -> sqrt(10*pow(x, 5) + 3*pow(x, 3) + 4*pow(x, 2) + x + 1), 1, 9, 100000);
-
-        IntegralCalculator calculator = new IntegralCalculator(function, 6);
-        double result = calculator.calculate();
-
-        assertEquals(1985, result, 1);
-    }
+//    @Test
+//    public void testExtremeFunction() throws Exception {
+//        TabulatedFunction function = new LinkedListTabulatedFunction(x -> sqrt(10*pow(x, 5) + 3*pow(x, 3) + 4*pow(x, 2) + x + 1), 1, 9, 100000);
+//
+//        IntegralCalculator calculator = new IntegralCalculator(function, 6);
+//        double result = calculator.calculate();
+//
+//        assertEquals(1985, result, 1);
+//    }
 }

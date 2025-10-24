@@ -1,5 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.concurrent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class IntegralCalculator {
+    private static final Logger logger = LogManager.getLogger(IntegralCalculator.class);
     private final TabulatedFunction function;
     private final int numThreads;
 
@@ -17,6 +20,7 @@ public class IntegralCalculator {
     }
 
     public double calculate() throws Exception {
+        logger.info("Начало работы IntegralCalculator");
         double a = function.leftBound();  // Начало области определения
         double b = function.rightBound(); // Конец области определения
         double segmentLength = (b - a) / numThreads;
@@ -40,6 +44,7 @@ public class IntegralCalculator {
         }
 
         executor.shutdown();
+        logger.info("Конец работы IntegralCalculator");
         return total;
     }
 }
