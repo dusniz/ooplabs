@@ -10,7 +10,7 @@ public class SynchronizedTabulatedFunctionTask implements Runnable {
 
     @Override
     public void run() {
-        synchronized (function.lock) {
+        synchronized (function.getLock()) {
             for (int i = 0; i < function.getCount(); i++) {
                 function.setY(i, function.getY(i) * 2);
             }

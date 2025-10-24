@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class SynchronizedTabulatedFunction implements TabulatedFunction {
     private final TabulatedFunction function;
-    public final Object lock = new Object();
+    private final Object lock = new Object();
 
     public SynchronizedTabulatedFunction(TabulatedFunction function) {
         this.function = function;
@@ -108,5 +108,9 @@ public class SynchronizedTabulatedFunction implements TabulatedFunction {
         synchronized (lock) {
             return operation.apply(this);
         }
+    }
+
+    public Object getLock(){
+        return lock;
     }
 }
