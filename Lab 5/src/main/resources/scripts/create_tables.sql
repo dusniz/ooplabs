@@ -1,8 +1,10 @@
+CREATE TYPE user_role AS ENUM ('USER', 'ADMIN');
+
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255),
-    role VARCHAR(20) NOT NULL
+    role user_role NOT NULL DEFAULT 'USER'
 );
 
 CREATE TABLE functions (
