@@ -22,8 +22,8 @@ public class Function {
     @Column(nullable = false, length = 50)
     private String type; // TABULATED_ARRAY, TABULATED_LINKED_LIST, MATH, COMPOSITE
 
-    @Column(name = "points_count")
-    private Integer pointsCount = 0;
+    @Column(name = "point_count")
+    private Integer pointCount = 0;
 
     @Column(name = "function_class", length = 255)
     private String functionClass;
@@ -48,8 +48,8 @@ public class Function {
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
 
-    public Integer getPointsCount() { return pointsCount; }
-    public void setPointsCount(Integer pointsCount) { this.pointsCount = pointsCount; }
+    public Integer getPointCount() { return pointCount; }
+    public void setPointCount(Integer pointCount) { this.pointCount = pointCount; }
 
     public String getFunctionClass() { return functionClass; }
     public void setFunctionClass(String functionClass) { this.functionClass = functionClass; }

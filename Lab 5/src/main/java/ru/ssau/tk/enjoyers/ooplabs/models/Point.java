@@ -19,21 +19,21 @@ public class Point {
     @Column(nullable = false)
     private Double y;
 
-    @Column(name = "point_index", nullable = false)
-    private Integer pointIndex;
+    @Column(name = "index", nullable = false)
+    private Integer index;
 
-    public Point(Long functionId, Double x, Double y, Integer pointIndex) {
+    public Point(Long functionId, Double x, Double y, Integer index) {
         this.functionId = functionId;
         this.x = x;
         this.y = y;
-        this.pointIndex = pointIndex;
+        this.index = index;
     }
 
     // Геттеры и сеттеры
     public Long getId() { return id; }
 
-    public Long getFunction() { return functionId; }
-    public void setFunction(Long functionId) { this.functionId = functionId; }
+    public Long getFunctionId() { return functionId; }
+    public void setFunctionId(Long functionId) { this.functionId = functionId; }
 
     public Double getX() { return x; }
     public void setX(Double x) { this.x = x; }
@@ -41,6 +41,6 @@ public class Point {
     public Double getY() { return y; }
     public void setY(Double y) { this.y = y; }
 
-    public Integer getPointIndex() { return pointIndex; }
-    public void setPointIndex(Integer pointIndex) { this.pointIndex = pointIndex; }
+    public Integer getIndex() { return index; }
+    public void setIndex(Integer index) { this.index = index; }
 }
