@@ -4,7 +4,7 @@ import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserRole;
+import ru.ssau.tk.enjoyers.ooplabs.Role;
 
 import java.sql.*;
 import java.util.List;
@@ -109,8 +109,8 @@ import java.util.Optional;
     }
 
     private UserDto mapResultSetToUser(ResultSet rs) throws SQLException {
-        return new UserDto(rs.getString("username"),
-                rs.getString("password_hash"),UserRole.USER);
+        return new UserDto(Long.parseLong(rs.getString("id")) ,rs.getString("username"),
+                rs.getString("password_hash"), Role.USER);
     }
 
     @Override
@@ -185,14 +185,14 @@ import java.util.Optional;
 
     // Добавляем методы для работы с ролями
     public boolean isAdmin(Long userId) {
-        return userHasRole(userId, UserRole.ADMIN);
+        return userHasRole(userId, Role.ADMIN);
     }
 
     public boolean isUser(Long userId) {
-        return userHasRole(userId, UserRole.USER);
+        return userHasRole(userId, Role.USER);
     }
 
-    private boolean userHasRole(Long userId, UserRole requiredRole) {
+    private boolean userHasRole(Long userId, Role requiredRole) {
         String sql = "SELECT 1 FROM users WHERE id = ? AND role = ?::user_role";
 
         try (Connection conn = DatabaseConnection.getConnection();

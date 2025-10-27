@@ -8,10 +8,11 @@ public class UserDto {
     private String passwordHash;
     private Role role;
 
-    public UserDto(Long id, String username, String passwordHash) {
+    public UserDto(Long id, String username, String passwordHash, Role role) {
         this.id = id;
         this.username = username;
         this.passwordHash = passwordHash;
+        this.role = role;
     }
 
     public Long getId() { return id; }
@@ -23,4 +24,6 @@ public class UserDto {
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }
