@@ -9,11 +9,23 @@ public class FunctionDto {
     private Integer pointCount;
     private String functionClass;
 
-    public FunctionDto(Long id, Long userId, String name, String type) {
+    public FunctionDto(Long id, Long userId, String name, String type, String description, Integer pointCount, String functionClass) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.type = type;
+        this.description = description;
+        this.pointCount = pointCount;
+        this.functionClass = functionClass;
+    }
+
+    public FunctionDto(Long userId, String name, String type, String description, Integer pointCount, String functionClass) {
+        this.userId = userId;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.pointCount = pointCount;
+        this.functionClass = functionClass;
     }
 
     public Long getId() { return id; }
@@ -35,6 +47,6 @@ public class FunctionDto {
     public void setPointCount(Integer pointCount) { this.pointCount = pointCount; }
 
     public String getFunctionClass() { return functionClass; }
-    public void setFunctionClass(String functionClass) { this.functionClass = name; }
+    public void setFunctionClass(String functionClass) { this.functionClass = functionClass; }
 
 }
