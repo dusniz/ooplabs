@@ -28,9 +28,14 @@ public class Function {
     @Column(name = "function_class", length = 255)
     private String functionClass;
 
-    public Function(String name, String type) {
+    public Function(Long userId, String name, String description, String type, Integer pointCount,
+                    String functionClass) {
+        this.userId = userId;
         this.name = name;
+        this.description = description;
         this.type = type;
+        this.pointCount = pointCount;
+        this.functionClass = functionClass;
     }
 
     // Геттеры и сеттеры
