@@ -19,5 +19,7 @@ public interface FunctionRepository extends JpaRepository<Function, Long> {
 
     long countByUserId(Long userId);
 
+    long countByUserIdAndType(Long userId, String type);
+
     boolean existsByIdAndUserId(Long id, Long userId);
 }
