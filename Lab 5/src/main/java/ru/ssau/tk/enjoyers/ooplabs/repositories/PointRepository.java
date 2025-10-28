@@ -17,6 +17,12 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 
     Optional<Point> findByFunctionIdAndIndex(Long functionId, Integer index);
 
+    Optional<Integer> findMaxIndexByFunctionId(Long functionId);
+
+    List<Point> findByFunctionIdAndXBetween(Long functionId, Double a, Double b);
+
+    List<Point> findByFunctionIdAndYGreaterThan(Long functionId, Double y0);
+
     @Modifying
     @Query("DELETE FROM Point p WHERE p.functionId = :functionId")
     void deleteByFunctionId(@Param("functionId") Long functionId);
