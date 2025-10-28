@@ -61,7 +61,7 @@ import java.util.Optional;
     @Override
     public List<UserDto> findAll() {
         List<UserDto> users = new ArrayList<>();
-        String sql = "SELECT * FROM users ORDER BY created_at DESC";
+        String sql = "SELECT * FROM users ORDER BY id DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -82,16 +82,14 @@ import java.util.Optional;
 
     @Override
     public Long save(UserDto user) {
-        String sql = "INSERT INTO users (username, password_hash, email, role) VALUES (?, ?, ?, ?::user_role) RETURNING id";
+        String sql = "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?::user_role) RETURNING id";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPasswordHash());
-
-            // Сохраняем Enum как строку
-            stmt.setString(4, user.getRole().getCode());
+            stmt.setString(3, user.getRole().getCode());
 
             ResultSet rs = stmt.executeQuery();
 
@@ -110,21 +108,20 @@ import java.util.Optional;
 
     private UserDto mapResultSetToUser(ResultSet rs) throws SQLException {
         return new UserDto(Long.parseLong(rs.getString("id")) ,rs.getString("username"),
-                rs.getString("password_hash"), Role.USER);
+                rs.getString("password_hash"), Role.fromCode(rs.getString("role")));
     }
 
     @Override
     public boolean update(UserDto user) {
-        String sql = "UPDATE users SET username = ?, password_hash = ?, email = ?, role = ?::user_role WHERE id = ?";
+        String sql = "UPDATE users SET username = ?, password_hash = ?, role = ?::user_role WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPasswordHash());
-
-            stmt.setString(4, user.getRole().getCode());
-            stmt.setLong(5, user.getId());
+            stmt.setString(3, user.getRole().getCode());
+            stmt.setLong(4, user.getId());
 
             int affectedRows = stmt.executeUpdate();
             boolean success = affectedRows > 0;

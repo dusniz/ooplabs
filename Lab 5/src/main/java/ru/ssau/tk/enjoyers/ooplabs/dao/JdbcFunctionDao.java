@@ -38,7 +38,7 @@ public class JdbcFunctionDao implements FunctionDao {
     @Override
     public List<FunctionDto> findByUserId(Long userId) {
         List<FunctionDto> functions = new ArrayList<>();
-        String sql = "SELECT * FROM functions WHERE user_id = ? ORDER BY created_at DESC";
+        String sql = "SELECT * FROM functions WHERE user_id = ? ORDER BY id DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -86,8 +86,8 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public Long save(FunctionDto function) {
-        String sql = "INSERT INTO functions (user_id, name, description, type, left_bound, right_bound, points_count, function_class) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String sql = "INSERT INTO functions (user_id, name, description, type, point_count, function_class) " +
+                "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -109,19 +109,18 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public boolean update(FunctionDto function) {
-        String sql = "UPDATE functions SET name = ?, description = ?, type = ?, left_bound = ?, right_bound = ?, " +
-                "points_count = ?, function_class = ? WHERE id = ?";
+        String sql = "UPDATE functions SET name = ?, description = ?, type = ?, " +
+                "point_count = ?, function_class = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, function.getName());
-            stmt.setString(2, function.getDescription());
-            stmt.setString(3, function.getType());
-
-            stmt.setInt(6, function.getPointCount());
-            stmt.setString(7, function.getFunctionClass());
-            stmt.setLong(8, function.getId());
+            stmt.setString(2, function.getType());
+            stmt.setString(3, function.getDescription());
+            stmt.setInt(4, function.getPointCount());
+            stmt.setString(5, function.getFunctionClass());
+            stmt.setLong(6, function.getId());
 
             int affectedRows = stmt.executeUpdate();
             boolean success = affectedRows > 0;
@@ -188,7 +187,7 @@ public class JdbcFunctionDao implements FunctionDao {
     @Override
     public List<PointDto> findPointsByFunctionId(Long functionId) {
         List<PointDto> points = new ArrayList<>();
-        String sql = "SELECT * FROM points WHERE function_id = ? ORDER BY point_index";
+        String sql = "SELECT * FROM points WHERE function_id = ? ORDER BY index";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -211,7 +210,7 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public Optional<PointDto> findPointByFunctionIdAndIndex(Long functionId, Integer index) {
-        String sql = "SELECT * FROM points WHERE function_id = ? AND point_index = ?";
+        String sql = "SELECT * FROM points WHERE function_id = ? AND index = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -234,7 +233,7 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public void savePoints(Long functionId, List<PointDto> points) {
-        String sql = "INSERT INTO points (function_id, x, y, point_index) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO points (function_id, x, y, index) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -260,7 +259,7 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public boolean updatePoint(Long functionId, PointDto point) {
-        String sql = "UPDATE points SET x = ?, y = ? WHERE function_id = ? AND point_index = ?";
+        String sql = "UPDATE points SET x = ?, y = ? WHERE function_id = ? AND index = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -362,19 +361,14 @@ public class JdbcFunctionDao implements FunctionDao {
 
     // Вспомогательные методы
     private FunctionDto mapResultSetToFunction(ResultSet rs) throws SQLException {
-        FunctionDto function = new FunctionDto();
-        function.setUserId(rs.getLong("user_id"));
-        function.setName(rs.getString("name"));
-        function.setDescription(rs.getString("description"));
-        function.setType(rs.getString("type"));
-        function.setPointCount(rs.getInt("points_count"));
-        function.setFunctionClass(rs.getString("function_class"));
-        return function;
+        return new FunctionDto(rs.getLong("id"), rs.getLong("user_id"),
+                rs.getString("name"), rs.getString("description"), rs.getString("type"),
+                rs.getInt("point_count"), rs.getString("function_class"));
     }
 
     private PointDto mapResultSetToPoint(ResultSet rs) throws SQLException {
-        return new PointDto(rs.getLong("function_id"), rs.getDouble("x"),
-                rs.getDouble("y"), rs.getInt("point_index"));
+        return new PointDto(rs.getLong("id"), rs.getLong("function_id"),
+                rs.getDouble("x"), rs.getDouble("y"), rs.getInt("index"));
     }
 
     private void setFunctionParameters(PreparedStatement stmt, FunctionDto function) throws SQLException {
@@ -384,16 +378,16 @@ public class JdbcFunctionDao implements FunctionDao {
         stmt.setString(4, function.getType());
 
         if (function.getPointCount() != null) {
-            stmt.setInt(7, function.getPointCount());
+            stmt.setInt(5, function.getPointCount());
         } else {
-            stmt.setNull(7, Types.INTEGER);
+            stmt.setNull(5, Types.INTEGER);
         }
 
-        stmt.setString(8, function.getFunctionClass());
+        stmt.setString(6, function.getFunctionClass());
     }
 
     private void updatePointsCount(Long functionId, int count) {
-        String sql = "UPDATE functions SET points_count = ? WHERE id = ?";
+        String sql = "UPDATE functions SET point_count = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
