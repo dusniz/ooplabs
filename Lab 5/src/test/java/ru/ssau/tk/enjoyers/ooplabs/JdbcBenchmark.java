@@ -3,7 +3,6 @@ package ru.ssau.tk.enjoyers.ooplabs;
 import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
 import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
 import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
-import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
 import org.junit.jupiter.api.*;
@@ -23,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("JDBC Performance Tests")
-class JdbcPerformanceTest {
+class JdbcBenchmark {
     private JdbcUserDao userDao;
     private JdbcFunctionDao functionDao;
     private Long testUserId;
