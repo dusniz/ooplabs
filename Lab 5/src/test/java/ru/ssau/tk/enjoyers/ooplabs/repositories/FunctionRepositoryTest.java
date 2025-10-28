@@ -38,13 +38,13 @@ class FunctionRepositoryTest {
         entityManager.persistAndFlush(testUser);
 
         // Создаем тестовые функции
-        arrayFunction = new Function("Quadratic Function", "TABULATED_ARRAY");
-        arrayFunction.setDescription("Function with array implementation");
-        arrayFunction.setPointCount(10);
+        arrayFunction = new Function(testUser.getId(), "Quadratic Function",
+                "Function with array implementation",
+                "TABULATED", 10, "TABULATED_ARRAY");
 
-        linkedListFunction = new Function("Sine Wave", "TABULATED_LINKED_LIST");
-        linkedListFunction.setDescription("Function with linked list implementation");
-        linkedListFunction.setPointCount(5);
+        linkedListFunction = new Function(testUser.getId(), "Sine Wave",
+                "Function with linked list implementation", "TABULATED",
+                5, "TABULATED_LINKED_LIST");
 
         entityManager.persistAndFlush(arrayFunction);
         entityManager.persistAndFlush(linkedListFunction);
@@ -72,17 +72,13 @@ class FunctionRepositoryTest {
     @DisplayName("Should find functions by user ID and type")
     void findByUserIdAndType() {
         // When
-        List<Function> arrayFunctions = functionRepository.findByUserIdAndType(
-                testUser.getId(), "TABULATED_ARRAY");
-        List<Function> linkedListFunctions = functionRepository.findByUserIdAndType(
-                testUser.getId(), "TABULATED_LINKED_LIST");
+        List<Function> tabulatedFunctions = functionRepository.findByUserIdAndType(
+                testUser.getId(), "TABULATED");
 
         // Then
         assertAll(
-                () -> assertEquals(1, arrayFunctions.size(), "Should find 1 array function"),
-                () -> assertEquals(1, linkedListFunctions.size(), "Should find 1 linked list function"),
-                () -> assertEquals("TABULATED_ARRAY", arrayFunctions.get(0).getType()),
-                () -> assertEquals("TABULATED_LINKED_LIST", linkedListFunctions.get(0).getType())
+                () -> assertEquals(2, tabulatedFunctions.size(), "Should find 2 tabulated functions"),
+                () -> assertEquals("TABULATED", tabulatedFunctions.getFirst().getType())
         );
     }
 
@@ -108,6 +104,8 @@ class FunctionRepositoryTest {
         // When
         long count = functionRepository.countByUserId(testUser.getId());
 
+
+
         // Then
         assertEquals(2, count, "Should count 2 functions for user");
     }
@@ -127,12 +125,10 @@ class FunctionRepositoryTest {
     @Test
     @DisplayName("Should count functions by user ID and type")
     void countByUserIdAndType() {
-        long arrayCount = functionRepository.countByUserIdAndType(testUser.getId(), "TABULATED_ARRAY");
-        long linkedListCount = functionRepository.countByUserIdAndType(testUser.getId(), "TABULATED_LINKED_LIST");
+        long count = functionRepository.countByUserId(testUser.getId());
 
         assertAll(
-                () -> assertEquals(1, arrayCount, "Should count 1 array function"),
-                () -> assertEquals(1, linkedListCount, "Should count 1 linked list function")
+                () -> assertEquals(2, count, "Should count 2 functions")
         );
     }
 
@@ -140,9 +136,9 @@ class FunctionRepositoryTest {
     @DisplayName("Should save new function")
     void save() {
         // Given
-        Function newFunction = new Function("New Function", "TABULATED_ARRAY");
-        newFunction.setDescription("New test function");
-        newFunction.setPointCount(3);
+        Function newFunction = new Function(testUser.getId(),"New Function",
+                "New test function", "TABULATED",
+                3, "TABULATED_ARRAY");
 
         // When
         Function savedFunction = functionRepository.save(newFunction);

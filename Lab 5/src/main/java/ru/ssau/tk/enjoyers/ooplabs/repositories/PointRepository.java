@@ -17,8 +17,6 @@ public interface PointRepository extends JpaRepository<Point, Long> {
 
     Optional<Point> findByFunctionIdAndIndex(Long functionId, Integer index);
 
-    Optional<Integer> findMaxIndexByFunctionId(Long functionId);
-
     List<Point> findByFunctionIdAndXBetween(Long functionId, Double a, Double b);
 
     List<Point> findByFunctionIdAndYGreaterThan(Long functionId, Double y0);

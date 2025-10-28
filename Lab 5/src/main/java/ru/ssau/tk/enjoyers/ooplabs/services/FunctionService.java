@@ -10,6 +10,7 @@ import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +23,12 @@ public class FunctionService {
     public FunctionService(FunctionRepository functionRepository, PointRepository pointRepository) {
         this.functionRepository = functionRepository;
         this.pointRepository = pointRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Function> getFunction(Long id) {
+        logger.debug("Getting function with id: {}", id);
+        return functionRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
