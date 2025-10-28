@@ -12,12 +12,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedFunctionDao implements SearchableDao<FunctionDto> {
-    private static final Logger logger = LogManager.getLogger(AdvancedFunctionDao.class);
+public class AdvancedJdbcFunctionDao implements SearchableDao<FunctionDto> {
+    private static final Logger logger = LogManager.getLogger(AdvancedJdbcFunctionDao.class);
 
     private final JdbcFunctionDao baseDao;
 
-    public AdvancedFunctionDao(JdbcFunctionDao baseDao) {
+    public AdvancedJdbcFunctionDao(JdbcFunctionDao baseDao) {
         this.baseDao = baseDao;
     }
 
@@ -271,8 +271,7 @@ public class AdvancedFunctionDao implements SearchableDao<FunctionDto> {
                 rs.getString("type"),
                 rs.getString("description"),
                 rs.getInt("points_count"),
-                rs.getString("function_class"),
-                rs.getTimestamp("created_at").toLocalDateTime()
+                rs.getString("function_class")
         );
     }
 }
