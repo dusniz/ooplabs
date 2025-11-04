@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.models.User;
+import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.UserRepository;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.repositories;
 
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.models.*;
+import ru.ssau.tk.enjoyers.ooplabs.entities.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

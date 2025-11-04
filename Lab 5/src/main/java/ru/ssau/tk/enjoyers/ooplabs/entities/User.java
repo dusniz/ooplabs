@@ -1,4 +1,4 @@
-package ru.ssau.tk.enjoyers.ooplabs.models;
+package ru.ssau.tk.enjoyers.ooplabs.entities;
 
 
 import jakarta.persistence.*;
