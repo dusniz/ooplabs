@@ -46,7 +46,7 @@ public class DataGenerator {
     public static List<String> generateUsernames(int count) {
         List<String> usernames = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            usernames.add("perfuser_" + System.currentTimeMillis() + "_" + i);
+            usernames.add("generated_user_" + System.currentTimeMillis() + "_" + i);
         }
         return usernames;
     }
