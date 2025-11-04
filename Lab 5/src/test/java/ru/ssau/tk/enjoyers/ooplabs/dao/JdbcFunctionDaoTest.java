@@ -132,6 +132,28 @@ class JdbcFunctionDaoTest {
     }
 
     @Test
+    @Order(2)
+    @DisplayName("Should find functions by user ID and function type")
+    void testFindByUserIdAndType() {
+        // Given
+        FunctionDto function1 = new FunctionDto(TEST_USER_ID, "Function 1", "TABULATED",
+                "", 0, "TABULATED_ARRAY");
+        FunctionDto function2 = new FunctionDto(TEST_USER_ID, "Function 2", "TABULATED",
+                "", 0, "TABULATED_LINKED_LIST");
+
+        functionDao.save(function1);
+        functionDao.save(function2);
+
+        List<FunctionDto> functions = functionDao.findByUserIdAndType(TEST_USER_ID, "TABULATED");
+
+        assertAll(
+                () -> assertTrue(functions.size() >= 2, "Should find at least 2 functions"),
+                () -> assertTrue(functions.stream().allMatch(f -> f.getUserId().equals(TEST_USER_ID)),
+                        "All functions should belong to test user")
+        );
+    }
+
+    @Test
     @Order(3)
     @DisplayName("Should update function metadata")
     void testUpdateFunction() {
@@ -269,5 +291,17 @@ class JdbcFunctionDaoTest {
                 () -> assertTrue(foundPoint.isPresent()),
                 () -> assertEquals(8.0, foundPoint.get().getY(), 0.001, "Y value should be updated")
         );
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("Should check function for existence by function ID")
+    void testExistsById() {
+        FunctionDto function = new FunctionDto(TEST_FUNC_ID, TEST_USER_ID, "Existence by ID Test", "TABULATED",
+                "", 0, "TABULATED_ARRAY");
+        Long functionId = functionDao.save(function);
+        savedFunctionId = functionId;
+
+        assertTrue(functionDao.existsById(functionId), "Function should exist");
     }
 }
