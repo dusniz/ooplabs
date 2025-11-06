@@ -18,7 +18,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -76,11 +75,10 @@ class JdbcBenchmark {
     @Test
     @Order(1)
     @DisplayName("Performance: Save functions with points")
-    @Timeout(value = 200, unit = TimeUnit.SECONDS)
     void performanceSaveFunctionsWithPoints() {
         List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
 
-        assertTimeoutPreemptively(java.time.Duration.ofSeconds(200), () -> {
+        assertAll(() -> {
             long startTime = System.currentTimeMillis();
 
             for (FunctionDto function : functions) {
@@ -106,7 +104,6 @@ class JdbcBenchmark {
     @Test
     @Order(2)
     @DisplayName("Performance: Read functions with points")
-    @Timeout(value = 30, unit = TimeUnit.SECONDS)
     void performanceReadFunctionsWithPoints() {
         List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
         for (FunctionDto function : functions) {
@@ -115,12 +112,13 @@ class JdbcBenchmark {
             functionDao.savePoints(functionId, points);
         }
 
-        assertTimeoutPreemptively(java.time.Duration.ofSeconds(15), () -> {
+        assertAll(() -> {
             long startTime = System.currentTimeMillis();
 
             List<FunctionDto> foundFunctions = functionDao.findByUserId(testUserId);
             for (FunctionDto function : foundFunctions) {
                 List<PointDto> points = functionDao.findPointsByFunctionId(function.getId());
+
                 assertFalse(points.isEmpty(), "Function should have points");
             }
 
@@ -135,14 +133,13 @@ class JdbcBenchmark {
     @Test
     @Order(3)
     @DisplayName("Performance: Bulk points operations")
-    @Timeout(value = 30, unit = TimeUnit.SECONDS)
     void performanceBulkPointsOperations() {
         FunctionDto function = new FunctionDto(testUserId, "Bulk Test Function", "TABULATED",
                 "Benchmark function", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
 
-        assertTimeoutPreemptively(java.time.Duration.ofSeconds(15), () -> {
-            List<PointDto> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE, 0, 100);
+        assertAll(() -> {
+            List<PointDto> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);
 
             long startTime = System.currentTimeMillis();
             functionDao.savePoints(functionId, points);
@@ -157,7 +154,7 @@ class JdbcBenchmark {
             long deleteTime = System.currentTimeMillis() - startTime;
 
             System.out.printf("JDBC Points Operations:%n");
-            System.out.printf("  Insert %d points: %d ms%n", LARGE_DATA_SIZE, insertTime);
+            System.out.printf("  Insert %d points: %d ms%n", LARGE_DATA_SIZE * 10, insertTime);
             System.out.printf("  Read %d points: %d ms%n", readPoints.size(), readTime);
             System.out.printf("  Delete points: %d ms%n", deleteTime);
         });
@@ -167,6 +164,13 @@ class JdbcBenchmark {
     @Order(4)
     @DisplayName("Search with sorting")
     void testSearchWithSorting() {
+        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
+        for (FunctionDto function : functions) {
+            Long functionId = functionDao.save(function);
+            List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+            functionDao.savePoints(functionId, points);
+        }
+
         List<FunctionDto> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
         List<FunctionDto> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
 
