@@ -299,9 +299,6 @@ public class JdbcFunctionDao implements FunctionDao {
 
             if (success) {
                 logger.debug("Deleted point with id: {}", pointId);
-
-                // Нужно обновить points_count для функции
-                // Для этого нужно найти function_id точки
                 Optional<Long> functionId = findFunctionIdByPointId(pointId);
                 functionId.ifPresent(this::updatePointsCountBasedOnActualPoints);
 

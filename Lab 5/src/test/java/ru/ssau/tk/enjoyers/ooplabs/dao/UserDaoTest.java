@@ -1,10 +1,8 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
 import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
 import org.junit.jupiter.api.*;
 
 import java.io.BufferedReader;
@@ -20,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class JdbcUserDaoTest {
+class UserDaoTest {
     private JdbcUserDao userDao;
     private static final String TEST_USERNAME = "testuser_junit";
 

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("JdbcPointDao Tests")
-class JdbcPointDaoTest {
+class PointDaoTest {
     private JdbcPointDao pointDao;
     private static final Long TEST_FUNC_ID = 1L;
     private static final Long TEST_USER_ID = 1L;

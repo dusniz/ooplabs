@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(OrderAnnotation.class)
-class JdbcFunctionDaoTest {
+class FunctionDaoTest {
     private JdbcFunctionDao functionDao;
     private static final Long TEST_FUNC_ID = 1L;
     private static final Long TEST_USER_ID = 1L;
@@ -91,7 +91,7 @@ class JdbcFunctionDaoTest {
         List<PointDto> points = Arrays.asList(
                 new PointDto(TEST_POINT_ID++, functionId, 0.0, 0.0, 0),
                 new PointDto(TEST_POINT_ID++, functionId, 2.5, 6.25, 1),
-                new PointDto(TEST_POINT_ID++, functionId, 5.0, 25.0, 2)
+                new PointDto(TEST_POINT_ID, functionId, 5.0, 25.0, 2)
         );
         functionDao.savePoints(functionId, points);
 
@@ -192,7 +192,7 @@ class JdbcFunctionDaoTest {
         Long TEST_POINT_ID = 1L;
         List<PointDto> points = Arrays.asList(
                 new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1)
+                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
@@ -223,7 +223,7 @@ class JdbcFunctionDaoTest {
         List<PointDto> points = Arrays.asList(
                 new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
                 new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
-                new PointDto(TEST_POINT_ID++, functionId, 3.0, 9.0, 2)
+                new PointDto(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
         );
         functionDao.savePoints(functionId, points);
 
@@ -247,7 +247,7 @@ class JdbcFunctionDaoTest {
         Long TEST_POINT_ID = 1L;
         List<PointDto> points = Arrays.asList(
                 new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1)
+                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
@@ -275,7 +275,7 @@ class JdbcFunctionDaoTest {
         Long TEST_POINT_ID = 1L;
         List<PointDto> points = Arrays.asList(
                 new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1)
+                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
@@ -295,6 +295,32 @@ class JdbcFunctionDaoTest {
 
     @Test
     @Order(8)
+    @DisplayName("Should delete individual point")
+    void testDeletePoint() {
+        FunctionDto function = new FunctionDto(TEST_USER_ID, "Point Update Test", "TABULATED",
+                "", 0, "TABULATED_ARRAY");
+        Long functionId = functionDao.save(function);
+        savedFunctionId = functionId;
+
+        Long TEST_POINT_ID = 1L;
+        List<PointDto> points = Arrays.asList(
+                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
+                new PointDto(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
+        );
+        functionDao.savePoints(functionId, points);
+
+        PointDto pointToDelete = points.get(1);
+        boolean Result = functionDao.deletePoint(pointToDelete.getId());
+        assertTrue(Result, "Point delete should be successful");
+
+        functionDao.savePoints(functionId, points);
+        Result = functionDao.existsById(pointToDelete.getId());
+        assertFalse(Result, "Check for existence of deleted point");
+    }
+
+    @Test
+    @Order(9)
     @DisplayName("Should check function for existence by function ID")
     void testExistsById() {
         FunctionDto function = new FunctionDto(TEST_FUNC_ID, TEST_USER_ID, "Existence by ID Test", "TABULATED",
