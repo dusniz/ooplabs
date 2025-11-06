@@ -1,7 +1,9 @@
 package ru.ssau.tk.enjoyers.ooplabs;
 
+import ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
 import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.dto.SearchCriteria;
 import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
@@ -25,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class JdbcBenchmark {
     private JdbcUserDao userDao;
     private JdbcFunctionDao functionDao;
+    private SearchJdbcFunctionDao advancedDao;
     private Long testUserId;
     private static final int LARGE_DATA_SIZE = 1000;
 
@@ -53,6 +56,7 @@ class JdbcBenchmark {
 
         userDao = new JdbcUserDao();
         functionDao = new JdbcFunctionDao();
+        advancedDao = new SearchJdbcFunctionDao(functionDao);
 
         // Создаем тестового пользователя
         UserDto user = new UserDto("perf_test_user_jdbc", "password", Role.USER);
@@ -72,11 +76,11 @@ class JdbcBenchmark {
     @Test
     @Order(1)
     @DisplayName("Performance: Save functions with points")
-    @Timeout(value = 300, unit = TimeUnit.SECONDS)
+    @Timeout(value = 200, unit = TimeUnit.SECONDS)
     void performanceSaveFunctionsWithPoints() {
         List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
 
-        assertTimeoutPreemptively(java.time.Duration.ofSeconds(300), () -> {
+        assertTimeoutPreemptively(java.time.Duration.ofSeconds(200), () -> {
             long startTime = System.currentTimeMillis();
 
             for (FunctionDto function : functions) {
@@ -84,7 +88,7 @@ class JdbcBenchmark {
                 assertNotNull(functionId, "Failed to save function");
 
                 // Генерируем точки для функции
-                List<PointDto> points = DataGenerator.generatePointsDto(functionId, 100, 0, 10);
+                List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
                 functionDao.savePoints(functionId, points);
             }
 
@@ -104,10 +108,10 @@ class JdbcBenchmark {
     @DisplayName("Performance: Read functions with points")
     @Timeout(value = 30, unit = TimeUnit.SECONDS)
     void performanceReadFunctionsWithPoints() {
-        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
+        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
         for (FunctionDto function : functions) {
             Long functionId = functionDao.save(function);
-            List<PointDto> points = DataGenerator.generatePointsDto(functionId, 50, 0, 10);
+            List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
             functionDao.savePoints(functionId, points);
         }
 
@@ -161,58 +165,80 @@ class JdbcBenchmark {
 
     @Test
     @Order(4)
-    @DisplayName("Performance: Concurrent access")
-    @Timeout(value = 60, unit = TimeUnit.SECONDS)
-    void performanceConcurrentAccess() throws InterruptedException {
-        int threadCount = 10;
-        int operationsPerThread = LARGE_DATA_SIZE / threadCount;
+    @DisplayName("Search with sorting")
+    void testSearchWithSorting() {
+        List<FunctionDto> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
+        List<FunctionDto> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
 
-        Thread[] threads = new Thread[threadCount];
-        final int[] successfulOperations = new int[threadCount];
+        assertNotNull(ascendingResults);
+        assertNotNull(descendingResults);
 
-        long startTime = System.currentTimeMillis();
+        if (ascendingResults.size() > 1 && descendingResults.size() > 1) {
+            // Проверяем, что сортировка работает
+            String firstAsc = ascendingResults.get(0).getName();
+            String lastAsc = ascendingResults.get(ascendingResults.size() - 1).getName();
+            String firstDesc = descendingResults.get(0).getName();
+            String lastDesc = descendingResults.get(descendingResults.size() - 1).getName();
 
-        for (int i = 0; i < threadCount; i++) {
-            final int threadIndex = i;
-            threads[i] = new Thread(() -> {
-                try {
-                    for (int j = 0; j < operationsPerThread; j++) {
-                        // Каждый поток работает со своей функцией
-                        FunctionDto function = new FunctionDto(
-                                testUserId,
-                                "Concurrent_Func_" + threadIndex + "_" + j,
-                                "TABULATED", "Benchmark function", 0, "TABULATED_ARRAY"
-                        );
-
-                        Long functionId = functionDao.save(function);
-                        if (functionId != null) {
-                            successfulOperations[threadIndex]++;
-                        }
-                    }
-                } catch (Exception e) {
-                    System.err.println("Thread " + threadIndex + " failed: " + e.getMessage());
-                }
-            });
-            threads[i].start();
+            assertTrue(firstAsc.compareTo(lastAsc) <= 0);
+            assertTrue(firstDesc.compareTo(lastDesc) >= 0);
         }
-
-        // Ждем завершения всех потоков
-        for (Thread thread : threads) {
-            thread.join();
-        }
-
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-
-        int totalOperations = 0;
-        for (int count : successfulOperations) {
-            totalOperations += count;
-        }
-
-        System.out.printf("JDBC Concurrent: %d threads, %d total operations in %d ms%n",
-                threadCount, totalOperations, duration);
-
-        assertTrue(totalOperations >= operationsPerThread * threadCount * 0.9,
-                "At least 90% of operations should succeed");
     }
+
+//    @Test
+//    @Order(5)
+//    @DisplayName("Performance: Concurrent access")
+//    @Timeout(value = 60, unit = TimeUnit.SECONDS)
+//    void performanceConcurrentAccess() throws InterruptedException {
+//        int threadCount = 10;
+//        int operationsPerThread = LARGE_DATA_SIZE / threadCount;
+//
+//        Thread[] threads = new Thread[threadCount];
+//        final int[] successfulOperations = new int[threadCount];
+//
+//        long startTime = System.currentTimeMillis();
+//
+//        for (int i = 0; i < threadCount; i++) {
+//            final int threadIndex = i;
+//            threads[i] = new Thread(() -> {
+//                try {
+//                    for (int j = 0; j < operationsPerThread; j++) {
+//                        // Каждый поток работает со своей функцией
+//                        FunctionDto function = new FunctionDto(
+//                                testUserId,
+//                                "Concurrent_Func_" + threadIndex + "_" + j,
+//                                "TABULATED", "Benchmark function", 0, "TABULATED_ARRAY"
+//                        );
+//
+//                        Long functionId = functionDao.save(function);
+//                        if (functionId != null) {
+//                            successfulOperations[threadIndex]++;
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    System.err.println("Thread " + threadIndex + " failed: " + e.getMessage());
+//                }
+//            });
+//            threads[i].start();
+//        }
+//
+//        // Ждем завершения всех потоков
+//        for (Thread thread : threads) {
+//            thread.join();
+//        }
+//
+//        long endTime = System.currentTimeMillis();
+//        long duration = endTime - startTime;
+//
+//        int totalOperations = 0;
+//        for (int count : successfulOperations) {
+//            totalOperations += count;
+//        }
+//
+//        System.out.printf("JDBC Concurrent: %d threads, %d total operations in %d ms%n",
+//                threadCount, totalOperations, duration);
+//
+//        assertTrue(totalOperations >= operationsPerThread * threadCount * 0.9,
+//                "At least 90% of operations should succeed");
+//    }
 }

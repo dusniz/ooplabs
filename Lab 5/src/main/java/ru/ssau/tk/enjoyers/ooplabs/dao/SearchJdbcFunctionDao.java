@@ -18,7 +18,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
 
     public SearchJdbcFunctionDao(JdbcFunctionDao baseDao) {
         this.baseDao = baseDao;
-        logger.info("AdvancedJdbcFunctionDao инициализирован");
+        logger.info("SearchJdbcFunctionDao инициализирован");
     }
 
     @Override
