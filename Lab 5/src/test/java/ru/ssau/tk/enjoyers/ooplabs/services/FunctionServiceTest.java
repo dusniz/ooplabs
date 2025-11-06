@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ssau.tk.enjoyers.ooplabs.models.Function;
-import ru.ssau.tk.enjoyers.ooplabs.models.Point;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 

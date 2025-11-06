@@ -6,9 +6,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.models.Function;
-import ru.ssau.tk.enjoyers.ooplabs.models.Point;
-import ru.ssau.tk.enjoyers.ooplabs.models.User;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 
 import java.util.List;
 import java.util.Optional;

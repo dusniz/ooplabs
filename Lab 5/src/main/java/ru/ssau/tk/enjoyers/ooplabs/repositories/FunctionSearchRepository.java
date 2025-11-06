@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.ssau.tk.enjoyers.ooplabs.models.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 
 import java.util.List;
 
