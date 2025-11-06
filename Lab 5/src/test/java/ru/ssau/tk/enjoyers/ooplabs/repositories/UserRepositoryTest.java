@@ -30,7 +30,7 @@ class UserRepositoryTest {
     @BeforeEach
     void setUp() {
         // Создаем тестового пользователя
-        testUser = new User(DataGenerator.generateUsers(1).getFirst(), "password", Role.USER);
+        testUser = DataGenerator.generateUsers(1).getFirst();
         entityManager.persistAndFlush(testUser);
     }
 

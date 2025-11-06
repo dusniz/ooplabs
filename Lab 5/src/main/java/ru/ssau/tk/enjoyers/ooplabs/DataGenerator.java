@@ -2,6 +2,7 @@ package ru.ssau.tk.enjoyers.ooplabs;
 
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,10 @@ public class DataGenerator {
     }
 
     // Генерация пользователей
-    public static List<String> generateUsers(int count) {
-        List<String> usernames = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            usernames.add("generated_user_" + i);
-        }
-        return usernames;
+    public static List<User> generateUsers(int count) {
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < count; i++)
+            users.add(new User("generated_user_" + i, "password", Role.USER));
+        return users;
     }
 }

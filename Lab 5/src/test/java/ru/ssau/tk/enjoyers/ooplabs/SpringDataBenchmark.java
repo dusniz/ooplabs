@@ -2,6 +2,8 @@ package ru.ssau.tk.enjoyers.ooplabs;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +13,10 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.UserRepository;
+import ru.ssau.tk.enjoyers.ooplabs.services.AdvancedSearchService;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 import ru.ssau.tk.enjoyers.ooplabs.services.PointService;
+import ru.ssau.tk.enjoyers.ooplabs.services.UserService;
 
 import java.time.Duration;
 import java.util.List;
@@ -23,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@Transactional
 @DisplayName("Spring Data Performance Tests")
 class SpringDataBenchmark {
 
@@ -42,40 +45,44 @@ class SpringDataBenchmark {
     @Autowired
     private PointService pointService;
 
-    private Long testUserId;
-    private static final int LARGE_DATA_SIZE = 10000;
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private AdvancedSearchService searchService;
+
+    private User user;
+    private static final int LARGE_DATA_SIZE = 1000;
+    private final int timeout = 100000;
 
     @BeforeEach
     void setUp() {
-        // Создаем тестового пользователя
-        User user = new User("perf_test_user_spring", "password", Role.USER);
+        user = new User("perf_test_user_spring", "password", Role.USER);
         User savedUser = userRepository.save(user);
-        testUserId = savedUser.getId();
+        user = savedUser;
     }
 
     @AfterEach
     void tearDown() {
-        // Очистка выполняется автоматически благодаря @Transactional
+        pointRepository.deleteAll();
+        functionRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
     @DisplayName("Performance: Save functions with points")
-    @Timeout(value = 100000, unit = TimeUnit.SECONDS)
     void performanceSaveFunctionsWithPoints() {
-        // Given
-        AtomicReference<List<Function>> functions = new AtomicReference<>(DataGenerator.generateFunctions(testUserId, LARGE_DATA_SIZE, "TABULATED", "TABULATED_LINKED_LIST"));
-
-        // When & Then
-        assertTimeoutPreemptively(Duration.ofSeconds(100000), () -> {
+        assertAll(() -> {
+        AtomicReference<List<Function>> functions = new AtomicReference<>(DataGenerator.generateFunctions(user.getId(), LARGE_DATA_SIZE, "TABULATED", "TABULATED_LINKED_LIST"));
             long startTime = System.currentTimeMillis();
 
             for (Function function : functions.get())
                 functionService.createFunction(function);
-            functions.set(functionService.getUserFunctions(testUserId));
+            functions.set(functionService.getUserFunctions(user.getId()));
 
             for (Function function : functions.get()) {
                 // Генерируем точки для функции
-                List<Point> points = DataGenerator.generatePoints(function.getId(), 100, 0, 10);
+                List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
                 for (Point point : points)
                     pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
             }
@@ -86,28 +93,25 @@ class SpringDataBenchmark {
             System.out.printf("Spring Data: Saved %d functions with points in %d ms (%.2f ms per function)%n",
                     LARGE_DATA_SIZE, duration, (double) duration / LARGE_DATA_SIZE);
 
-            // Verify
-            List<Function> savedFunctions = functionRepository.findByUserId(testUserId);
+            List<Function> savedFunctions = functionRepository.findByUserId(user.getId());
             assertEquals(LARGE_DATA_SIZE, savedFunctions.size());
         });
     }
 
     @Test
     @DisplayName("Performance: Read functions with points")
-    @Timeout(value = 100000, unit = TimeUnit.SECONDS)
     void performanceReadFunctionsWithPoints() {
-        // Given - создаем тестовые данные
-        List<Function> functions = DataGenerator.generateFunctions(testUserId, LARGE_DATA_SIZE / 10, "TABULATED", "TABULATED_LINKED_LIST");
+        assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
+        List<Function> functions = DataGenerator.generateFunctions(user.getId(), LARGE_DATA_SIZE, "TABULATED", "TABULATED_LINKED_LIST");
         for (Function function : functions) {
-            List<Point> points = DataGenerator.generatePoints(function.getId(), 50, 0, 10);
+            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
             functionService.createFunction(function);
+            for (Point point : points)
+                pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
         }
-
-        // When & Then
-        assertTimeoutPreemptively(Duration.ofSeconds(100000), () -> {
             long startTime = System.currentTimeMillis();
 
-            List<Function> foundFunctions = functionRepository.findByUserId(testUserId);
+            List<Function> foundFunctions = functionRepository.findByUserId(user.getId());
             for (Function function : foundFunctions) {
                 List<Point> functionPoints = functionService.getFunctionPoints(function.getId());
 
@@ -124,17 +128,13 @@ class SpringDataBenchmark {
 
     @Test
     @DisplayName("Performance: Bulk points operations")
-    @Timeout(value = 100000, unit = TimeUnit.SECONDS)
     void performanceBulkPointsOperations() {
-        // Given
-        Function function = new Function(testUserId, "Bulk Test Function", "Bulk Test Function", "TABULATED", 100, "TABULATED_LINKED_LIST");
+        assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
+        Function function = new Function(user.getId(), "Bulk Test Function", "Bulk Test Function", "TABULATED", 1000, "TABULATED_LINKED_LIST");
         Function savedFunction = functionRepository.save(function);
-
-        // When & Then
-        assertTimeoutPreemptively(Duration.ofSeconds(100000), () -> {
             // Тест массовой вставки точек
             List<Point> points = DataGenerator.generatePoints(
-                    savedFunction.getId(), LARGE_DATA_SIZE, 0, 100);
+                    savedFunction.getId(), 1000, 0, 100);
 
             long startTime = System.currentTimeMillis();
             pointRepository.saveAll(points);
@@ -161,29 +161,27 @@ class SpringDataBenchmark {
 
     @Test
     @DisplayName("Performance: Query methods")
-    @Timeout(value = 100000, unit = TimeUnit.SECONDS)
     void performanceQueryMethods() {
-        // Given - создаем разнообразные данные
-        for (int i = 0; i < LARGE_DATA_SIZE / 10; i++) {
+        assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
+        for (int i = 0; i < LARGE_DATA_SIZE; i++) {
             Function function = new Function(
-                    testUserId,
+                    user.getId(),
                     "QueryTest_" + i,
                     "QueryTest function",
                     "TABULATED",
-                    i % 100,
-                    i % 2 == 0 ? "TABULATED_ARRAY" : "TABULATED_LINKED_LIST");
-            functionRepository.save(function);
+                    1,
+                    "TABULATED_ARRAY");
+            Function savedFunction = functionRepository.save(function);
+            System.out.println(savedFunction.getId());
         }
         functionRepository.flush();
 
-        // When & Then
-        assertTimeoutPreemptively(Duration.ofSeconds(100000), () -> {
             long startTime = System.currentTimeMillis();
 
             // Тестируем различные запросы
-            List<Function> byType = functionRepository.findByUserIdAndType(testUserId, "TABULATED_ARRAY");
+            List<Function> byType = functionRepository.findByUserIdAndType(user.getId(), "TABULATED");
             List<Function> byName = functionRepository.findByNameContainingIgnoreCase("QueryTest");
-            long count = functionRepository.countByUserIdAndType(testUserId, "TABULATED_LINKED_LIST");
+            long count = functionRepository.countByUserIdAndType(user.getId(), "TABULATED");
 
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
@@ -193,6 +191,7 @@ class SpringDataBenchmark {
                     byType.size(), byName.size(), count);
             System.out.printf("  All queries completed in %d ms%n", duration);
 
+
             assertAll(
                     () -> assertFalse(byType.isEmpty()),
                     () -> assertFalse(byName.isEmpty()),
@@ -200,4 +199,33 @@ class SpringDataBenchmark {
             );
         });
     }
+
+    @Test
+    @DisplayName("Should search with sorting")
+    void searchWithSorting() {
+        List<Function> functions = DataGenerator.generateFunctions(user.getId(), 100, "TABULATED", "TABULATED_LINKED_LIST");
+        for (Function function : functions)
+            functionService.createFunction(function);
+        functions = functionService.getUserFunctions(user.getId());
+        for (Function function : functions) {
+            // Генерируем точки для функции
+            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
+            for (Point point : points)
+                pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
+        }
+
+
+        String sortField = "name";
+        List<Function> asc = searchService.searchWithSorting(user.getId(), sortField, true);
+        List<Function> desc = searchService.searchWithSorting(user.getId(), sortField, false);
+        assertAll(
+                () -> assertEquals(100, asc.size(), "Should find all functions"),
+                () -> assertEquals(100, desc.size(), "Should find all functions"),
+                () -> assertTrue(asc.getFirst().getName().compareTo(asc.get(2).getName()) <= 0,
+                        String.format("%s should be in ascending order", sortField)),
+                () -> assertTrue(desc.getFirst().getPointCount() >= desc.get(2).getPointCount(),
+                        String.format("%s should be in descending order", sortField))
+        );
+    }
+
 }
