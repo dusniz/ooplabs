@@ -156,11 +156,7 @@ public class AdvancedSearchService {
             case "points" -> ascending ?
                     functionSearchRepository.findByUserId(userId,
                             PageRequest.of(0, Integer.MAX_VALUE, Sort.by("pointsCount").ascending())).getContent() :
-                    functionSearchRepository.findByUserIdOrderByPointsCountDesc(userId);
-            case "date" -> ascending ?
-                    functionSearchRepository.findByUserId(userId,
-                            PageRequest.of(0, Integer.MAX_VALUE, Sort.by("createdAt").ascending())).getContent() :
-                    functionSearchRepository.findByUserIdOrderByCreatedAtDesc(userId);
+                    functionSearchRepository.findByUserIdOrderByPointCountDesc(userId);
             default -> functionSearchRepository.findByUserId(userId,
                     PageRequest.of(0, Integer.MAX_VALUE)).getContent();
         };

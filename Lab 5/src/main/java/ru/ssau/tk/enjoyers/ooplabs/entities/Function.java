@@ -38,6 +38,7 @@ public class Function {
         this.functionClass = functionClass;
     }
 
+    public Function() {}
 
     // Геттеры и сеттеры
     public Long getId() { return id; }

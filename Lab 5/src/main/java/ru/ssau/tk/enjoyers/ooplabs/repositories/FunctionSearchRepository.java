@@ -25,14 +25,13 @@ public interface FunctionSearchRepository extends JpaRepository<Function, Long>,
 
     // Поиск с сортировкой
     List<Function> findByUserIdOrderByNameAsc(Long userId);
-    List<Function> findByUserIdOrderByPointsCountDesc(Long userId);
-    List<Function> findByUserIdOrderByCreatedAtDesc(Long userId);
+    List<Function> findByUserIdOrderByPointCountDesc(Long userId);
 
     // Поиск с пагинацией
     Page<Function> findByUserId(Long userId, Pageable pageable);
 
     // Поиск по диапазону
-    List<Function> findByPointsCountBetween(Integer minPoints, Integer maxPoints);
+    List<Function> findByPointCountBetween(Integer minPoints, Integer maxPoints);
 
     // Поиск по нескольким значениям (IN)
     List<Function> findByTypeIn(List<String> types);

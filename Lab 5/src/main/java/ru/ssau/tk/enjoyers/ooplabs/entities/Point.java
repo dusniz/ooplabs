@@ -29,6 +29,8 @@ public class Point {
         this.index = index;
     }
 
+    public Point() {}
+
     // Геттеры и сеттеры
     public Long getId() { return id; }
 
