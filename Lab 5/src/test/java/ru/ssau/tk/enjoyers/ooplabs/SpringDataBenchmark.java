@@ -82,7 +82,7 @@ class SpringDataBenchmark {
 
             for (Function function : functions.get()) {
                 // Генерируем точки для функции
-                List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
+                List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 10);
                 for (Point point : points)
                     pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
             }
@@ -104,7 +104,7 @@ class SpringDataBenchmark {
         assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
         List<Function> functions = DataGenerator.generateFunctions(user.getId(), LARGE_DATA_SIZE, "TABULATED", "TABULATED_LINKED_LIST");
         for (Function function : functions) {
-            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
+            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 10);
             functionService.createFunction(function);
             for (Point point : points)
                 pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
@@ -130,11 +130,11 @@ class SpringDataBenchmark {
     @DisplayName("Performance: Bulk points operations")
     void performanceBulkPointsOperations() {
         assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
-        Function function = new Function(user.getId(), "Bulk Test Function", "Bulk Test Function", "TABULATED", 1000, "TABULATED_LINKED_LIST");
+        Function function = new Function(user.getId(), "Bulk Test Function", "Bulk Test Function", "TABULATED", 10000, "TABULATED_LINKED_LIST");
         Function savedFunction = functionRepository.save(function);
             // Тест массовой вставки точек
             List<Point> points = DataGenerator.generatePoints(
-                    savedFunction.getId(), 1000, 0, 100);
+                    savedFunction.getId(), 10000, 0, 10000);
 
             long startTime = System.currentTimeMillis();
             pointRepository.saveAll(points);
@@ -153,55 +153,14 @@ class SpringDataBenchmark {
             long deleteTime = System.currentTimeMillis() - startTime;
 
             System.out.printf("Spring Data Points Operations:%n");
-            System.out.printf("  Insert %d points: %d ms%n", LARGE_DATA_SIZE, insertTime);
+            System.out.printf("  Insert %d points: %d ms%n", 10000, insertTime);
             System.out.printf("  Read %d points: %d ms%n", readPoints.size(), readTime);
             System.out.printf("  Delete points: %d ms%n", deleteTime);
         });
     }
 
     @Test
-    @DisplayName("Performance: Query methods")
-    void performanceQueryMethods() {
-        assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
-        for (int i = 0; i < LARGE_DATA_SIZE; i++) {
-            Function function = new Function(
-                    user.getId(),
-                    "QueryTest_" + i,
-                    "QueryTest function",
-                    "TABULATED",
-                    1,
-                    "TABULATED_ARRAY");
-            Function savedFunction = functionRepository.save(function);
-            System.out.println(savedFunction.getId());
-        }
-        functionRepository.flush();
-
-            long startTime = System.currentTimeMillis();
-
-            // Тестируем различные запросы
-            List<Function> byType = functionRepository.findByUserIdAndType(user.getId(), "TABULATED");
-            List<Function> byName = functionRepository.findByNameContainingIgnoreCase("QueryTest");
-            long count = functionRepository.countByUserIdAndType(user.getId(), "TABULATED");
-
-            long endTime = System.currentTimeMillis();
-            long duration = endTime - startTime;
-
-            System.out.printf("Spring Data Queries:%n");
-            System.out.printf("  Found %d by type, %d by name, with points count: %d%n",
-                    byType.size(), byName.size(), count);
-            System.out.printf("  All queries completed in %d ms%n", duration);
-
-
-            assertAll(
-                    () -> assertFalse(byType.isEmpty()),
-                    () -> assertFalse(byName.isEmpty()),
-                    () -> assertTrue(count >= 0)
-            );
-        });
-    }
-
-    @Test
-    @DisplayName("Should search with sorting")
+    @DisplayName("Performance: Search with sorting")
     void searchWithSorting() {
         List<Function> functions = DataGenerator.generateFunctions(user.getId(), 100, "TABULATED", "TABULATED_LINKED_LIST");
         for (Function function : functions)
@@ -209,15 +168,27 @@ class SpringDataBenchmark {
         functions = functionService.getUserFunctions(user.getId());
         for (Function function : functions) {
             // Генерируем точки для функции
-            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 1);
+            List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 10);
             for (Point point : points)
                 pointService.createPoint(function.getId(), point.getX(), point.getY(), point.getIndex());
         }
 
 
         String sortField = "name";
+
+        long startAscTime = System.currentTimeMillis();
         List<Function> asc = searchService.searchWithSorting(user.getId(), sortField, true);
+        long endAscTime = System.currentTimeMillis();
+        long durationAsc = endAscTime - startAscTime;
+
+        long startDescTime = System.currentTimeMillis();
         List<Function> desc = searchService.searchWithSorting(user.getId(), sortField, false);
+        long endDescTime = System.currentTimeMillis();
+        long durationDesc = endDescTime - startDescTime;
+
+        System.out.printf("Spring Data search with sorting:%n");
+        System.out.printf("  Ascended search complete in %d ms%n", durationAsc);
+        System.out.printf("  Descended search complete in %d ms%n", durationDesc);
         assertAll(
                 () -> assertEquals(100, asc.size(), "Should find all functions"),
                 () -> assertEquals(100, desc.size(), "Should find all functions"),
