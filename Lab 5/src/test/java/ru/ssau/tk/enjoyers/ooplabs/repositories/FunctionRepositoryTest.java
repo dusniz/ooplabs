@@ -1,5 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.repositories;
 
+import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.entities.*;
 import org.junit.jupiter.api.*;
@@ -34,17 +35,12 @@ class FunctionRepositoryTest {
     @BeforeEach
     void setUp() {
         // Создаем тестового пользователя
-        testUser = new User("functionuser", "password", Role.USER);
+        testUser = new User(DataGenerator.generateUsers(1).getFirst(), "password", Role.USER);
         entityManager.persistAndFlush(testUser);
 
         // Создаем тестовые функции
-        arrayFunction = new Function(testUser.getId(), "Quadratic Function",
-                "Function with array implementation",
-                "TABULATED", 10, "TABULATED_ARRAY");
-
-        linkedListFunction = new Function(testUser.getId(), "Sine Wave",
-                "Function with linked list implementation", "TABULATED",
-                5, "TABULATED_LINKED_LIST");
+        arrayFunction = DataGenerator.generateFunctions(testUser.getId(), 1, "TABULATED", "TABULATED_ARRAY").getFirst();
+        linkedListFunction = DataGenerator.generateFunctions(testUser.getId(), 1, "TABULATED", "TABULATED_LINKED_LIST").getFirst();
 
         entityManager.persistAndFlush(arrayFunction);
         entityManager.persistAndFlush(linkedListFunction);
@@ -103,8 +99,6 @@ class FunctionRepositoryTest {
     void countByUserId() {
         // When
         long count = functionRepository.countByUserId(testUser.getId());
-
-
 
         // Then
         assertEquals(2, count, "Should count 2 functions for user");

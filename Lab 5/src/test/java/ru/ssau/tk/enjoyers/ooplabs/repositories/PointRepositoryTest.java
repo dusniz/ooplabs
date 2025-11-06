@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
+import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
@@ -31,30 +32,23 @@ class PointRepositoryTest {
 
     private User testUser;
     private Function testFunction;
-    private Point point1;
-    private Point point2;
-    private Point point3;
+    private List<Point> testPoints;
 
     @BeforeEach
     void setUp() {
         // Создаем тестового пользователя
-        testUser = new User("pointuser", "password", Role.USER);
+        testUser = new User(DataGenerator.generateUsers(1).getFirst(), "password", Role.USER);
         entityManager.persistAndFlush(testUser);
 
-        // Создаем тестовую функцию
-        testFunction = new Function(testUser.getId(), "Test Function", "Test Function" 
-                ,"TABULATED", 3,
-                "TABULATED_ARRAY");
+
+        // Создаем тестовые функции
+        testFunction = DataGenerator.generateFunctions(testUser.getId(), 1, "TABULATED", "TABULATED_ARRAY").getFirst();
         entityManager.persistAndFlush(testFunction);
 
         // Создаем тестовые точки
-        point1 = new Point(testFunction.getId(), 0.0, 0.0, 0);
-        point2 = new Point(testFunction.getId(), 1.0, 1.0, 1);
-        point3 = new Point(testFunction.getId(), 2.0, 4.0, 2);
-
-        entityManager.persistAndFlush(point1);
-        entityManager.persistAndFlush(point2);
-        entityManager.persistAndFlush(point3);
+        testPoints = DataGenerator.generatePoints(testFunction.getId(), 3, 0, 2);
+        for (Point point : testPoints)
+            entityManager.persistAndFlush(point);
     }
 
     @AfterEach
@@ -179,7 +173,7 @@ class PointRepositoryTest {
     @DisplayName("Should update point")
     void update() {
         // Given
-        Point point = pointRepository.findById(point1.getId()).get();
+        Point point = pointRepository.findById(testPoints.getFirst().getId()).get();
 
         // When
         point.setX(5.0);
@@ -197,14 +191,14 @@ class PointRepositoryTest {
     @DisplayName("Should delete point by ID")
     void deleteById() {
         // Given
-        Point point = pointRepository.findById(point1.getId()).get();
+        Point point = pointRepository.findById(testPoints.getFirst().getId()).get();
 
         // When
         pointRepository.delete(point);
 
         // Then
         assertAll(
-                () -> assertFalse(pointRepository.existsById(point1.getId())),
+                () -> assertFalse(pointRepository.existsById(testPoints.getFirst().getId())),
                 () -> assertEquals(2, pointRepository.countByFunctionId(testFunction.getId()))
         );
     }
@@ -213,14 +207,14 @@ class PointRepositoryTest {
     @DisplayName("Should find point by ID")
     void findById() {
         // When
-        Optional<Point> found = pointRepository.findById(point2.getId());
+        Optional<Point> found = pointRepository.findById(testPoints.get(1).getId());
 
         // Then
         assertAll(
                 () -> assertTrue(found.isPresent(), "Point should be found by ID"),
-                () -> assertEquals(point2.getX(), found.get().getX(), 0.001),
-                () -> assertEquals(point2.getY(), found.get().getY(), 0.001),
-                () -> assertEquals(point2.getIndex(), found.get().getIndex())
+                () -> assertEquals(testPoints.get(1).getX(), found.get().getX(), 0.001),
+                () -> assertEquals(testPoints.get(1).getY(), found.get().getY(), 0.001),
+                () -> assertEquals(testPoints.get(1).getIndex(), found.get().getIndex())
         );
     }
 

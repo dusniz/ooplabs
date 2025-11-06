@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
+import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 
@@ -28,7 +29,8 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        testUser = new User("testuser_spring", "hashedpassword", Role.USER);
+        // Создаем тестового пользователя
+        testUser = new User(DataGenerator.generateUsers(1).getFirst(), "password", Role.USER);
         entityManager.persistAndFlush(testUser);
     }
 
@@ -41,13 +43,13 @@ class UserRepositoryTest {
     @DisplayName("Should find user by username")
     void findByUsername() {
         // When
-        Optional<User> found = userRepository.findByUsername("testuser_spring");
+        Optional<User> found = userRepository.findByUsername(testUser.getUsername());
 
         // Then
         assertAll(
                 () -> assertTrue(found.isPresent()),
-                () -> assertEquals("testuser_spring", found.get().getUsername()),
-                () -> assertEquals(Role.USER, found.get().getRole())
+                () -> assertEquals(testUser.getUsername(), found.get().getUsername()),
+                () -> assertEquals(testUser.getRole(), found.get().getRole())
         );
     }
 
@@ -56,7 +58,7 @@ class UserRepositoryTest {
     void existsByUsername() {
         // When & Then
         assertAll(
-                () -> assertTrue(userRepository.existsByUsername("testuser_spring")),
+                () -> assertTrue(userRepository.existsByUsername(testUser.getUsername())),
                 () -> assertFalse(userRepository.existsByUsername("nonexistent"))
         );
     }
