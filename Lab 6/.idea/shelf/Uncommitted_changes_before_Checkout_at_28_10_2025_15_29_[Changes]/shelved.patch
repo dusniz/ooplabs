@@ -1,0 +1,255 @@
+Index: src/main/java/ru/ssau/tk/enjoyers/ooplabs/models/Function.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.models;\r\n\r\nimport jakarta.persistence.*;\r\n\r\n@Entity\r\n@Table(name = \"functions\")\r\npublic class Function {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n\r\n    @Column(name = \"user_id\", nullable = false)\r\n    private Long userId;\r\n\r\n    @Column(nullable = false, length = 255)\r\n    private String name;\r\n\r\n    @Column(columnDefinition = \"TEXT\")\r\n    private String description;\r\n\r\n    @Column(nullable = false, length = 50)\r\n    private String type; // TABULATED_ARRAY, TABULATED_LINKED_LIST, MATH, COMPOSITE\r\n\r\n    @Column(name = \"point_count\")\r\n    private Integer pointCount = 0;\r\n\r\n    @Column(name = \"function_class\", length = 255)\r\n    private String functionClass;\r\n\r\n    public Function(String name, String type) {\r\n        this.name = name;\r\n        this.type = type;\r\n    }\r\n\r\n    // Геттеры и сеттеры\r\n    public Long getId() { return id; }\r\n\r\n    public Long getUserId() { return userId; }\r\n    public void setUserId(Long userId) { this.userId = userId; }\r\n\r\n    public String getName() { return name; }\r\n    public void setName(String name) { this.name = name; }\r\n\r\n    public String getDescription() { return description; }\r\n    public void setDescription(String description) { this.description = description; }\r\n\r\n    public String getType() { return type; }\r\n    public void setType(String type) { this.type = type; }\r\n\r\n    public Integer getPointCount() { return pointCount; }\r\n    public void setPointCount(Integer pointCount) { this.pointCount = pointCount; }\r\n\r\n    public String getFunctionClass() { return functionClass; }\r\n    public void setFunctionClass(String functionClass) { this.functionClass = functionClass; }\r\n}
+===================================================================
+diff --git a/src/main/java/ru/ssau/tk/enjoyers/ooplabs/models/Function.java b/src/main/java/ru/ssau/tk/enjoyers/ooplabs/models/Function.java
+--- a/src/main/java/ru/ssau/tk/enjoyers/ooplabs/models/Function.java	(revision cfda414d4212c8dc69f033cfb37590fba38c2ccd)
++++ b/src/main/java/ru/ssau/tk/enjoyers/ooplabs/models/Function.java	(date 1761650837685)
+@@ -20,7 +20,7 @@
+     private String description;
+ 
+     @Column(nullable = false, length = 50)
+-    private String type; // TABULATED_ARRAY, TABULATED_LINKED_LIST, MATH, COMPOSITE
++    private String type; // TABULATED, MATH, COMPOSITE
+ 
+     @Column(name = "point_count")
+     private Integer pointCount = 0;
+Index: src/test/java/ru/ssau/tk/enjoyers/ooplabs/repositories/PointRepositoryTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.repositories;\r\n\r\npublic class PointRepositoryTest {\r\n}\r\n
+===================================================================
+diff --git a/src/test/java/ru/ssau/tk/enjoyers/ooplabs/repositories/PointRepositoryTest.java b/src/test/java/ru/ssau/tk/enjoyers/ooplabs/repositories/PointRepositoryTest.java
+--- a/src/test/java/ru/ssau/tk/enjoyers/ooplabs/repositories/PointRepositoryTest.java	(revision cfda414d4212c8dc69f033cfb37590fba38c2ccd)
++++ b/src/test/java/ru/ssau/tk/enjoyers/ooplabs/repositories/PointRepositoryTest.java	(date 1761650269549)
+@@ -1,4 +1,228 @@
+ package ru.ssau.tk.enjoyers.ooplabs.repositories;
+ 
+-public class PointRepositoryTest {
++import ru.ssau.tk.enjoyers.ooplabs.models.Function;
++import ru.ssau.tk.enjoyers.ooplabs.models.Point;
++import ru.ssau.tk.enjoyers.ooplabs.models.User;
++import ru.ssau.tk.enjoyers.ooplabs.Role;
++import org.junit.jupiter.api.*;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
++import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
++import org.springframework.test.context.ActiveProfiles;
++
++import java.util.List;
++import java.util.Optional;
++
++import static org.junit.jupiter.api.Assertions.*;
++
++@DataJpaTest
++@ActiveProfiles("test")
++@DisplayName("Point Repository Tests")
++class PointRepositoryTest {
++
++    @Autowired
++    private TestEntityManager entityManager;
++
++    @Autowired
++    private PointRepository pointRepository;
++
++    @Autowired
++    private FunctionRepository functionRepository;
++
++    private User testUser;
++    private Function testFunction;
++    private Point point1;
++    private Point point2;
++    private Point point3;
++
++    @BeforeEach
++    void setUp() {
++        testUser = new User("pointuser", "password", Role.USER);
++        entityManager.persistAndFlush(testUser);
++
++        testFunction = new Function("Test Function", "TABULATED_ARRAY");
++        entityManager.persistAndFlush(testFunction);
++
++        point1 = new Point(testFunction.getId(), 0.0, 0.0, 0);
++        point2 = new Point(testFunction.getId(), 1.0, 1.0, 1);
++        point3 = new Point(testFunction.getId(), 2.0, 4.0, 2);
++
++        entityManager.persistAndFlush(point1);
++        entityManager.persistAndFlush(point2);
++        entityManager.persistAndFlush(point3);
++    }
++
++    @AfterEach
++    void tearDown() {
++        entityManager.clear();
++    }
++
++    @Test
++    @DisplayName("Should find points by function ID ordered by index")
++    void findByFunctionIdOrderByIndex() {
++        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(testFunction.getId());
++        
++        assertAll(
++                () -> assertEquals(3, points.size(), "Should find 3 points"),
++                () -> assertEquals(0, points.get(0).getIndex(), "First point should have index 0"),
++                () -> assertEquals(1, points.get(1).getIndex(), "Second point should have index 1"),
++                () -> assertEquals(2, points.get(2).getIndex(), "Third point should have index 2"),
++                () -> assertEquals(0.0, points.get(0).getX(), 0.001),
++                () -> assertEquals(4.0, points.get(2).getY(), 0.001)
++        );
++    }
++
++    @Test
++    @DisplayName("Should find point by function ID and index")
++    void findByFunctionIdAndIndex() {
++        Optional<Point> foundPoint = pointRepository.findByFunctionIdAndIndex(
++                testFunction.getId(), 1);
++
++        assertAll(
++                () -> assertTrue(foundPoint.isPresent(), "Point should be found"),
++                () -> assertEquals(1.0, foundPoint.get().getX(), 0.001),
++                () -> assertEquals(1.0, foundPoint.get().getY(), 0.001),
++                () -> assertEquals(1, foundPoint.get().getIndex())
++        );
++    }
++
++    @Test
++    @DisplayName("Should find points by function ID and X range")
++    void findByFunctionIdAndXBetween() {
++        List<Point> points = pointRepository.findByFunctionIdAndXBetween(
++                testFunction.getId(), 0.5, 1.5);
++
++        assertAll(
++                () -> assertEquals(1, points.size(), "Should find 1 point in X range [0.5, 1.5]"),
++                () -> assertEquals(1.0, points.get(0).getX(), 0.001)
++        );
++    }
++
++    @Test
++    @DisplayName("Should find points by function ID and Y greater than")
++    void findByFunctionIdAndYGreaterThan() {
++        List<Point> points = pointRepository.findByFunctionIdAndYGreaterThan(
++                testFunction.getId(), 0.5);
++
++        assertAll(
++                () -> assertEquals(2, points.size(), "Should find 2 points with Y > 0.5"),
++                () -> assertTrue(points.stream().allMatch(p -> p.getY() > 0.5))
++        );
++    }
++
++    @Test
++    @DisplayName("Should delete points by function ID")
++    void deleteByFunctionId() {
++        pointRepository.deleteByFunctionId(testFunction.getId());
++
++        List<Point> pointsAfterDelete = pointRepository.findByFunctionIdOrderByIndex(testFunction.getId());
++        assertTrue(pointsAfterDelete.isEmpty(), "All points should be deleted");
++    }
++
++    @Test
++    @DisplayName("Should count points by function ID")
++    void countByFunctionId() {
++        long count = pointRepository.countByFunctionId(testFunction.getId());
++
++        assertEquals(3, count, "Should count 3 points");
++    }
++
++    @Test
++    @DisplayName("Should check if point exists by function ID and index")
++    void existsByFunctionIdAndIndex() {
++        // When & Then
++        assertAll(
++                () -> assertTrue(pointRepository.existsByFunctionIdAndIndex(testFunction.getId(), 0)),
++                () -> assertTrue(pointRepository.existsByFunctionIdAndIndex(testFunction.getId(), 1)),
++                () -> assertFalse(pointRepository.existsByFunctionIdAndIndex(testFunction.getId(), 999))
++        );
++    }
++
++    @Test
++    @DisplayName("Should find maximum point index by function ID")
++    void findMaxIndexByFunctionId() {
++        Optional<Integer> maxIndex = pointRepository.findMaxIndexByFunctionId(testFunction.getId());
++
++        assertAll(
++                () -> assertTrue(maxIndex.isPresent(), "Max index should be found"),
++                () -> assertEquals(2, maxIndex.get(), "Max point index should be 2")
++        );
++    }
++
++    @Test
++    @DisplayName("Should save new point")
++    void save() {
++        Point newPoint = new Point(testFunction.getId(), 3.0, 9.0, 3);
++
++        Point savedPoint = pointRepository.save(newPoint);
++
++        assertAll(
++                () -> assertNotNull(savedPoint.getId(), "Saved point should have ID"),
++                () -> assertEquals(3.0, savedPoint.getX(), 0.001),
++                () -> assertEquals(9.0, savedPoint.getY(), 0.001),
++                () -> assertEquals(3, savedPoint.getIndex()),
++                () -> assertEquals(testFunction.getId(), savedPoint.getFunctionId()),
++                () -> assertEquals(4, pointRepository.countByFunctionId(testFunction.getId()))
++        );
++    }
++
++    @Test
++    @DisplayName("Should update point")
++    void update() {
++        Point point = pointRepository.findById(point1.getId()).get();
++
++        point.setX(5.0);
++        point.setY(25.0);
++        Point updatedPoint = pointRepository.save(point);
++
++        assertAll(
++                () -> assertEquals(5.0, updatedPoint.getX(), 0.001),
++                () -> assertEquals(25.0, updatedPoint.getY(), 0.001)
++        );
++    }
++
++    @Test
++    @DisplayName("Should delete point by ID")
++    void deleteById() {
++        Point point = pointRepository.findById(point1.getId()).get();
++
++        pointRepository.delete(point);
++
++        assertAll(
++                () -> assertFalse(pointRepository.existsById(point1.getId())),
++                () -> assertEquals(2, pointRepository.countByFunctionId(testFunction.getId()))
++        );
++    }
++
++    @Test
++    @DisplayName("Should find point by ID")
++    void findById() {
++        Optional<Point> found = pointRepository.findById(point2.getId());
++
++        assertAll(
++                () -> assertTrue(found.isPresent(), "Point should be found by ID"),
++                () -> assertEquals(point2.getX(), found.get().getX(), 0.001),
++                () -> assertEquals(point2.getY(), found.get().getY(), 0.001),
++                () -> assertEquals(point2.getIndex(), found.get().getIndex())
++        );
++    }
++
++    @Test
++    @DisplayName("Should handle empty results for non-existent function")
++    void findByFunctionId_NonExistent() {
++        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(999999L);
++
++        assertTrue(points.isEmpty(), "Should return empty list for non-existent function");
++    }
++
++    @Test
++    @DisplayName("Should handle maximum index for function with no points")
++    void findMaxIndex_NoPoints() {
++        Function newFunction = new Function("Empty Function", "TABULATED_ARRAY");
++        entityManager.persistAndFlush(newFunction);
++
++        Optional<Integer> maxIndex = pointRepository.findMaxIndexByFunctionId(newFunction.getId());
++
++        assertFalse(maxIndex.isPresent(), "No max index for function with no points");
++    }
+ }

@@ -1,0 +1,23 @@
+Index: src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs;\r\n\r\nimport java.sql.Connection;\r\nimport java.sql.DriverManager;\r\nimport java.sql.SQLException;\r\nimport java.util.Properties;\r\n\r\npublic class DatabaseConnection {\r\n    private static final String URL = \"jdbc:postgresql://localhost:5432/lab5_db\";\r\n    private static final Properties PROPERTIES = new Properties();\r\n\r\n    static {\r\n        PROPERTIES.setProperty(\"user\", \"postgres\");\r\n        PROPERTIES.setProperty(\"password\", \"password\");\r\n        PROPERTIES.setProperty(\"ssl\", \"false\");\r\n    }\r\n\r\n    public static Connection getConnection() throws SQLException {\r\n        try {\r\n            return DriverManager.getConnection(URL, PROPERTIES);\r\n        } catch (SQLException e) {\r\n            throw new SQLException(\"Failed to connect to database\", e);\r\n        }\r\n    }\r\n}
+===================================================================
+diff --git a/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java b/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java
+--- a/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java	(revision 87c5fcc91306b6eadca8d7037f5515da2797c112)
++++ b/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java	(date 1761585498443)
+@@ -6,12 +6,12 @@
+ import java.util.Properties;
+ 
+ public class DatabaseConnection {
+-    private static final String URL = "jdbc:postgresql://localhost:5432/lab5_db";
++    private static final String URL = "jdbc:postgresql://localhost:54321/postgres";
+     private static final Properties PROPERTIES = new Properties();
+ 
+     static {
+         PROPERTIES.setProperty("user", "postgres");
+-        PROPERTIES.setProperty("password", "password");
++        PROPERTIES.setProperty("password", "46144164");
+         PROPERTIES.setProperty("ssl", "false");
+     }
+ 
