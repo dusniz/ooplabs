@@ -1,0 +1,652 @@
+2025-11-06 20:01:08.435 [main] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao - SearchJdbcFunctionDao инициализирован
+2025-11-06 20:01:08.557 [main] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao - Saved user with id: 1, username: perf_test_user_jdbc, role: USER
+2025-11-06 20:01:08.620 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6927e6a2
+2025-11-06 20:01:08.664 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 1
+2025-11-06 20:01:08.861 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@d466444
+2025-11-06 20:01:08.902 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 2
+2025-11-06 20:01:09.091 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5dd3aa12
+2025-11-06 20:01:09.136 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 3
+2025-11-06 20:01:09.449 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6111c2d2
+2025-11-06 20:01:09.490 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 4
+2025-11-06 20:01:09.587 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@139b4e05
+2025-11-06 20:01:09.629 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 5
+2025-11-06 20:01:09.729 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6857d81a
+2025-11-06 20:01:09.769 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 6
+2025-11-06 20:01:10.000 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@79cb35ae
+2025-11-06 20:01:10.043 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 7
+2025-11-06 20:01:10.122 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5a4ec54b
+2025-11-06 20:01:10.162 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 8
+2025-11-06 20:01:10.244 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7125591
+2025-11-06 20:01:10.292 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 9
+2025-11-06 20:01:10.492 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@67a03fcf
+2025-11-06 20:01:10.646 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 10
+2025-11-06 20:01:10.730 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2fe8586a
+2025-11-06 20:01:10.770 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 11
+2025-11-06 20:01:10.961 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3711f50b
+2025-11-06 20:01:11.006 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 12
+2025-11-06 20:01:11.228 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7954be2b
+2025-11-06 20:01:11.272 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 13
+2025-11-06 20:01:11.368 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5f57633d
+2025-11-06 20:01:11.411 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 14
+2025-11-06 20:01:11.630 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3c29b61
+2025-11-06 20:01:11.672 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 15
+2025-11-06 20:01:11.757 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@33b13ade
+2025-11-06 20:01:11.809 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 16
+2025-11-06 20:01:11.892 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@251f0a58
+2025-11-06 20:01:11.931 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 17
+2025-11-06 20:01:12.016 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@17fd2cfd
+2025-11-06 20:01:12.058 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 18
+2025-11-06 20:01:12.156 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7475dc82
+2025-11-06 20:01:12.207 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 19
+2025-11-06 20:01:12.300 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@233ae9af
+2025-11-06 20:01:12.344 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 20
+2025-11-06 20:01:12.534 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7a661e01
+2025-11-06 20:01:12.578 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 21
+2025-11-06 20:01:12.790 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@267206d4
+2025-11-06 20:01:12.833 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 22
+2025-11-06 20:01:12.919 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@26f30f45
+2025-11-06 20:01:13.069 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 23
+2025-11-06 20:01:13.277 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4df81866
+2025-11-06 20:01:13.319 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 24
+2025-11-06 20:01:13.396 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@63e6b76c
+2025-11-06 20:01:13.438 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 25
+2025-11-06 20:01:13.516 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@425d5d1b
+2025-11-06 20:01:13.554 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 26
+2025-11-06 20:01:13.630 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41473b94
+2025-11-06 20:01:13.670 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 27
+2025-11-06 20:01:13.744 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7c19d81d
+2025-11-06 20:01:13.783 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 28
+2025-11-06 20:01:13.859 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@765a8703
+2025-11-06 20:01:13.897 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 29
+2025-11-06 20:01:13.974 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@37d68e3b
+2025-11-06 20:01:14.013 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 30
+2025-11-06 20:01:14.109 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@575bba6b
+2025-11-06 20:01:14.146 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 31
+2025-11-06 20:01:14.224 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3a91b905
+2025-11-06 20:01:14.262 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 32
+2025-11-06 20:01:14.339 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1f6d7e4e
+2025-11-06 20:01:14.378 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 33
+2025-11-06 20:01:14.459 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3b5fd4d0
+2025-11-06 20:01:14.499 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 34
+2025-11-06 20:01:14.575 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2205529a
+2025-11-06 20:01:14.613 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 35
+2025-11-06 20:01:14.692 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@63623dda
+2025-11-06 20:01:14.731 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 36
+2025-11-06 20:01:14.809 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4b7d7da4
+2025-11-06 20:01:14.849 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 37
+2025-11-06 20:01:14.927 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6b2bc0ff
+2025-11-06 20:01:14.966 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 38
+2025-11-06 20:01:15.053 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2ba9b536
+2025-11-06 20:01:15.116 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 39
+2025-11-06 20:01:15.197 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2ac647bf
+2025-11-06 20:01:15.239 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 40
+2025-11-06 20:01:15.340 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@cb4973b
+2025-11-06 20:01:15.379 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 41
+2025-11-06 20:01:15.459 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@fbf6527
+2025-11-06 20:01:15.498 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 42
+2025-11-06 20:01:15.574 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@25b24af7
+2025-11-06 20:01:15.610 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 43
+2025-11-06 20:01:15.684 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2789b6a3
+2025-11-06 20:01:15.722 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 44
+2025-11-06 20:01:15.936 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1f621053
+2025-11-06 20:01:15.980 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 45
+2025-11-06 20:01:16.070 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@20182c8d
+2025-11-06 20:01:16.105 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 46
+2025-11-06 20:01:16.179 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7fdf195
+2025-11-06 20:01:16.215 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 47
+2025-11-06 20:01:16.293 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@592f4103
+2025-11-06 20:01:16.330 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 48
+2025-11-06 20:01:16.428 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2d7ad262
+2025-11-06 20:01:16.487 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 49
+2025-11-06 20:01:16.670 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2591e317
+2025-11-06 20:01:16.711 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 50
+2025-11-06 20:01:16.792 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@42ad282
+2025-11-06 20:01:16.831 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 51
+2025-11-06 20:01:16.909 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@45a897e
+2025-11-06 20:01:17.070 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 52
+2025-11-06 20:01:17.146 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6e8032b3
+2025-11-06 20:01:17.199 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 53
+2025-11-06 20:01:17.413 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5a2bfee2
+2025-11-06 20:01:17.452 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 54
+2025-11-06 20:01:17.527 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6ba85463
+2025-11-06 20:01:17.565 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 55
+2025-11-06 20:01:17.656 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@30f86dc1
+2025-11-06 20:01:17.693 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 56
+2025-11-06 20:01:17.768 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@a44de96
+2025-11-06 20:01:17.803 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 57
+2025-11-06 20:01:17.875 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@467451a0
+2025-11-06 20:01:17.912 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 58
+2025-11-06 20:01:17.982 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7df7b0db
+2025-11-06 20:01:18.021 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 59
+2025-11-06 20:01:18.203 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@21662f99
+2025-11-06 20:01:18.242 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 60
+2025-11-06 20:01:18.428 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6b966878
+2025-11-06 20:01:18.489 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 61
+2025-11-06 20:01:18.565 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@628034c5
+2025-11-06 20:01:18.604 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 62
+2025-11-06 20:01:18.785 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2a9fc5a4
+2025-11-06 20:01:18.822 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 63
+2025-11-06 20:01:18.899 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6d4bd992
+2025-11-06 20:01:18.959 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 64
+2025-11-06 20:01:19.076 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5e69370b
+2025-11-06 20:01:19.116 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 65
+2025-11-06 20:01:19.190 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@14be5ec4
+2025-11-06 20:01:19.226 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 66
+2025-11-06 20:01:19.306 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@720e50ac
+2025-11-06 20:01:19.344 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 67
+2025-11-06 20:01:19.418 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@677ea1f7
+2025-11-06 20:01:19.459 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 68
+2025-11-06 20:01:19.534 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@458c2f3f
+2025-11-06 20:01:19.572 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 69
+2025-11-06 20:01:19.646 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@52819324
+2025-11-06 20:01:19.682 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 70
+2025-11-06 20:01:19.756 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@f4e5de8
+2025-11-06 20:01:19.807 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 71
+2025-11-06 20:01:19.880 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@623c38f
+2025-11-06 20:01:19.917 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 72
+2025-11-06 20:01:19.989 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2b63cbf8
+2025-11-06 20:01:20.028 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 73
+2025-11-06 20:01:20.123 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@404afffa
+2025-11-06 20:01:20.164 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 74
+2025-11-06 20:01:20.236 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@58bf21c1
+2025-11-06 20:01:20.272 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 75
+2025-11-06 20:01:20.349 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7cc53e44
+2025-11-06 20:01:20.386 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 76
+2025-11-06 20:01:20.459 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@62eca5
+2025-11-06 20:01:20.645 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 77
+2025-11-06 20:01:20.860 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@37ea60c
+2025-11-06 20:01:20.907 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 78
+2025-11-06 20:01:21.013 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@26adea2e
+2025-11-06 20:01:21.075 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 79
+2025-11-06 20:01:21.186 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6217e99c
+2025-11-06 20:01:21.221 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 80
+2025-11-06 20:01:21.332 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@733c3d2c
+2025-11-06 20:01:21.370 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 81
+2025-11-06 20:01:21.570 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41e4a8fa
+2025-11-06 20:01:21.636 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 82
+2025-11-06 20:01:21.720 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@233cd545
+2025-11-06 20:01:21.760 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 83
+2025-11-06 20:01:21.834 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4c5dc321
+2025-11-06 20:01:21.871 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 84
+2025-11-06 20:01:21.947 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@62c695e8
+2025-11-06 20:01:21.986 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 85
+2025-11-06 20:01:22.088 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@382f6fae
+2025-11-06 20:01:22.127 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 86
+2025-11-06 20:01:22.354 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@66d8e8d2
+2025-11-06 20:01:22.506 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 87
+2025-11-06 20:01:22.590 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@70cd75c5
+2025-11-06 20:01:22.631 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 88
+2025-11-06 20:01:22.711 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5b08a809
+2025-11-06 20:01:22.858 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 89
+2025-11-06 20:01:23.057 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@120e6617
+2025-11-06 20:01:23.099 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 90
+2025-11-06 20:01:23.197 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4ca007fd
+2025-11-06 20:01:23.366 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 91
+2025-11-06 20:01:23.449 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@167f9ab4
+2025-11-06 20:01:23.490 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 92
+2025-11-06 20:01:23.564 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3d175f6e
+2025-11-06 20:01:23.629 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 93
+2025-11-06 20:01:23.705 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@23a7f9db
+2025-11-06 20:01:23.742 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 94
+2025-11-06 20:01:23.819 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@74d27fdc
+2025-11-06 20:01:23.858 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 95
+2025-11-06 20:01:24.045 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1a3175a5
+2025-11-06 20:01:24.082 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 96
+2025-11-06 20:01:24.320 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@43ea1dbc
+2025-11-06 20:01:24.364 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 97
+2025-11-06 20:01:24.550 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@75e87537
+2025-11-06 20:01:24.592 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 98
+2025-11-06 20:01:24.673 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4fa70a44
+2025-11-06 20:01:24.711 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 99
+2025-11-06 20:01:24.789 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@30be08f0
+2025-11-06 20:01:24.826 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 100
+2025-11-06 20:01:24.900 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@410430b
+2025-11-06 20:01:24.938 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 101
+2025-11-06 20:01:25.013 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@e8cc8e8
+2025-11-06 20:01:25.052 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 102
+2025-11-06 20:01:25.250 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6fe7efb9
+2025-11-06 20:01:25.286 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 103
+2025-11-06 20:01:25.360 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@64908775
+2025-11-06 20:01:25.412 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 104
+2025-11-06 20:01:25.488 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@12998af6
+2025-11-06 20:01:25.526 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 105
+2025-11-06 20:01:25.598 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@60dfde23
+2025-11-06 20:01:25.634 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 106
+2025-11-06 20:01:25.709 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@65beb40c
+2025-11-06 20:01:25.747 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 107
+2025-11-06 20:01:25.822 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@59eb8d4c
+2025-11-06 20:01:25.861 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 108
+2025-11-06 20:01:25.940 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3f3275
+2025-11-06 20:01:25.979 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 109
+2025-11-06 20:01:26.057 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@199601fe
+2025-11-06 20:01:26.097 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 110
+2025-11-06 20:01:26.195 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7fb86277
+2025-11-06 20:01:26.232 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 111
+2025-11-06 20:01:26.305 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5963f9de
+2025-11-06 20:01:26.343 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 112
+2025-11-06 20:01:26.417 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@957365e
+2025-11-06 20:01:26.459 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 113
+2025-11-06 20:01:26.545 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@237d659d
+2025-11-06 20:01:26.585 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 114
+2025-11-06 20:01:26.661 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@24d593a8
+2025-11-06 20:01:26.701 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 115
+2025-11-06 20:01:26.913 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3fe621b8
+2025-11-06 20:01:26.955 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 116
+2025-11-06 20:01:27.061 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@26a21ff1
+2025-11-06 20:01:27.129 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 117
+2025-11-06 20:01:27.329 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@202aaa39
+2025-11-06 20:01:27.373 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 118
+2025-11-06 20:01:27.452 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2c93be62
+2025-11-06 20:01:27.490 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 119
+2025-11-06 20:01:27.565 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@a2c229b
+2025-11-06 20:01:27.603 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 120
+2025-11-06 20:01:27.678 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@62661a90
+2025-11-06 20:01:27.716 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 121
+2025-11-06 20:01:27.792 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@67d8421c
+2025-11-06 20:01:27.829 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 122
+2025-11-06 20:01:27.927 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@58933f17
+2025-11-06 20:01:27.965 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 123
+2025-11-06 20:01:28.040 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2d2a3abe
+2025-11-06 20:01:28.078 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 124
+2025-11-06 20:01:28.153 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7ed38bb9
+2025-11-06 20:01:28.212 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 125
+2025-11-06 20:01:28.284 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@302d668b
+2025-11-06 20:01:28.319 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 126
+2025-11-06 20:01:28.390 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@264a9a76
+2025-11-06 20:01:28.431 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 127
+2025-11-06 20:01:28.506 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@43cb4dfb
+2025-11-06 20:01:28.545 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 128
+2025-11-06 20:01:28.764 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4788b1f5
+2025-11-06 20:01:28.805 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 129
+2025-11-06 20:01:28.884 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@da5d827
+2025-11-06 20:01:28.925 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 130
+2025-11-06 20:01:29.001 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@224e2cdf
+2025-11-06 20:01:29.038 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 131
+2025-11-06 20:01:29.112 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@529c4f1b
+2025-11-06 20:01:29.151 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 132
+2025-11-06 20:01:29.274 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@78e420ec
+2025-11-06 20:01:29.309 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 133
+2025-11-06 20:01:29.524 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@67eb4f91
+2025-11-06 20:01:29.567 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 134
+2025-11-06 20:01:29.651 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6b575cf0
+2025-11-06 20:01:29.687 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 135
+2025-11-06 20:01:29.764 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@785bf7ee
+2025-11-06 20:01:29.801 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 136
+2025-11-06 20:01:29.874 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7442449d
+2025-11-06 20:01:29.909 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 137
+2025-11-06 20:01:29.981 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1b402865
+2025-11-06 20:01:30.017 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 138
+2025-11-06 20:01:30.090 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41bf224a
+2025-11-06 20:01:30.128 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 139
+2025-11-06 20:01:30.346 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7d676e47
+2025-11-06 20:01:30.491 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 140
+2025-11-06 20:01:30.594 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1df17def
+2025-11-06 20:01:30.636 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 141
+2025-11-06 20:01:30.721 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4f465526
+2025-11-06 20:01:30.760 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 142
+2025-11-06 20:01:30.837 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5919e753
+2025-11-06 20:01:31.011 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 143
+2025-11-06 20:01:31.112 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@507eb0b
+2025-11-06 20:01:31.149 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 144
+2025-11-06 20:01:31.228 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5349b9ce
+2025-11-06 20:01:31.265 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 145
+2025-11-06 20:01:31.473 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3a1816f4
+2025-11-06 20:01:31.517 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 146
+2025-11-06 20:01:31.599 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@635dfed
+2025-11-06 20:01:31.775 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 147
+2025-11-06 20:01:31.866 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@132096e6
+2025-11-06 20:01:31.903 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 148
+2025-11-06 20:01:31.975 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@47853531
+2025-11-06 20:01:32.024 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 149
+2025-11-06 20:01:32.095 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@15a12f8d
+2025-11-06 20:01:32.132 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 150
+2025-11-06 20:01:32.333 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2e7d02c8
+2025-11-06 20:01:32.380 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 151
+2025-11-06 20:01:32.462 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@38631a86
+2025-11-06 20:01:32.499 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 152
+2025-11-06 20:01:32.575 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4217c257
+2025-11-06 20:01:32.759 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 153
+2025-11-06 20:01:32.874 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@52b41961
+2025-11-06 20:01:32.918 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 154
+2025-11-06 20:01:32.999 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7d7ea74b
+2025-11-06 20:01:33.037 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 155
+2025-11-06 20:01:33.114 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@61ea7133
+2025-11-06 20:01:33.151 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 156
+2025-11-06 20:01:33.244 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@565c60c6
+2025-11-06 20:01:33.279 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 157
+2025-11-06 20:01:33.354 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4fa884b2
+2025-11-06 20:01:33.389 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 158
+2025-11-06 20:01:33.603 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@220a50cd
+2025-11-06 20:01:33.640 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 159
+2025-11-06 20:01:33.716 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1c4e113d
+2025-11-06 20:01:33.754 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 160
+2025-11-06 20:01:33.832 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@51af62bc
+2025-11-06 20:01:33.884 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 161
+2025-11-06 20:01:33.960 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6ecc57f9
+2025-11-06 20:01:33.998 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 162
+2025-11-06 20:01:34.075 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7ba3f291
+2025-11-06 20:01:34.115 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 163
+2025-11-06 20:01:34.188 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4e495455
+2025-11-06 20:01:34.235 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 164
+2025-11-06 20:01:34.309 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@65623fd0
+2025-11-06 20:01:34.372 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 165
+2025-11-06 20:01:34.473 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@164f1b6c
+2025-11-06 20:01:34.509 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 166
+2025-11-06 20:01:34.604 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@688c12c1
+2025-11-06 20:01:34.640 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 167
+2025-11-06 20:01:34.711 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@14b0ad99
+2025-11-06 20:01:34.749 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 168
+2025-11-06 20:01:34.820 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@21eafdeb
+2025-11-06 20:01:34.856 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 169
+2025-11-06 20:01:34.929 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@182b90b4
+2025-11-06 20:01:34.965 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 170
+2025-11-06 20:01:35.040 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@8e952f
+2025-11-06 20:01:35.077 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 171
+2025-11-06 20:01:35.149 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7cf92144
+2025-11-06 20:01:35.186 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 172
+2025-11-06 20:01:35.275 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@17959394
+2025-11-06 20:01:35.311 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 173
+2025-11-06 20:01:35.522 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7a30815
+2025-11-06 20:01:35.581 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 174
+2025-11-06 20:01:35.658 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6d2f729e
+2025-11-06 20:01:35.696 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 175
+2025-11-06 20:01:35.769 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6fcb2b08
+2025-11-06 20:01:35.807 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 176
+2025-11-06 20:01:35.882 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@45d09d6a
+2025-11-06 20:01:35.920 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 177
+2025-11-06 20:01:35.993 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@38bcc075
+2025-11-06 20:01:36.032 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 178
+2025-11-06 20:01:36.108 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4775caeb
+2025-11-06 20:01:36.289 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 179
+2025-11-06 20:01:36.367 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5e84c340
+2025-11-06 20:01:36.404 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 180
+2025-11-06 20:01:36.478 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@485b4382
+2025-11-06 20:01:36.517 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 181
+2025-11-06 20:01:36.593 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@185240d1
+2025-11-06 20:01:36.630 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 182
+2025-11-06 20:01:36.849 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2c0f51b7
+2025-11-06 20:01:36.889 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 183
+2025-11-06 20:01:36.985 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@662fdac4
+2025-11-06 20:01:37.024 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 184
+2025-11-06 20:01:37.102 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5c58c909
+2025-11-06 20:01:37.140 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 185
+2025-11-06 20:01:37.217 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@22742eee
+2025-11-06 20:01:37.272 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 186
+2025-11-06 20:01:37.344 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5705b58c
+2025-11-06 20:01:37.378 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 187
+2025-11-06 20:01:37.470 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@47d7016e
+2025-11-06 20:01:37.534 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 188
+2025-11-06 20:01:37.746 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@9d29c0d
+2025-11-06 20:01:37.792 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 189
+2025-11-06 20:01:37.870 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@87a2ff3
+2025-11-06 20:01:38.039 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 190
+2025-11-06 20:01:38.256 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@69595861
+2025-11-06 20:01:38.300 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 191
+2025-11-06 20:01:38.507 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@b07f0f6
+2025-11-06 20:01:38.552 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 192
+2025-11-06 20:01:38.633 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@68887467
+2025-11-06 20:01:38.671 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 193
+2025-11-06 20:01:38.749 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@54a8393a
+2025-11-06 20:01:38.806 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 194
+2025-11-06 20:01:38.882 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3966794f
+2025-11-06 20:01:38.920 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 195
+2025-11-06 20:01:39.011 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2ba55ce8
+2025-11-06 20:01:39.194 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 196
+2025-11-06 20:01:39.290 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3a62e86
+2025-11-06 20:01:39.327 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 197
+2025-11-06 20:01:39.536 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@321bf357
+2025-11-06 20:01:39.581 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 198
+2025-11-06 20:01:39.779 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@de1eb46
+2025-11-06 20:01:39.819 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 199
+2025-11-06 20:01:39.903 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@16fd52b7
+2025-11-06 20:01:39.943 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 200
+2025-11-06 20:01:40.019 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@22f26412
+2025-11-06 20:01:40.077 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 201
+2025-11-06 20:01:40.149 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@29be08a2
+2025-11-06 20:01:40.188 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 202
+2025-11-06 20:01:40.267 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@60ea5e74
+2025-11-06 20:01:40.457 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 203
+2025-11-06 20:01:40.543 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@38e14571
+2025-11-06 20:01:40.581 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 204
+2025-11-06 20:01:40.658 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@10cc57e2
+2025-11-06 20:01:40.696 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 205
+2025-11-06 20:01:40.770 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5e5cf982
+2025-11-06 20:01:40.812 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 206
+2025-11-06 20:01:40.887 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@33841c7c
+2025-11-06 20:01:40.925 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 207
+2025-11-06 20:01:41.140 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41dff670
+2025-11-06 20:01:41.331 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 208
+2025-11-06 20:01:41.403 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3ac10a7c
+2025-11-06 20:01:41.442 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 209
+2025-11-06 20:01:41.646 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4829d740
+2025-11-06 20:01:41.683 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 210
+2025-11-06 20:01:41.762 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7f9fe8fa
+2025-11-06 20:01:41.797 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 211
+2025-11-06 20:01:41.871 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@51c555f6
+2025-11-06 20:01:41.907 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 212
+2025-11-06 20:01:41.984 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@605d1306
+2025-11-06 20:01:42.023 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 213
+2025-11-06 20:01:42.098 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4c1749b6
+2025-11-06 20:01:42.135 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 214
+2025-11-06 20:01:42.378 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@bee02ee
+2025-11-06 20:01:42.544 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 215
+2025-11-06 20:01:42.629 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7c474dac
+2025-11-06 20:01:42.670 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 216
+2025-11-06 20:01:42.748 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1bdf5f80
+2025-11-06 20:01:42.785 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 217
+2025-11-06 20:01:42.855 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@8f0db98
+2025-11-06 20:01:42.893 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 218
+2025-11-06 20:01:42.967 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@67214bf2
+2025-11-06 20:01:43.003 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 219
+2025-11-06 20:01:43.074 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4119de2d
+2025-11-06 20:01:43.111 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 220
+2025-11-06 20:01:43.181 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@33491bb2
+2025-11-06 20:01:43.215 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 221
+2025-11-06 20:01:43.289 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2c07464d
+2025-11-06 20:01:43.349 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 222
+2025-11-06 20:01:43.421 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5c130d6e
+2025-11-06 20:01:43.458 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 223
+2025-11-06 20:01:43.549 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6996db1f
+2025-11-06 20:01:43.589 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 224
+2025-11-06 20:01:43.664 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6aa4d983
+2025-11-06 20:01:43.702 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 225
+2025-11-06 20:01:43.777 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@642df889
+2025-11-06 20:01:43.815 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 226
+2025-11-06 20:01:44.038 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@40335f4e
+2025-11-06 20:01:44.076 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 227
+2025-11-06 20:01:44.265 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@14a4b5c9
+2025-11-06 20:01:44.306 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 228
+2025-11-06 20:01:44.522 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7d2fe952
+2025-11-06 20:01:44.563 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 229
+2025-11-06 20:01:44.637 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@64828ac3
+2025-11-06 20:01:44.674 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 230
+2025-11-06 20:01:44.750 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@21c04763
+2025-11-06 20:01:44.788 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 231
+2025-11-06 20:01:44.865 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4ff966d6
+2025-11-06 20:01:44.903 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 232
+2025-11-06 20:01:44.977 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@75e6a0d1
+2025-11-06 20:01:45.021 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 233
+2025-11-06 20:01:45.099 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@279d023c
+2025-11-06 20:01:45.133 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 234
+2025-11-06 20:01:45.202 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41d4cf6c
+2025-11-06 20:01:45.237 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 235
+2025-11-06 20:01:45.417 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1da8b02c
+2025-11-06 20:01:45.589 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 236
+2025-11-06 20:01:45.675 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5b88b2a6
+2025-11-06 20:01:45.712 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 237
+2025-11-06 20:01:45.786 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@f3ba8d1
+2025-11-06 20:01:45.824 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 238
+2025-11-06 20:01:45.897 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@286e82ef
+2025-11-06 20:01:45.936 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 239
+2025-11-06 20:01:46.010 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7fd0b083
+2025-11-06 20:01:46.047 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 240
+2025-11-06 20:01:46.123 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7d9e26f6
+2025-11-06 20:01:46.159 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 241
+2025-11-06 20:01:46.232 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@55db794d
+2025-11-06 20:01:46.268 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 242
+2025-11-06 20:01:46.356 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@25376d61
+2025-11-06 20:01:46.393 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 243
+2025-11-06 20:01:46.467 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@285a4c1b
+2025-11-06 20:01:46.506 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 244
+2025-11-06 20:01:46.722 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@d088691
+2025-11-06 20:01:46.767 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 245
+2025-11-06 20:01:46.848 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7bc518a0
+2025-11-06 20:01:46.884 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 246
+2025-11-06 20:01:46.983 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7453dac2
+2025-11-06 20:01:47.019 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 247
+2025-11-06 20:01:47.090 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@b993cb8
+2025-11-06 20:01:47.125 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 248
+2025-11-06 20:01:47.343 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6b258cb4
+2025-11-06 20:01:47.385 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 249
+2025-11-06 20:01:47.461 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@20a0d8a9
+2025-11-06 20:01:47.630 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 250
+2025-11-06 20:01:47.716 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@30a6033f
+2025-11-06 20:01:47.755 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 251
+2025-11-06 20:01:47.943 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6cefb99
+2025-11-06 20:01:47.983 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 252
+2025-11-06 20:01:48.060 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7a26627d
+2025-11-06 20:01:48.210 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 253
+2025-11-06 20:01:48.290 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@435590e6
+2025-11-06 20:01:48.330 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 254
+2025-11-06 20:01:48.411 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@394c966e
+2025-11-06 20:01:48.447 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 255
+2025-11-06 20:01:48.523 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@51789da4
+2025-11-06 20:01:48.561 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 256
+2025-11-06 20:01:48.750 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7d2749d3
+2025-11-06 20:01:48.814 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 257
+2025-11-06 20:01:48.893 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@79b2dffa
+2025-11-06 20:01:48.936 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 258
+2025-11-06 20:01:49.112 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3431cd6a
+2025-11-06 20:01:49.176 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 259
+2025-11-06 20:01:49.262 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2089a3cb
+2025-11-06 20:01:49.304 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 260
+2025-11-06 20:01:49.411 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1226911d
+2025-11-06 20:01:49.464 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 261
+2025-11-06 20:01:49.536 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6fa12259
+2025-11-06 20:01:49.573 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 262
+2025-11-06 20:01:49.650 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@53ea6c44
+2025-11-06 20:01:49.798 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 263
+2025-11-06 20:01:49.982 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6dcd5a15
+2025-11-06 20:01:50.022 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 264
+2025-11-06 20:01:50.103 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@d6b09c1
+2025-11-06 20:01:50.142 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 265
+2025-11-06 20:01:50.331 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@41345b21
+2025-11-06 20:01:50.371 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 266
+2025-11-06 20:01:50.462 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7571992
+2025-11-06 20:01:50.499 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 267
+2025-11-06 20:01:50.833 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@57244b28
+2025-11-06 20:01:50.880 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 268
+2025-11-06 20:01:51.086 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3f44c5c
+2025-11-06 20:01:51.124 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 269
+2025-11-06 20:01:51.306 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@15ab8951
+2025-11-06 20:01:51.342 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 270
+2025-11-06 20:01:51.521 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@abc0b99
+2025-11-06 20:01:51.559 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 271
+2025-11-06 20:01:51.631 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3c531f84
+2025-11-06 20:01:51.667 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 272
+2025-11-06 20:01:51.740 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@24006d69
+2025-11-06 20:01:51.930 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 273
+2025-11-06 20:01:52.061 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2ad1314b
+2025-11-06 20:01:52.100 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 274
+2025-11-06 20:01:52.177 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@11b41eb7
+2025-11-06 20:01:52.218 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 275
+2025-11-06 20:01:52.296 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@694c9436
+2025-11-06 20:01:52.335 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 276
+2025-11-06 20:01:52.434 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2c81d2f2
+2025-11-06 20:01:52.474 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 277
+2025-11-06 20:01:52.556 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4e40f7e9
+2025-11-06 20:01:52.593 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 278
+2025-11-06 20:01:52.676 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@78a32c40
+2025-11-06 20:01:52.846 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 279
+2025-11-06 20:01:52.957 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@73433e9d
+2025-11-06 20:01:52.997 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 280
+2025-11-06 20:01:53.072 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@7388261d
+2025-11-06 20:01:53.125 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 281
+2025-11-06 20:01:53.220 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@87d3d37
+2025-11-06 20:01:53.257 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 282
+2025-11-06 20:01:53.332 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6e42c9af
+2025-11-06 20:01:53.368 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 283
+2025-11-06 20:01:53.450 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6f76e5ad
+2025-11-06 20:01:53.486 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 284
+2025-11-06 20:01:53.563 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@e77abe4
+2025-11-06 20:01:53.600 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 285
+2025-11-06 20:01:53.675 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@47c8dfa1
+2025-11-06 20:01:53.713 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 286
+2025-11-06 20:01:53.791 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2fc60ea
+2025-11-06 20:01:53.828 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 287
+2025-11-06 20:01:53.901 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4417d855
+2025-11-06 20:01:53.941 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 288
+2025-11-06 20:01:54.013 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2a485553
+2025-11-06 20:01:54.048 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 289
+2025-11-06 20:01:54.276 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@c8c46e6
+2025-11-06 20:01:54.336 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 290
+2025-11-06 20:01:54.421 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3bb410f2
+2025-11-06 20:01:54.465 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 291
+2025-11-06 20:01:54.538 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3cc3ce84
+2025-11-06 20:01:54.575 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 292
+2025-11-06 20:01:54.647 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@55f9256
+2025-11-06 20:01:54.684 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 293
+2025-11-06 20:01:54.758 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@45743204
+2025-11-06 20:01:54.795 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 294
+2025-11-06 20:01:54.878 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1b87db10
+2025-11-06 20:01:54.912 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 295
+2025-11-06 20:01:54.981 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@13b68a65
+2025-11-06 20:01:55.016 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 296
+2025-11-06 20:01:55.092 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4d45cbd5
+2025-11-06 20:01:55.127 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 297
+2025-11-06 20:01:55.206 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2ee16c41
+2025-11-06 20:01:55.243 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 298
+2025-11-06 20:01:55.313 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5b2427b3
+2025-11-06 20:01:55.347 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 299
+2025-11-06 20:01:55.421 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6ee48e82
+2025-11-06 20:01:55.477 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 300
+2025-11-06 20:01:55.564 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4ec187e0
+2025-11-06 20:01:55.603 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 301
+2025-11-06 20:01:55.675 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@5c07dea8
+2025-11-06 20:01:55.711 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 302
+2025-11-06 20:01:55.781 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@3b07dde7
+2025-11-06 20:01:55.817 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 303
+2025-11-06 20:01:55.889 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@21214a82
+2025-11-06 20:01:55.926 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 304
+2025-11-06 20:01:56.001 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@e26bc
+2025-11-06 20:01:56.039 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 305
+2025-11-06 20:01:56.114 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@615de959
+2025-11-06 20:01:56.150 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 306
+2025-11-06 20:01:56.220 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@c30171e
+2025-11-06 20:01:56.258 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 307
+2025-11-06 20:01:56.330 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@56001175
+2025-11-06 20:01:56.367 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 308
+2025-11-06 20:01:56.539 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@707a02b5
+2025-11-06 20:01:56.574 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 309
+2025-11-06 20:01:56.648 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@374f0796
+2025-11-06 20:01:56.685 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 310
+2025-11-06 20:01:56.774 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@1867415c
+2025-11-06 20:01:56.811 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 311
+2025-11-06 20:01:56.885 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@27f2bbf9
+2025-11-06 20:01:56.921 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 312
+2025-11-06 20:01:56.998 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@79737968
+2025-11-06 20:01:57.038 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 313
+2025-11-06 20:01:57.245 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@50af06b1
+2025-11-06 20:01:57.284 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 314
+2025-11-06 20:01:57.392 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@c807572
+2025-11-06 20:01:57.434 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 315
+2025-11-06 20:01:57.530 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4441d212
+2025-11-06 20:01:57.565 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 316
+2025-11-06 20:01:57.640 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@724927f1
+2025-11-06 20:01:57.677 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 317
+2025-11-06 20:01:57.879 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4a8e578a
+2025-11-06 20:01:57.922 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 318
+2025-11-06 20:01:58.001 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@638a69e8
+2025-11-06 20:01:58.040 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 319
+2025-11-06 20:01:58.117 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@759dfefa
+2025-11-06 20:01:58.155 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 320
+2025-11-06 20:01:58.234 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@2017cff1
+2025-11-06 20:01:58.273 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 321
+2025-11-06 20:01:58.351 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4995fe64
+2025-11-06 20:01:58.526 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 322
+2025-11-06 20:01:58.739 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@56897b82
+2025-11-06 20:01:58.782 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 323
+2025-11-06 20:01:58.980 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@4e94ff77
+2025-11-06 20:01:59.023 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 324
+2025-11-06 20:01:59.101 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved function: ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto@6178c464
+2025-11-06 20:01:59.244 [junit-timeout-thread-1] INFO  ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao - Saved 10 points for function id: 325

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="037cdfa7-3bb3-4973-9bb7-5d000a2da2ee" name="Changes" comment="updated SpringDataBenchmark" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportTestResults" outputFolder="$PROJECT_DIR$" openResultsInEditor="true" userTempatePath="" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="manual" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dusniz&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dusniz/ooplabs.git&quot;,
+    &quot;accountId&quot;: &quot;d9e94649-8f4f-4a58-a443-51e3a01acafe&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="34eQKSZB70vuCICbYlyzJy9q92H" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SpringBootApplication.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FunctionRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.FunctionServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcBenchmark.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SpringDataBenchmark.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SpringDataBenchmark.performanceBulkPointsOperations.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SpringDataBenchmark.performanceQueryMethods.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.SpringDataBenchmark.performanceSaveFunctionsWithPoints.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Unnamed.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ru.ssau.tk.enjoyers.ooplabs in enjoyers-ooplabs.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;framework&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dusn1z/Documents/GitHub/ooplabs/Lab 5&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ru.ssau.tk.enjoyers.ooplabs.repositories" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.SpringDataBenchmark">
+    <configuration name="SpringDataBenchmark" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enjoyers-ooplabs" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.ssau.tk.enjoyers.ooplabs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs" />
+      <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.SpringDataBenchmark" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringDataBenchmark.performanceBulkPointsOperations" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enjoyers-ooplabs" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.ssau.tk.enjoyers.ooplabs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs" />
+      <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.SpringDataBenchmark" />
+      <option name="METHOD_NAME" value="performanceBulkPointsOperations" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringDataBenchmark.performanceQueryMethods" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enjoyers-ooplabs" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.ssau.tk.enjoyers.ooplabs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs" />
+      <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.SpringDataBenchmark" />
+      <option name="METHOD_NAME" value="performanceQueryMethods" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringDataBenchmark.performanceSaveFunctionsWithPoints" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="enjoyers-ooplabs" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.ssau.tk.enjoyers.ooplabs.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs" />
+      <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.SpringDataBenchmark" />
+      <option name="METHOD_NAME" value="performanceSaveFunctionsWithPoints" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.ssau.tk.enjoyers.ooplabs in enjoyers-ooplabs" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="enjoyers-ooplabs" />
+      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SpringDataBenchmark" />
+        <item itemvalue="JUnit.SpringDataBenchmark.performanceSaveFunctionsWithPoints" />
+        <item itemvalue="JUnit.SpringDataBenchmark.performanceQueryMethods" />
+        <item itemvalue="JUnit.SpringDataBenchmark.performanceBulkPointsOperations" />
+        <item itemvalue="JUnit.SpringDataBenchmark.performanceBulkPointsOperations" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="037cdfa7-3bb3-4973-9bb7-5d000a2da2ee" name="Changes" comment="" />
+      <created>1761571494087</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761571494087</updated>
+    </task>
+    <task id="LOCAL-00001" summary="added crud_operations.sql">
+      <option name="closed" value="true" />
+      <created>1761572923653</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761572923653</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added models for users, functions, points">
+      <option name="closed" value="true" />
+      <created>1761574997145</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761574997145</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added crud_opertaions.sql">
+      <option name="closed" value="true" />
+      <created>1761575161903</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761575161903</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added DTO for users, functions and points">
+      <option name="closed" value="true" />
+      <created>1761582078951</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761582078951</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added realization using framework">
+      <option name="closed" value="true" />
+      <created>1761607967151</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761607967151</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added tests for UserRepository and PointRepository">
+      <option name="closed" value="true" />
+      <created>1761651276526</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761651276526</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added tests for PointRepository, FunctionRepository, FunctionService">
+      <option name="closed" value="true" />
+      <created>1761655672405</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1761655672405</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added advanced search">
+      <option name="closed" value="true" />
+      <created>1761656783338</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1761656783338</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added advanced search">
+      <option name="closed" value="true" />
+      <created>1762415556865</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1762415556865</updated>
+    </task>
+    <task id="LOCAL-00010" summary="added DataGenerator and updated tests">
+      <option name="closed" value="true" />
+      <created>1762417986987</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1762417986987</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added SpringDataBenchmark">
+      <option name="closed" value="true" />
+      <created>1762423150201</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1762423150201</updated>
+    </task>
+    <task id="LOCAL-00012" summary="updated SpringDataBenchmark">
+      <option name="closed" value="true" />
+      <created>1762436003695</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1762436003695</updated>
+    </task>
+    <task id="LOCAL-00013" summary="updated SpringDataBenchmark">
+      <option name="closed" value="true" />
+      <created>1762441380554</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1762441380554</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/manual" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="framework" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added crud_operations.sql" />
+    <MESSAGE value="added models for users, functions, points" />
+    <MESSAGE value="added crud_opertaions.sql" />
+    <MESSAGE value="added DTO for users, functions and points" />
+    <MESSAGE value="added realization using framework" />
+    <MESSAGE value="added tests for UserRepository and PointRepository" />
+    <MESSAGE value="added tests for PointRepository, FunctionRepository, FunctionService" />
+    <MESSAGE value="added advanced search" />
+    <MESSAGE value="added DataGenerator and updated tests" />
+    <MESSAGE value="added SpringDataBenchmark" />
+    <MESSAGE value="updated SpringDataBenchmark" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated SpringDataBenchmark" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="ru.ssau.tk.enjoyers.ooplabs.entities.User" memberName="id" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Lab_5$Unnamed.ic" NAME="Unnamed Coverage Results" MODIFIED="1761648750416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/Lab_5$ru_ssau_tk_enjoyers_ooplabs_in_enjoyers_ooplabs.ic" NAME="ru.ssau.tk.enjoyers.ooplabs in enjoyers-ooplabs Coverage Results" MODIFIED="1761655471806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>
