@@ -130,9 +130,14 @@ class FunctionRepositoryTest {
     @DisplayName("Should save new function")
     void save() {
         // Given
-        Function newFunction = new Function(testUser.getId(),"New Function",
-                "New test function", "TABULATED",
-                3, "TABULATED_ARRAY");
+        Function newFunction = Function.builder().
+                userId(testUser.getId()).
+                name("New Function").
+                description("New test function").
+                type("TABULATED").
+                pointCount(3).
+                functionClass("TABULATED_ARRAY").
+                build();
 
         // When
         Function savedFunction = functionRepository.save(newFunction);

@@ -19,7 +19,7 @@ public class DataGenerator {
         for (int i = 0; i < count; i++) {
             double x = xFrom + i * step;
             double y = Math.sin(x) + random.nextDouble() * 0.1; // Небольшой шум
-            points.add(new Point(functionId, x, y, i));
+            points.add(Point.builder().functionId(functionId).x(x).y(y).index(i).build());
         }
 
         return points;
@@ -30,14 +30,15 @@ public class DataGenerator {
         List<Function> functions = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            functions.add(new Function(
-                    userId,
-                    "TestFunction_" + i,
-                    "Generated function",
-                    type,
-                    random.nextInt(0, 100),
-                    functionClass
-            ));
+            functions.add(Function.builder()
+                    .userId(userId).
+                    name("TestFunction_" + i).
+                    description("Generated function").
+                    type(type).
+                    pointCount(random.nextInt(0, 100)).
+                    functionClass(functionClass)
+                    .build()
+            );
         }
 
         return functions;
@@ -47,7 +48,11 @@ public class DataGenerator {
     public static List<User> generateUsers(int count) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++)
-            users.add(new User("generated_user_" + i, "password", Role.USER));
+            users.add(User.builder().
+                    username("generated_user_" + i).
+                    passwordHash("password").
+                    role(Role.USER).
+                    build());
         return users;
     }
 }

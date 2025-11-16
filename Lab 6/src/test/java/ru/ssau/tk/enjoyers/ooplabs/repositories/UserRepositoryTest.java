@@ -67,7 +67,11 @@ class UserRepositoryTest {
     @DisplayName("Should find users by role")
     void findByRole() {
         // Given
-        User adminUser = new User("admin_spring", "password", Role.ADMIN);
+        User adminUser = User.builder().
+                username("admin_spring").
+                passwordHash("password").
+                role(Role.ADMIN).
+                build();
         entityManager.persistAndFlush(adminUser);
 
         // When

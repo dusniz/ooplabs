@@ -153,7 +153,7 @@ class PointRepositoryTest {
     @DisplayName("Should save new point")
     void save() {
         // Given
-        Point newPoint = new Point(testFunction.getId(), 3.0, 9.0, 3);
+        Point newPoint = Point.builder().functionId(testFunction.getId()).x(3.0).y(9.0).index(3).build();
 
         // When
         Point savedPoint = pointRepository.save(newPoint);

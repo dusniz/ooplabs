@@ -2,11 +2,8 @@ package ru.ssau.tk.enjoyers.ooplabs;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.entities.User;
@@ -20,7 +17,6 @@ import ru.ssau.tk.enjoyers.ooplabs.services.UserService;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,7 +53,10 @@ class SpringDataBenchmark {
 
     @BeforeEach
     void setUp() {
-        user = new User("perf_test_user_spring", "password", Role.USER);
+        user = User.builder().username("perf_test_user_spring").
+                passwordHash("password").
+                role(Role.USER)
+                .build();
         User savedUser = userRepository.save(user);
         user = savedUser;
     }
@@ -130,7 +129,14 @@ class SpringDataBenchmark {
     @DisplayName("Performance: Bulk points operations")
     void performanceBulkPointsOperations() {
         assertTimeoutPreemptively(Duration.ofSeconds(timeout), () -> {
-        Function function = new Function(user.getId(), "Bulk Test Function", "Bulk Test Function", "TABULATED", 10000, "TABULATED_LINKED_LIST");
+        Function function = Function.builder().
+                userId(user.getId()).
+                name("Bulk Test Function").
+                description("Bulk Test Function").
+                type("TABULATED").
+                pointCount(10000).
+                functionClass("TABULATED_LINKED_LIST").
+                build();
         Function savedFunction = functionRepository.save(function);
             // Тест массовой вставки точек
             List<Point> points = DataGenerator.generatePoints(

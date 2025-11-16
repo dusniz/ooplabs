@@ -40,8 +40,14 @@ class FunctionServiceTest {
         functionRepository.deleteAll();
         pointRepository.deleteAll();
 
-        testFunction = new Function(testUserId, "Test Function", "Test Function",
-                "TABULATED", 0, "TABULATED_ARRAY");
+        testFunction = Function.builder().
+                userId(testUserId).
+                name("Test Function").
+                description("Test Function").
+                type("TABULATED").
+                pointCount(0).
+                functionClass("TABULATED_ARRAY").
+                build();
     }
 
     @Test
@@ -74,8 +80,16 @@ class FunctionServiceTest {
         Function createdFunction = functionService.createFunction(testFunction);
 
         List<Point> newPoints = Arrays.asList(
-                new Point(null, 5.0, 25.0, 0),
-                new Point(null, 6.0, 36.0, 1)
+                Point.builder().
+                        functionId(null).
+                        x(5.0).
+                        y(25.0). index(0)
+                        .build(),
+                Point.builder().
+                        functionId(null).
+                        x(6.0).
+                        y(36.0). index(1)
+                        .build()
         );
 
         // When
