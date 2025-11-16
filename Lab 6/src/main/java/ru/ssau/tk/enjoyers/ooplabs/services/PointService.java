@@ -61,7 +61,12 @@ public class PointService {
             throw new IllegalArgumentException("Point with index " + pointIndex + " already exists for function " + functionId);
         }
 
-        Point point = new Point(functionId, x, y, pointIndex);
+        Point point = Point.builder()
+                            .functionId(functionId)
+                            .x(x)
+                            .y(y)
+                            .index(pointIndex)
+                            .build();
         Point savedPoint = pointRepository.save(point);
 
         // Обновляем points_count функции

@@ -35,7 +35,11 @@ public class UserService {
             throw new IllegalArgumentException("User already exists: " + username);
         }
 
-        User user = new User(username, passwordHash, role);
+        User user = User.builder()
+                        .username(username)
+                        .passwordHash(passwordHash)
+                        .role(role)
+                        .build();
         User savedUser = userRepository.save(user);
 
         logger.info("Created user with id: {}", savedUser.getId());
