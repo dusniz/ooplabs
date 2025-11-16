@@ -1,7 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.repositories;
 
 import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
-import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.entities.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,14 +129,13 @@ class FunctionRepositoryTest {
     @DisplayName("Should save new function")
     void save() {
         // Given
-        Function newFunction = Function.builder().
-                userId(testUser.getId()).
-                name("New Function").
-                description("New test function").
-                type("TABULATED").
-                pointCount(3).
-                functionClass("TABULATED_ARRAY").
-                build();
+        Function newFunction = Function.builder()
+                .userId(testUser.getId())
+                .name("New Function")
+                .description("New test function")
+                .type("TABULATED")
+                .pointCount(3)
+                .functionClass("TABULATED_ARRAY").build();
 
         // When
         Function savedFunction = functionRepository.save(newFunction);

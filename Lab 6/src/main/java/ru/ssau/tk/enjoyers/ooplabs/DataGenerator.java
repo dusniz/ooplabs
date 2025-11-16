@@ -31,13 +31,13 @@ public class DataGenerator {
 
         for (int i = 0; i < count; i++) {
             functions.add(Function.builder()
-                    .userId(userId).
-                    name("TestFunction_" + i).
-                    description("Generated function").
-                    type(type).
-                    pointCount(random.nextInt(0, 100)).
-                    functionClass(functionClass)
-                    .build()
+                            .userId(userId)
+                            .name("TestFunction_" + i)
+                            .description("Generated function")
+                            .type(type)
+                            .pointCount(random.nextInt(0, 100))
+                            .functionClass(functionClass)
+                            .build()
             );
         }
 
@@ -48,11 +48,12 @@ public class DataGenerator {
     public static List<User> generateUsers(int count) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++)
-            users.add(User.builder().
-                    username("generated_user_" + i).
-                    passwordHash("password").
-                    role(Role.USER).
-                    build());
+            users.add(User.builder()
+                    .username("generated_user_" + i)
+                    .passwordHash("password")
+                    .role(Role.USER)
+                    .build()
+            );
         return users;
     }
 }

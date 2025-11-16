@@ -1,28 +1,66 @@
 package ru.ssau.tk.enjoyers.ooplabs.services;
 
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.mappers.FunctionMapper;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class FunctionService {
     private static final Logger logger = LoggerFactory.getLogger(FunctionService.class);
 
     private final FunctionRepository functionRepository;
     private final PointRepository pointRepository;
+    private final FunctionMapper functionMapper;
 
-    public FunctionService(FunctionRepository functionRepository, PointRepository pointRepository) {
-        this.functionRepository = functionRepository;
-        this.pointRepository = pointRepository;
+    @Transactional(readOnly = true)
+    public Optional<FunctionDto> getFunctionDto(Long id) {
+        logger.debug("Getting function DTO with id: {}", id);
+        return functionRepository.findById(id)
+                .map(functionMapper::FunctiontoFunctionDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FunctionDto> getUserFunctionDtos(Long userId) {
+        logger.debug("Getting function DTOs for user: {}", userId);
+        return functionRepository.findByUserId(userId).stream()
+                .map(functionMapper::FunctiontoFunctionDto)
+                .collect(Collectors.toList());
+    }
+
+    public FunctionDto createFunctionFromDto(FunctionDto functionDto) {
+        logger.info("Creating function from DTO: {}", functionDto.getName());
+
+        Function function = functionMapper.FunctionDtotoFunction(functionDto);
+        Function savedFunction = functionRepository.save(function);
+
+        logger.info("Created function from DTO with id: {}", savedFunction.getId());
+        return functionMapper.FunctiontoFunctionDto(savedFunction);
+    }
+
+    public Optional<FunctionDto> updateFunctionFromDto(Long id, FunctionDto functionDto) {
+        logger.info("Updating function from DTO with id: {}", id);
+
+        return functionRepository.findById(id)
+                .map(existingFunction -> {
+                    // Обновляем поля с помощью MapStruct
+                    functionMapper.updateEntityFromDto(functionDto, existingFunction);
+                    Function updatedFunction = functionRepository.save(existingFunction);
+                    return functionMapper.FunctiontoFunctionDto(updatedFunction);
+                });
     }
 
     @Transactional(readOnly = true)

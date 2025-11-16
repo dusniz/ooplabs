@@ -152,13 +152,14 @@ class PointRepositoryTest {
     @Test
     @DisplayName("Should save new point")
     void save() {
-        // Given
-        Point newPoint = Point.builder().functionId(testFunction.getId()).x(3.0).y(9.0).index(3).build();
-
-        // When
+        Point newPoint = Point.builder()
+                .functionId(testFunction.getId())
+                .x(3.0)
+                .y(9.0)
+                .index(3)
+                .build();
         Point savedPoint = pointRepository.save(newPoint);
 
-        // Then
         assertAll(
                 () -> assertNotNull(savedPoint.getId(), "Saved point should have ID"),
                 () -> assertEquals(3.0, savedPoint.getX(), 0.001),

@@ -66,18 +66,15 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should find users by role")
     void findByRole() {
-        // Given
-        User adminUser = User.builder().
-                username("admin_spring").
-                passwordHash("password").
-                role(Role.ADMIN).
-                build();
+        User adminUser = User.builder()
+                .username("admin_spring")
+                .passwordHash("password")
+                .role(Role.ADMIN)
+                .build();
         entityManager.persistAndFlush(adminUser);
 
-        // When
         List<User> users = userRepository.findByRole(Role.ADMIN);
 
-        // Then
         assertAll(
                 () -> assertFalse(users.isEmpty()),
                 () -> assertTrue(users.stream().allMatch(user -> user.getRole() == Role.ADMIN))
