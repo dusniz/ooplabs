@@ -1,0 +1,27 @@
+version: "3.1"
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    ports:
+      - "54321:54321"
+    networks:
+      - db-network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: adminer
+    networks:
+      - db-network
+    ports:
+      - "8081:8080"
+
+networks:
+  db-network:
+    driver: bridge
