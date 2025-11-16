@@ -1,44 +1,34 @@
 package ru.ssau.tk.enjoyers.ooplabs.entities;
 
-
-import jakarta.persistence.*;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
+import jakarta.persistence.*;
+import lombok.*;
 
 
 @Entity
 @Table(name = "users")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
+    @Setter
     @Column(unique = true, nullable = false, length = 50)
     private String username;
 
+    @Getter
+    @Setter
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
+    @Getter
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
-
-    public User(String username, String passwordHash, Role role) {
-        this.username = username;
-        this.passwordHash = passwordHash;
-        this.role = role;
-    }
-
-    public User() {}
-
-    public Long getId() { return id; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
-
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
 }
