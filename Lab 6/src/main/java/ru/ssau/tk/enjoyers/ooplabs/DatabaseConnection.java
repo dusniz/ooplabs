@@ -6,12 +6,12 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:postgresql://192.168.0.250:5432/postgres";
+    private static final String URL = "jdbc:postgresql://db:54321/postgres";
     private static final Properties PROPERTIES = new Properties();
 
     static {
         PROPERTIES.setProperty("user", "postgres");
-        PROPERTIES.setProperty("password", "46144164");
+        PROPERTIES.setProperty("password", "example");
         PROPERTIES.setProperty("ssl", "false");
     }
 
