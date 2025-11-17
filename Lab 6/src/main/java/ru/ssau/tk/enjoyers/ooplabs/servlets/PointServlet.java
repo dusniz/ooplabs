@@ -6,31 +6,32 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
+import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcPointDao;
 import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
+import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/functions")
-public class FunctionServlet extends HttpServlet {
+@WebServlet("/points")
+public class PointServlet extends HttpServlet {
 
-    private final JdbcFunctionDao functionDao = new JdbcFunctionDao();
+    private final JdbcPointDao pointDao = new JdbcPointDao();
 
     public void init() throws ServletException { }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
-        List<FunctionDto> functions = functionDao.findByUserId(userId);
+        Long functionId = Long.parseLong(request.getParameter("functionId"));
+        List<PointDto> points = pointDao.findByFunctionId(functionId);
 
         response.setContentType("text/html");
         PrintWriter printWriter = response.getWriter();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        for (FunctionDto function : functions)
-            printWriter.println(objectMapper.writeValueAsString(function));
+        for (PointDto point : points)
+            printWriter.println(objectMapper.writeValueAsString(point));
 
         printWriter.close();
     }

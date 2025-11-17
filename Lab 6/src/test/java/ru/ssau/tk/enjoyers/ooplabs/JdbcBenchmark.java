@@ -32,26 +32,28 @@ class JdbcBenchmark {
 
     @BeforeEach
     void setUp() {
-        StringBuilder script = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
-            String line;
+//        StringBuilder script = new StringBuilder();
+//        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
+//            String line;
+//
+//            while ((line = reader.readLine()) != null) {
+//                script.append(line).append("\n");
+//            }
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        try (Connection conn = DatabaseConnection.getConnection()) {
+//            PreparedStatement stmt = conn.prepareStatement(script.toString());{
+//                stmt.execute();
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
-            while ((line = reader.readLine()) != null) {
-                script.append(line).append("\n");
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(script.toString());{
-                stmt.execute();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        DataBaseScriptsLoader.load();
 
         userDao = new JdbcUserDao();
         functionDao = new JdbcFunctionDao();
