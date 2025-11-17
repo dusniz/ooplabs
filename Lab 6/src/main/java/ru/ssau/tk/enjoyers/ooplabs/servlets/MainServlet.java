@@ -18,7 +18,8 @@ public class MainServlet extends HttpServlet {
         message = "Зис ис э симпл сервлет мессадж!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
         PrintWriter messageWriter = response.getWriter();

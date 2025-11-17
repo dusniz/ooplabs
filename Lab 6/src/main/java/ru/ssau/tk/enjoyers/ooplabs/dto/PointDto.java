@@ -1,5 +1,14 @@
 package ru.ssau.tk.enjoyers.ooplabs.dto;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
 public class PointDto {
     private Long id;
     private Long functionId;
@@ -21,19 +30,4 @@ public class PointDto {
         this.y = y;
         this.index = index;
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getFunctionId() { return functionId; }
-    public void setFunctionId(Long functionId) { this.functionId = functionId; }
-
-    public Double getX() { return x; }
-    public void setX(Double x) { this.x = x; }
-
-    public Double getY() { return y; }
-    public void setY(Double y) { this.y = y; }
-
-    public Integer getIndex() { return index; }
-    public void setIndex(Integer index) { this.index = index; }
 }

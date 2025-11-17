@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="update JdbcBenchmark">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" afterDir="false" />
+    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="added servlets for users, functions, points DTOs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DataBaseScriptsLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/FunctionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/FunctionDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/PointDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/PointDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/UserDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/HelloWorldTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/MainServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -535,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762444354707</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="added servlets for users, functions, points DTOs">
+      <option name="closed" value="true" />
+      <created>1763392433096</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1763392433096</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -602,7 +609,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add DatabaseConnection class" />
     <MESSAGE value="add DAO interfaces" />
     <MESSAGE value="add JDBC DAO implementation" />
     <MESSAGE value="fix Role enum" />
@@ -627,7 +633,8 @@
     <MESSAGE value="rename models to entities" />
     <MESSAGE value="improve test coverage" />
     <MESSAGE value="update JdbcBenchmark" />
-    <option name="LAST_COMMIT_MESSAGE" value="update JdbcBenchmark" />
+    <MESSAGE value="added servlets for users, functions, points DTOs" />
+    <option name="LAST_COMMIT_MESSAGE" value="added servlets for users, functions, points DTOs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
