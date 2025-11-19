@@ -2,11 +2,11 @@ package ru.ssau.tk.enjoyers.ooplabs.dao;
 
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -52,7 +52,7 @@ class FunctionDaoTest {
         }
 
         JdbcUserDao userDao = new JdbcUserDao();
-        UserDto user = new UserDto(1L, "test", "111", Role.USER);
+        User user = new User(1L, "test", "111", Role.USER);
         userDao.save(user);
 
         functionDao = new JdbcFunctionDao();
@@ -79,7 +79,7 @@ class FunctionDaoTest {
     @DisplayName("Should save and find function with points")
     void testSaveAndFindFunctionWithPoints() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Test Function", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Test Function", "TABULATED",
                 "", 0 , "TABULATED_ARRAY");
 
         // When
@@ -88,18 +88,18 @@ class FunctionDaoTest {
 
         // Create and save points
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 0.0, 0.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.5, 6.25, 1),
-                new PointDto(TEST_POINT_ID, functionId, 5.0, 25.0, 2)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 0.0, 0.0, 0),
+                new Point(TEST_POINT_ID++, functionId, 2.5, 6.25, 1),
+                new Point(TEST_POINT_ID, functionId, 5.0, 25.0, 2)
         );
         functionDao.savePoints(functionId, points);
 
         // Then
         assertNotNull(functionId, "Function ID should not be null");
 
-        Optional<FunctionDto> foundFunction = functionDao.findById(functionId);
-        List<PointDto> foundPoints = functionDao.findPointsByFunctionId(functionId);
+        Optional<Function> foundFunction = functionDao.findById(functionId);
+        List<Point> foundPoints = functionDao.findPointsByFunctionId(functionId);
 
         assertAll(
                 () -> assertTrue(foundFunction.isPresent(), "Function should be found"),
@@ -114,15 +114,15 @@ class FunctionDaoTest {
     @DisplayName("Should find functions by user ID")
     void testFindByUserId() {
         // Given
-        FunctionDto function1 = new FunctionDto(TEST_USER_ID, "Function 1", "TABULATED",
+        Function function1 = new Function(TEST_USER_ID, "Function 1", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
-        FunctionDto function2 = new FunctionDto(TEST_USER_ID, "Function 2", "TABULATED",
+        Function function2 = new Function(TEST_USER_ID, "Function 2", "TABULATED",
                 "", 0, "TABULATED_LINKED_LIST");
 
         functionDao.save(function1);
         functionDao.save(function2);
 
-        List<FunctionDto> functions = functionDao.findByUserId(TEST_USER_ID);
+        List<Function> functions = functionDao.findByUserId(TEST_USER_ID);
 
         assertAll(
                 () -> assertTrue(functions.size() >= 2, "Should find at least 2 functions"),
@@ -136,15 +136,15 @@ class FunctionDaoTest {
     @DisplayName("Should find functions by user ID and function type")
     void testFindByUserIdAndType() {
         // Given
-        FunctionDto function1 = new FunctionDto(TEST_USER_ID, "Function 1", "TABULATED",
+        Function function1 = new Function(TEST_USER_ID, "Function 1", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
-        FunctionDto function2 = new FunctionDto(TEST_USER_ID, "Function 2", "TABULATED",
+        Function function2 = new Function(TEST_USER_ID, "Function 2", "TABULATED",
                 "", 0, "TABULATED_LINKED_LIST");
 
         functionDao.save(function1);
         functionDao.save(function2);
 
-        List<FunctionDto> functions = functionDao.findByUserIdAndType(TEST_USER_ID, "TABULATED");
+        List<Function> functions = functionDao.findByUserIdAndType(TEST_USER_ID, "TABULATED");
 
         assertAll(
                 () -> assertTrue(functions.size() >= 2, "Should find at least 2 functions"),
@@ -158,20 +158,20 @@ class FunctionDaoTest {
     @DisplayName("Should update function metadata")
     void testUpdateFunction() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Update Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Update Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;
 
         // When
-        FunctionDto functionToUpdate = new FunctionDto(functionId, TEST_USER_ID, "Updated Name",
+        Function functionToUpdate = new Function(functionId, TEST_USER_ID, "Updated Name",
                 "TABULATED", "Updated Description", 0, "TABULATED_ARRAY");
         boolean updateResult = functionDao.update(functionToUpdate);
 
         // Then
         assertTrue(updateResult, "Update should be successful");
 
-        Optional<FunctionDto> updatedFunction = functionDao.findById(functionId);
+        Optional<Function> updatedFunction = functionDao.findById(functionId);
         assertAll(
                 () -> assertTrue(updatedFunction.isPresent()),
                 () -> assertEquals("Updated Name", updatedFunction.get().getName()),
@@ -184,15 +184,15 @@ class FunctionDaoTest {
     @DisplayName("Should delete function and its points")
     void testDeleteFunction() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Delete Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Delete Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
 
         // Add points
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
@@ -214,16 +214,16 @@ class FunctionDaoTest {
     @DisplayName("Should count points by function ID")
     void testCountPointsByFunctionId() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Count Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Count Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;
 
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
-                new PointDto(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new Point(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
+                new Point(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
         );
         functionDao.savePoints(functionId, points);
 
@@ -239,20 +239,20 @@ class FunctionDaoTest {
     @DisplayName("Should find point by function ID and index")
     void testFindPointByFunctionIdAndIndex() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Point Search Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Point Search Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;
 
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
         // When
-        Optional<PointDto> point = functionDao.findPointByFunctionIdAndIndex(functionId, 1);
+        Optional<Point> point = functionDao.findPointByFunctionIdAndIndex(functionId, 1);
 
         // Then
         assertAll(
@@ -267,26 +267,26 @@ class FunctionDaoTest {
     @DisplayName("Should update individual point")
     void testUpdatePoint() {
         // Given
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Point Update Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Point Update Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;
 
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)
         );
         functionDao.savePoints(functionId, points);
 
         // When
-        PointDto updatedPoint = new PointDto(1L, functionId, 2.0, 8.0, 1); // Изменяем Y
+        Point updatedPoint = new Point(1L, functionId, 2.0, 8.0, 1); // Изменяем Y
         boolean updateResult = functionDao.updatePoint(functionId, updatedPoint);
 
         // Then
         assertTrue(updateResult, "Point update should be successful");
 
-        Optional<PointDto> foundPoint = functionDao.findPointByFunctionIdAndIndex(functionId, 1);
+        Optional<Point> foundPoint = functionDao.findPointByFunctionIdAndIndex(functionId, 1);
         assertAll(
                 () -> assertTrue(foundPoint.isPresent()),
                 () -> assertEquals(8.0, foundPoint.get().getY(), 0.001, "Y value should be updated")
@@ -297,20 +297,20 @@ class FunctionDaoTest {
     @Order(8)
     @DisplayName("Should delete individual point")
     void testDeletePoint() {
-        FunctionDto function = new FunctionDto(TEST_USER_ID, "Point Update Test", "TABULATED",
+        Function function = new Function(TEST_USER_ID, "Point Update Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;
 
         Long TEST_POINT_ID = 1L;
-        List<PointDto> points = Arrays.asList(
-                new PointDto(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
-                new PointDto(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
-                new PointDto(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
+        List<Point> points = Arrays.asList(
+                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),
+                new Point(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),
+                new Point(TEST_POINT_ID, functionId, 3.0, 9.0, 2)
         );
         functionDao.savePoints(functionId, points);
 
-        PointDto pointToDelete = points.get(1);
+        Point pointToDelete = points.get(1);
         boolean Result = functionDao.deletePoint(pointToDelete.getId());
         assertTrue(Result, "Point delete should be successful");
 
@@ -323,7 +323,7 @@ class FunctionDaoTest {
     @Order(9)
     @DisplayName("Should check function for existence by function ID")
     void testExistsById() {
-        FunctionDto function = new FunctionDto(TEST_FUNC_ID, TEST_USER_ID, "Existence by ID Test", "TABULATED",
+        Function function = new Function(TEST_FUNC_ID, TEST_USER_ID, "Existence by ID Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
         savedFunctionId = functionId;

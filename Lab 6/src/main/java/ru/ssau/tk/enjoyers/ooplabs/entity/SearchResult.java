@@ -1,4 +1,4 @@
-package ru.ssau.tk.enjoyers.ooplabs.dto;
+package ru.ssau.tk.enjoyers.ooplabs.entity;
 
 import java.util.List;
 

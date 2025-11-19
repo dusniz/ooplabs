@@ -1,6 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,7 @@ import java.util.Optional;
     private static final Logger logger = LogManager.getLogger(JdbcUserDao.class);
 
     @Override
-    public Optional<UserDto> findById(Long id) {
+    public Optional<User> findById(Long id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -25,7 +25,7 @@ import java.util.Optional;
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                UserDto user = mapResultSetToUser(rs);
+                User user = mapResultSetToUser(rs);
                 logger.debug("Found user by id: {}", id);
                 return Optional.of(user);
             }
@@ -37,7 +37,7 @@ import java.util.Optional;
     }
 
     @Override
-    public Optional<UserDto> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -47,7 +47,7 @@ import java.util.Optional;
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                UserDto user = mapResultSetToUser(rs);
+                User user = mapResultSetToUser(rs);
                 logger.debug("Found user by username: {}", username);
                 return Optional.of(user);
             }
@@ -59,8 +59,8 @@ import java.util.Optional;
     }
 
     @Override
-    public List<UserDto> findAll() {
-        List<UserDto> users = new ArrayList<>();
+    public List<User> findAll() {
+        List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users ORDER BY id DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -68,7 +68,7 @@ import java.util.Optional;
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                UserDto user = mapResultSetToUser(rs);
+                User user = mapResultSetToUser(rs);
                 users.add(user);
             }
 
@@ -81,7 +81,7 @@ import java.util.Optional;
     }
 
     @Override
-    public Long save(UserDto user) {
+    public Long save(User user) {
         String sql = "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?::user_role) RETURNING id";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -106,13 +106,13 @@ import java.util.Optional;
         return null;
     }
 
-    private UserDto mapResultSetToUser(ResultSet rs) throws SQLException {
-        return new UserDto(Long.parseLong(rs.getString("id")) ,rs.getString("username"),
+    private User mapResultSetToUser(ResultSet rs) throws SQLException {
+        return new User(Long.parseLong(rs.getString("id")) ,rs.getString("username"),
                 rs.getString("password_hash"), Role.fromCode(rs.getString("role")));
     }
 
     @Override
-    public boolean update(UserDto user) {
+    public boolean update(User user) {
         String sql = "UPDATE users SET username = ?, password_hash = ?, role = ?::user_role WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();

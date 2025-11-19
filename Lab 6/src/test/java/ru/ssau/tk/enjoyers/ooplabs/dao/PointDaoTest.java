@@ -2,11 +2,11 @@ package ru.ssau.tk.enjoyers.ooplabs.dao;
 
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -52,11 +52,11 @@ class PointDaoTest {
         }
 
         JdbcUserDao userDao = new JdbcUserDao();
-        UserDto user = new UserDto(1L, "test", "111", Role.USER);
+        User user = new User(1L, "test", "111", Role.USER);
         userDao.save(user);
 
         JdbcFunctionDao functionDao = new JdbcFunctionDao();
-        FunctionDto function = new FunctionDto(1L, 1L, "Point Test", "TABULATED",
+        Function function = new Function(1L, 1L, "Point Test", "TABULATED",
                 "", 0, "TABULATED_ARRAY");
         functionDao.save(function);
 
@@ -81,15 +81,15 @@ class PointDaoTest {
     @DisplayName("Should save and find points by function ID")
     void testSaveAndFindPointsByFunctionId() {
         Long TEST_POINT_ID = 1L;
-        PointDto point1 = new PointDto(TEST_POINT_ID++, TEST_FUNC_ID, 0.0, 0.0, 0);
-        PointDto point2 = new PointDto(TEST_POINT_ID++, TEST_FUNC_ID, 1.0, 1.0, 1);
-        PointDto point3 = new PointDto(TEST_POINT_ID++, TEST_FUNC_ID, 2.0, 4.0, 2);
+        Point point1 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 0.0, 0.0, 0);
+        Point point2 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 1.0, 1.0, 1);
+        Point point3 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 2.0, 4.0, 2);
 
         pointDao.save(point1);
         pointDao.save(point2);
         pointDao.save(point3);
 
-        List<PointDto> points = pointDao.findByFunctionId(TEST_FUNC_ID);
+        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);
 
         assertAll(
                 () -> assertNotNull(points, "Points list should not be null"),
@@ -104,11 +104,11 @@ class PointDaoTest {
     @DisplayName("Should find point by function ID and index")
     void testFindPointByFunctionIdAndIndex() {
         // Given
-        PointDto point = new PointDto(TEST_FUNC_ID, 5.0, 25.0, 3);
+        Point point = new Point(TEST_FUNC_ID, 5.0, 25.0, 3);
         pointDao.save(point);
 
         // When
-        Optional<PointDto> foundPoint = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 3);
+        Optional<Point> foundPoint = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 3);
 
         // Then
         assertAll(
@@ -124,19 +124,19 @@ class PointDaoTest {
     @DisplayName("Should update point coordinates")
     void testUpdatePoint() {
         // Given
-        PointDto point = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 0);
+        Point point = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);
         Long pointId = pointDao.save(point);
         savedPointId = pointId;
 
         // When
-        PointDto pointToUpdate = new PointDto(pointId, TEST_FUNC_ID, 1.0, 2.0, 0);
+        Point pointToUpdate = new Point(pointId, TEST_FUNC_ID, 1.0, 2.0, 0);
         boolean updateResult = pointDao.update(pointToUpdate);
 
         // Then
         assertAll(
                 () -> assertTrue(updateResult, "Update should be successful"),
                 () -> {
-                    Optional<PointDto> updatedPoint = pointDao.findById(pointId);
+                    Optional<Point> updatedPoint = pointDao.findById(pointId);
                     assertTrue(updatedPoint.isPresent(), "Updated point should be found");
                     assertEquals(2.0, updatedPoint.get().getY(), 0.001, "Y coordinate should be updated");
                 }
@@ -148,7 +148,7 @@ class PointDaoTest {
     @DisplayName("Should delete point by ID")
     void testDeletePoint() {
         // Given
-        PointDto point = new PointDto(TEST_FUNC_ID, 10.0, 100.0, 5);
+        Point point = new Point(TEST_FUNC_ID, 10.0, 100.0, 5);
         Long pointId = pointDao.save(point);
 
         // When
@@ -166,8 +166,8 @@ class PointDaoTest {
     @DisplayName("Should delete all points by function ID")
     void testDeleteAllPointsByFunctionId() {
         // Given
-        PointDto point1 = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 0);
-        PointDto point2 = new PointDto(TEST_FUNC_ID, 2.0, 4.0, 1);
+        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);
+        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 1);
         pointDao.save(point1);
         pointDao.save(point2);
 
@@ -178,7 +178,7 @@ class PointDaoTest {
         assertAll(
                 () -> assertTrue(deleteResult, "Delete should be successful"),
                 () -> {
-                    List<PointDto> pointsAfterDelete = pointDao.findByFunctionId(TEST_FUNC_ID);
+                    List<Point> pointsAfterDelete = pointDao.findByFunctionId(TEST_FUNC_ID);
                     assertTrue(pointsAfterDelete.isEmpty(), "All points should be deleted");
                 }
         );
@@ -189,9 +189,9 @@ class PointDaoTest {
     @DisplayName("Should count points by function ID")
     void testCountPointsByFunctionId() {
         // Given
-        PointDto point1 = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 0);
-        PointDto point2 = new PointDto(TEST_FUNC_ID, 2.0, 4.0, 1);
-        PointDto point3 = new PointDto(TEST_FUNC_ID, 3.0, 9.0, 2);
+        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);
+        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 1);
+        Point point3 = new Point(TEST_FUNC_ID, 3.0, 9.0, 2);
         pointDao.save(point1);
         pointDao.save(point2);
         pointDao.save(point3);
@@ -208,7 +208,7 @@ class PointDaoTest {
     @DisplayName("Should handle non-existent point")
     void testFindNonExistentPoint() {
         // When
-        Optional<PointDto> point = pointDao.findById(999999L);
+        Optional<Point> point = pointDao.findById(999999L);
 
         // Then
         assertFalse(point.isPresent(), "Non-existent point should not be found");
@@ -219,7 +219,7 @@ class PointDaoTest {
     @DisplayName("Should handle non-existent point by function ID and index")
     void testFindNonExistentPointByFunctionIdAndIndex() {
         // When
-        Optional<PointDto> point = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 999);
+        Optional<Point> point = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 999);
 
         // Then
         assertFalse(point.isPresent(), "Non-existent point should not be found");
@@ -233,7 +233,7 @@ class PointDaoTest {
         pointDao.deleteByFunctionId(TEST_FUNC_ID);
 
         // When
-        List<PointDto> points = pointDao.findByFunctionId(TEST_FUNC_ID);
+        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);
 
         // Then
         assertAll(
@@ -247,11 +247,11 @@ class PointDaoTest {
     @DisplayName("Should maintain point index uniqueness")
     void testPointIndexUniqueness() {
         // Given
-        PointDto point1 = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 0);
+        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);
         pointDao.save(point1);
 
         // When - try to save point with same index
-        PointDto point2 = new PointDto(TEST_FUNC_ID, 2.0, 4.0, 0);
+        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 0);
 
         // Then - should handle unique constraint violation
         // Note: Actual behavior depends on DAO implementation
@@ -267,13 +267,13 @@ class PointDaoTest {
     @DisplayName("Should retrieve point by ID after save")
     void testFindPointById() {
         // Given
-        PointDto originalPoint = new PointDto(TEST_FUNC_ID, 7.0, 49.0, 7);
+        Point originalPoint = new Point(TEST_FUNC_ID, 7.0, 49.0, 7);
 
         // When
         Long pointId = pointDao.save(originalPoint);
         savedPointId = pointId;
 
-        Optional<PointDto> foundPoint = pointDao.findById(pointId);
+        Optional<Point> foundPoint = pointDao.findById(pointId);
 
         // Then
         assertAll(
@@ -290,13 +290,13 @@ class PointDaoTest {
     @DisplayName("Should handle points with negative coordinates")
     void testPointsWithNegativeCoordinates() {
         // Given
-        PointDto point = new PointDto(TEST_FUNC_ID, -5.0, -25.0, 10);
+        Point point = new Point(TEST_FUNC_ID, -5.0, -25.0, 10);
 
         // When
         Long pointId = pointDao.save(point);
         savedPointId = pointId;
 
-        Optional<PointDto> foundPoint = pointDao.findById(pointId);
+        Optional<Point> foundPoint = pointDao.findById(pointId);
 
         // Then
         assertAll(
@@ -311,13 +311,13 @@ class PointDaoTest {
     @DisplayName("Should handle points with decimal coordinates")
     void testPointsWithDecimalCoordinates() {
         // Given
-        PointDto point = new PointDto(TEST_FUNC_ID, 3.14159, 2.71828, 15);
+        Point point = new Point(TEST_FUNC_ID, 3.14159, 2.71828, 15);
 
         // When
         Long pointId = pointDao.save(point);
         savedPointId = pointId;
 
-        Optional<PointDto> foundPoint = pointDao.findById(pointId);
+        Optional<Point> foundPoint = pointDao.findById(pointId);
 
         // Then
         assertAll(
@@ -332,10 +332,10 @@ class PointDaoTest {
     @DisplayName("Should maintain points order by index")
     void testPointsOrderByIndex() {
         // Given - save points in random index order
-        PointDto point3 = new PointDto(TEST_FUNC_ID, 3.0, 9.0, 3);
-        PointDto point1 = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 1);
-        PointDto point2 = new PointDto(TEST_FUNC_ID, 2.0, 4.0, 2);
-        PointDto point0 = new PointDto(TEST_FUNC_ID, 0.0, 0.0, 0);
+        Point point3 = new Point(TEST_FUNC_ID, 3.0, 9.0, 3);
+        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 1);
+        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 2);
+        Point point0 = new Point(TEST_FUNC_ID, 0.0, 0.0, 0);
 
         pointDao.save(point3);
         pointDao.save(point1);
@@ -343,7 +343,7 @@ class PointDaoTest {
         pointDao.save(point0);
 
         // When
-        List<PointDto> points = pointDao.findByFunctionId(TEST_FUNC_ID);
+        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);
 
         // Then - points should be ordered by index
         assertAll(
@@ -363,13 +363,13 @@ class PointDaoTest {
         @DisplayName("Should handle zero coordinates")
         void testZeroCoordinates() {
             // Given
-            PointDto point = new PointDto(TEST_FUNC_ID, 0.0, 0.0, 0);
+            Point point = new Point(TEST_FUNC_ID, 0.0, 0.0, 0);
 
             // When
             Long pointId = pointDao.save(point);
 
             // Then
-            Optional<PointDto> foundPoint = pointDao.findById(pointId);
+            Optional<Point> foundPoint = pointDao.findById(pointId);
             assertAll(
                     () -> assertTrue(foundPoint.isPresent()),
                     () -> assertEquals(0.0, foundPoint.get().getX(), 0.0),
@@ -381,13 +381,13 @@ class PointDaoTest {
         @DisplayName("Should handle very large coordinates")
         void testLargeCoordinates() {
             // Given
-            PointDto point = new PointDto(TEST_FUNC_ID, 1.0E+10, -1.0E+10, 100);
+            Point point = new Point(TEST_FUNC_ID, 1.0E+10, -1.0E+10, 100);
 
             // When
             Long pointId = pointDao.save(point);
 
             // Then
-            Optional<PointDto> foundPoint = pointDao.findById(pointId);
+            Optional<Point> foundPoint = pointDao.findById(pointId);
             assertAll(
                     () -> assertTrue(foundPoint.isPresent()),
                     () -> assertEquals(1.0E+10, foundPoint.get().getX(), 1.0),
@@ -399,7 +399,7 @@ class PointDaoTest {
         @DisplayName("Should handle duplicate point deletion")
         void testDuplicateDeletion() {
             // Given
-            PointDto point = new PointDto(TEST_FUNC_ID, 1.0, 1.0, 0);
+            Point point = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);
             Long pointId = pointDao.save(point);
 
             // When - delete twice
@@ -426,11 +426,11 @@ class PointDaoTest {
 
             // When
             for (int i = 0; i < pointCount; i++) {
-                PointDto point = new PointDto(TEST_FUNC_ID, (double) i, (double) i * i, i);
+                Point point = new Point(TEST_FUNC_ID, (double) i, (double) i * i, i);
                 pointDao.save(point);
             }
 
-            List<PointDto> points = pointDao.findByFunctionId(TEST_FUNC_ID);
+            List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);
 
             // Then
             assertEquals(pointCount, points.size(), "Should retrieve all points");
@@ -442,7 +442,7 @@ class PointDaoTest {
             // Given
             int expectedCount = 5;
             for (int i = 0; i < expectedCount; i++) {
-                PointDto point = new PointDto(TEST_FUNC_ID, (double) i, (double) i, i);
+                Point point = new Point(TEST_FUNC_ID, (double) i, (double) i, i);
                 pointDao.save(point);
             }
 

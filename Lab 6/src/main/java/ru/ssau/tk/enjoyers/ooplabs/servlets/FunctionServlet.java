@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/functions")
+@WebServlet("/functions/*")
 public class FunctionServlet extends HttpServlet {
 
     private final JdbcFunctionDao functionDao = new JdbcFunctionDao();
@@ -27,15 +25,35 @@ public class FunctionServlet extends HttpServlet {
     public void init() throws ServletException { }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long userId = Long.parseLong(request.getParameter("userId"));
-        List<FunctionDto> functions = functionDao.findByUserId(userId);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        List<Function> functions = List.of();
+
+        String pathInfo = request.getPathInfo();
+        String[] pathVariables = pathInfo.substring(1).split("/");
+
+        switch (pathVariables.length) {
+            case 1:
+                Long id = Long.parseLong(pathVariables[0]);
+                Optional<Function> function = functionDao.findById(id);
+                if (function.isPresent()) {
+                    functions = List.of(function.get());
+                    break;
+                }
+            case 2:
+                if (pathVariables[0].equals("userId")) {
+                    Long userId = Long.parseLong(pathVariables[1]);
+                    functions = functionDao.findByUserId(userId);
+                    break;
+                }
+            default:
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter printWriter = response.getWriter();
         ObjectWriter objectMapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        for (FunctionDto function : functions)
+        for (Function function : functions)
             printWriter.print(new JSONObject(objectMapper.writeValueAsString(function)));
         printWriter.close();
     }
@@ -52,11 +70,11 @@ public class FunctionServlet extends HttpServlet {
 
         String jsonString = jsonBuilder.toString();
         ObjectMapper mapper = new ObjectMapper();
-        FunctionDto function = mapper.readValue(jsonString, FunctionDto.class);
+        Function function = mapper.readValue(jsonString, Function.class);
 
         // сохраняем функцию
         Long savedFunctionId = functionDao.save(function);
-        Optional<FunctionDto> savedFunction = functionDao.findById(savedFunctionId);
+        Optional<Function> savedFunction = functionDao.findById(savedFunctionId);
 
         // возвращаем функцию
         response.setContentType("application/json");

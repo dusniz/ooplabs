@@ -1,22 +1,15 @@
 package ru.ssau.tk.enjoyers.ooplabs;
 
 import ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchCriteria;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,7 +53,7 @@ class JdbcBenchmark {
         advancedDao = new SearchJdbcFunctionDao(functionDao);
 
         // Создаем тестового пользователя
-        UserDto user = new UserDto("perf_test_user_jdbc", "password", Role.USER);
+        User user = new User("perf_test_user_jdbc", "password", Role.USER);
         testUserId = userDao.save(user);
         assertNotNull(testUserId, "Failed to create test user");
     }
@@ -78,17 +71,17 @@ class JdbcBenchmark {
     @Order(1)
     @DisplayName("Performance: Save functions with points")
     void performanceSaveFunctionsWithPoints() {
-        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
+        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
 
         assertAll(() -> {
             long startTime = System.currentTimeMillis();
 
-            for (FunctionDto function : functions) {
+            for (Function function : functions) {
                 Long functionId = functionDao.save(function);
                 assertNotNull(functionId, "Failed to save function");
 
                 // Генерируем точки для функции
-                List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+                List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
                 functionDao.savePoints(functionId, points);
             }
 
@@ -98,7 +91,7 @@ class JdbcBenchmark {
             System.out.printf("JDBC: Saved %d functions with points in %d ms (%.2f ms per function)%n",
                     LARGE_DATA_SIZE, duration, (double) duration / LARGE_DATA_SIZE);
 
-            List<FunctionDto> savedFunctions = functionDao.findByUserId(testUserId);
+            List<Function> savedFunctions = functionDao.findByUserId(testUserId);
             assertEquals(LARGE_DATA_SIZE, savedFunctions.size());
         });
     }
@@ -107,19 +100,19 @@ class JdbcBenchmark {
     @Order(2)
     @DisplayName("Performance: Read functions with points")
     void performanceReadFunctionsWithPoints() {
-        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
-        for (FunctionDto function : functions) {
+        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
+        for (Function function : functions) {
             Long functionId = functionDao.save(function);
-            List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
             functionDao.savePoints(functionId, points);
         }
 
         assertAll(() -> {
             long startTime = System.currentTimeMillis();
 
-            List<FunctionDto> foundFunctions = functionDao.findByUserId(testUserId);
-            for (FunctionDto function : foundFunctions) {
-                List<PointDto> points = functionDao.findPointsByFunctionId(function.getId());
+            List<Function> foundFunctions = functionDao.findByUserId(testUserId);
+            for (Function function : foundFunctions) {
+                List<Point> points = functionDao.findPointsByFunctionId(function.getId());
 
                 assertFalse(points.isEmpty(), "Function should have points");
             }
@@ -136,19 +129,19 @@ class JdbcBenchmark {
     @Order(3)
     @DisplayName("Performance: Bulk points operations")
     void performanceBulkPointsOperations() {
-        FunctionDto function = new FunctionDto(testUserId, "Bulk Test Function", "TABULATED",
+        Function function = new Function(testUserId, "Bulk Test Function", "TABULATED",
                 "Benchmark function", 0, "TABULATED_ARRAY");
         Long functionId = functionDao.save(function);
 
         assertAll(() -> {
-            List<PointDto> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);
+            List<Point> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);
 
             long startTime = System.currentTimeMillis();
             functionDao.savePoints(functionId, points);
             long insertTime = System.currentTimeMillis() - startTime;
 
             startTime = System.currentTimeMillis();
-            List<PointDto> readPoints = functionDao.findPointsByFunctionId(functionId);
+            List<Point> readPoints = functionDao.findPointsByFunctionId(functionId);
             long readTime = System.currentTimeMillis() - startTime;
 
             startTime = System.currentTimeMillis();
@@ -166,15 +159,15 @@ class JdbcBenchmark {
     @Order(4)
     @DisplayName("Search with sorting")
     void testSearchWithSorting() {
-        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
-        for (FunctionDto function : functions) {
+        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
+        for (Function function : functions) {
             Long functionId = functionDao.save(function);
-            List<PointDto> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
             functionDao.savePoints(functionId, points);
         }
 
-        List<FunctionDto> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
-        List<FunctionDto> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
+        List<Function> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
+        List<Function> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
 
         assertNotNull(ascendingResults);
         assertNotNull(descendingResults);

@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchCriteria;
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchResult;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchResult;
 import java.util.List;
 
 public interface SearchableDao<T> {

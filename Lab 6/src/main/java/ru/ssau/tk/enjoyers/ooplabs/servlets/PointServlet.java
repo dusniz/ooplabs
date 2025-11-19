@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcPointDao;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/points")
+@WebServlet("/points/*")
 public class PointServlet extends HttpServlet {
 
     private final JdbcPointDao pointDao = new JdbcPointDao();
@@ -26,14 +26,34 @@ public class PointServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Long functionId = Long.parseLong(request.getParameter("functionId"));
-        List<PointDto> points = pointDao.findByFunctionId(functionId);
+        List<Point> points = List.of();
+
+        String pathInfo = request.getPathInfo();
+        String[] pathVariables = pathInfo.substring(1).split("/");
+
+        switch (pathVariables.length) {
+            case 1:
+                Long id = Long.parseLong(pathVariables[0]);
+                Optional<Point> point = pointDao.findById(id);
+                if (point.isPresent()) {
+                    points = List.of(point.get());
+                    break;
+                }
+            case 2:
+                if (pathVariables[0].equals("functionId")) {
+                    Long functionId = Long.parseLong(pathVariables[1]);
+                    points = pointDao.findByFunctionId(functionId);
+                    break;
+                }
+            default:
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter printWriter = response.getWriter();
         ObjectWriter objectMapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        for (PointDto point : points)
+        for (Point point : points)
             printWriter.print(new JSONObject(objectMapper.writeValueAsString(point)));
         printWriter.close();
     }
@@ -50,12 +70,11 @@ public class PointServlet extends HttpServlet {
 
         String jsonString = jsonBuilder.toString();
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(jsonString);
-        PointDto point = mapper.readValue(jsonString, PointDto.class);
+        Point point = mapper.readValue(jsonString, Point.class);
 
         // сохраняем точку
         Long savedPointId = pointDao.save(point);
-        Optional<PointDto> savedPoint = pointDao.findById(savedPointId);
+        Optional<Point> savedPoint = pointDao.findById(savedPointId);
 
         // возвращаем точку
         response.setContentType("application/json");

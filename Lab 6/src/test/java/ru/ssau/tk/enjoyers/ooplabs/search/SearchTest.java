@@ -5,11 +5,11 @@ import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
 import ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchCriteria;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
 
 import java.io.BufferedReader;
@@ -57,7 +57,7 @@ class SearchTest {
         }
 
         JdbcUserDao userDao = new JdbcUserDao();
-        UserDto user = new UserDto(1L, "test", "111", Role.USER);
+        User user = new User(1L, "test", "111", Role.USER);
         userDao.save(user);
 
         JdbcFunctionDao baseDao = new JdbcFunctionDao();
@@ -65,7 +65,7 @@ class SearchTest {
         functionDao = new JdbcFunctionDao();
         testUserId = 1L;
 
-        List<FunctionDto> functions = DataGenerator.generateFunctionsDto(1L, (int) (100 * random()));
+        List<Function> functions = DataGenerator.generateFunctionsDto(1L, (int) (100 * random()));
         functions.forEach(f -> functionDao.save(f));
     }
 
@@ -75,7 +75,7 @@ class SearchTest {
     void testSingleFieldSearch() {
         String searchName = "Test";
 
-        List<FunctionDto> results = advancedDao.findByFieldLike("name", searchName);
+        List<Function> results = advancedDao.findByFieldLike("name", searchName);
 
         assertNotNull(results);
         assertTrue(results.stream().allMatch(f -> f.getName().contains(searchName)));
@@ -103,7 +103,7 @@ class SearchTest {
         int page = 1;
         int pageSize = 5;
 
-        List<FunctionDto> results = advancedDao.findWithPagination(page, pageSize);
+        List<Function> results = advancedDao.findWithPagination(page, pageSize);
 
         assertNotNull(results);
         assertTrue(results.size() <= pageSize);
@@ -115,7 +115,7 @@ class SearchTest {
     void testInClauseSearch() {
         List<String> function_classes = Arrays.asList("TABULATED_ARRAY", "TABULATED_LINKED_LIST");
 
-        List<FunctionDto> results = advancedDao.findByFieldIn("function_class", function_classes);
+        List<Function> results = advancedDao.findByFieldIn("function_class", function_classes);
 
         assertNotNull(results);
         assertTrue(results.stream().allMatch(f -> function_classes.contains(f.getFunctionClass())));
@@ -127,7 +127,7 @@ class SearchTest {
     void testBreadthFirstSearch() {
         String searchPattern = "Test";
 
-        List<FunctionDto> results = advancedDao.breadthFirstSearch(testUserId, searchPattern);
+        List<Function> results = advancedDao.breadthFirstSearch(testUserId, searchPattern);
 
         assertNotNull(results);
     }
@@ -154,8 +154,8 @@ class SearchTest {
     @Order(7)
     @DisplayName("Search with sorting")
     void testSearchWithSorting() {
-        List<FunctionDto> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
-        List<FunctionDto> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
+        List<Function> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
+        List<Function> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
 
         assertNotNull(ascendingResults);
         assertNotNull(descendingResults);

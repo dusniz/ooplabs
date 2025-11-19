@@ -1,4 +1,4 @@
-package ru.ssau.tk.enjoyers.ooplabs.dto;
+package ru.ssau.tk.enjoyers.ooplabs.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FunctionDto {
+public class Function {
     private Long id;
     private Long userId;
     private String name;
@@ -18,7 +18,7 @@ public class FunctionDto {
     private Integer pointCount;
     private String functionClass;
 
-    public FunctionDto(Long userId, String name, String type, String description, Integer pointCount, String functionClass) {
+    public Function(Long userId, String name, String type, String description, Integer pointCount, String functionClass) {
         this.userId = userId;
         this.name = name;
         this.type = type;

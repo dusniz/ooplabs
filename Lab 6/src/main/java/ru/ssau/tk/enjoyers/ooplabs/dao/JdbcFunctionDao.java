@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class JdbcFunctionDao implements FunctionDao {
     private static final Logger logger = LogManager.getLogger(JdbcFunctionDao.class);
 
     @Override
-    public Optional<FunctionDto> findById(Long id) {
+    public Optional<Function> findById(Long id) {
         String sql = "SELECT * FROM functions WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -24,7 +24,7 @@ public class JdbcFunctionDao implements FunctionDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                FunctionDto function = mapResultSetToFunction(rs);
+                Function function = mapResultSetToFunction(rs);
                 logger.debug("Found function: {}", function);
                 return Optional.of(function);
             }
@@ -36,8 +36,8 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public List<FunctionDto> findByUserId(Long userId) {
-        List<FunctionDto> functions = new ArrayList<>();
+    public List<Function> findByUserId(Long userId) {
+        List<Function> functions = new ArrayList<>();
         String sql = "SELECT * FROM functions WHERE user_id = ? ORDER BY id DESC";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -47,7 +47,7 @@ public class JdbcFunctionDao implements FunctionDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                FunctionDto function = mapResultSetToFunction(rs);
+                Function function = mapResultSetToFunction(rs);
                 functions.add(function);
             }
 
@@ -60,8 +60,8 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public List<FunctionDto> findByUserIdAndType(Long userId, String type) {
-        List<FunctionDto> functions = new ArrayList<>();
+    public List<Function> findByUserIdAndType(Long userId, String type) {
+        List<Function> functions = new ArrayList<>();
         String sql = "SELECT * FROM functions WHERE user_id = ? AND type = ? ORDER BY name";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -72,7 +72,7 @@ public class JdbcFunctionDao implements FunctionDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                FunctionDto function = mapResultSetToFunction(rs);
+                Function function = mapResultSetToFunction(rs);
                 functions.add(function);
             }
 
@@ -85,7 +85,7 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public Long save(FunctionDto function) {
+    public Long save(Function function) {
         String sql = "INSERT INTO functions (user_id, name, description, type, point_count, function_class) " +
                 "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 
@@ -108,7 +108,7 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public boolean update(FunctionDto function) {
+    public boolean update(Function function) {
         String sql = "UPDATE functions SET name = ?, description = ?, type = ?, " +
                 "point_count = ?, function_class = ? WHERE id = ?";
 
@@ -185,8 +185,8 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public List<PointDto> findPointsByFunctionId(Long functionId) {
-        List<PointDto> points = new ArrayList<>();
+    public List<Point> findPointsByFunctionId(Long functionId) {
+        List<Point> points = new ArrayList<>();
         String sql = "SELECT * FROM points WHERE function_id = ? ORDER BY index";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -196,7 +196,7 @@ public class JdbcFunctionDao implements FunctionDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                PointDto point = mapResultSetToPoint(rs);
+                Point point = mapResultSetToPoint(rs);
                 points.add(point);
             }
 
@@ -209,7 +209,7 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public Optional<PointDto> findPointByFunctionIdAndIndex(Long functionId, Integer index) {
+    public Optional<Point> findPointByFunctionIdAndIndex(Long functionId, Integer index) {
         String sql = "SELECT * FROM points WHERE function_id = ? AND index = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -220,7 +220,7 @@ public class JdbcFunctionDao implements FunctionDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                PointDto point = mapResultSetToPoint(rs);
+                Point point = mapResultSetToPoint(rs);
                 logger.debug("Found point at index {} for function id: {}", index, functionId);
                 return Optional.of(point);
             }
@@ -232,13 +232,13 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public void savePoints(Long functionId, List<PointDto> points) {
+    public void savePoints(Long functionId, List<Point> points) {
         String sql = "INSERT INTO points (function_id, x, y, index) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            for (PointDto point : points) {
+            for (Point point : points) {
                 stmt.setLong(1, functionId);
                 stmt.setDouble(2, point.getX());
                 stmt.setDouble(3, point.getY());
@@ -258,7 +258,7 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     @Override
-    public boolean updatePoint(Long functionId, PointDto point) {
+    public boolean updatePoint(Long functionId, Point point) {
         String sql = "UPDATE points SET x = ?, y = ? WHERE function_id = ? AND index = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -357,18 +357,18 @@ public class JdbcFunctionDao implements FunctionDao {
     }
 
     // Вспомогательные методы
-    private FunctionDto mapResultSetToFunction(ResultSet rs) throws SQLException {
-        return new FunctionDto(rs.getLong("id"), rs.getLong("user_id"),
+    private Function mapResultSetToFunction(ResultSet rs) throws SQLException {
+        return new Function(rs.getLong("id"), rs.getLong("user_id"),
                 rs.getString("name"), rs.getString("description"), rs.getString("type"),
                 rs.getInt("point_count"), rs.getString("function_class"));
     }
 
-    private PointDto mapResultSetToPoint(ResultSet rs) throws SQLException {
-        return new PointDto(rs.getLong("id"), rs.getLong("function_id"),
+    private Point mapResultSetToPoint(ResultSet rs) throws SQLException {
+        return new Point(rs.getLong("id"), rs.getLong("function_id"),
                 rs.getDouble("x"), rs.getDouble("y"), rs.getInt("index"));
     }
 
-    private void setFunctionParameters(PreparedStatement stmt, FunctionDto function) throws SQLException {
+    private void setFunctionParameters(PreparedStatement stmt, Function function) throws SQLException {
         stmt.setLong(1, function.getUserId());
         stmt.setString(2, function.getName());
         stmt.setString(3, function.getDescription());

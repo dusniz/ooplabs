@@ -1,6 +1,6 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +14,8 @@ public class JdbcPointDao implements PointDao {
     private static final Logger logger = LogManager.getLogger(JdbcPointDao.class);
 
     @Override
-    public List<PointDto> findByFunctionId(Long functionId) {
-        List<PointDto> points = new ArrayList<>();
+    public List<Point> findByFunctionId(Long functionId) {
+        List<Point> points = new ArrayList<>();
         String sql = "SELECT * FROM points WHERE function_id = ? ORDER BY index";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -25,7 +25,7 @@ public class JdbcPointDao implements PointDao {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                PointDto point = mapResultSetToPoint(rs);
+                Point point = mapResultSetToPoint(rs);
                 points.add(point);
             }
 
@@ -38,7 +38,7 @@ public class JdbcPointDao implements PointDao {
     }
 
     @Override
-    public Long save(PointDto point) {
+    public Long save(Point point) {
         String sql = "INSERT INTO points (function_id, x, y, index) VALUES (?, ?, ?, ?) RETURNING id";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -81,13 +81,13 @@ public class JdbcPointDao implements PointDao {
         }
     }
 
-    private PointDto mapResultSetToPoint(ResultSet rs) throws SQLException {
-        return new PointDto(rs.getLong("id"), rs.getLong("function_id"),
+    private Point mapResultSetToPoint(ResultSet rs) throws SQLException {
+        return new Point(rs.getLong("id"), rs.getLong("function_id"),
                 rs.getDouble("x"), rs.getDouble("y"), rs.getInt("index"));
     }
 
     @Override
-    public Optional<PointDto> findById(Long id) {
+    public Optional<Point> findById(Long id) {
         String sql = "SELECT * FROM points WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -97,7 +97,7 @@ public class JdbcPointDao implements PointDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                PointDto point = mapResultSetToPoint(rs);
+                Point point = mapResultSetToPoint(rs);
                 logger.debug("Found point by id: {}", id);
                 return Optional.of(point);
             }
@@ -109,7 +109,7 @@ public class JdbcPointDao implements PointDao {
     }
 
     @Override
-    public Optional<PointDto> findByFunctionIdAndIndex(Long functionId, Integer index) {
+    public Optional<Point> findByFunctionIdAndIndex(Long functionId, Integer index) {
         String sql = "SELECT * FROM points WHERE function_id = ? AND index = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -120,7 +120,7 @@ public class JdbcPointDao implements PointDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                PointDto point = mapResultSetToPoint(rs);
+                Point point = mapResultSetToPoint(rs);
                 logger.debug("Found point at index {} for function id: {}", index, functionId);
                 return Optional.of(point);
             }
@@ -133,7 +133,7 @@ public class JdbcPointDao implements PointDao {
     }
 
     @Override
-    public boolean update(PointDto point) {
+    public boolean update(Point point) {
         String sql = "UPDATE points SET x = ?, y = ?, index = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();

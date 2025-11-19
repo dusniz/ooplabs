@@ -1,23 +1,23 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.PointDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 import java.util.List;
 import java.util.Optional;
 
 public interface FunctionDao {
-    Optional<FunctionDto> findById(Long id);
-    List<FunctionDto> findByUserId(Long userId);
-    List<FunctionDto> findByUserIdAndType(Long userId, String type);
-    Long save(FunctionDto function);
-    boolean update(FunctionDto function);
+    Optional<Function> findById(Long id);
+    List<Function> findByUserId(Long userId);
+    List<Function> findByUserIdAndType(Long userId, String type);
+    Long save(Function function);
+    boolean update(Function function);
     boolean delete(Long id);
     boolean existsById(Long id);
 
-    List<PointDto> findPointsByFunctionId(Long functionId);
-    Optional<PointDto> findPointByFunctionIdAndIndex(Long functionId, Integer index);
-    void savePoints(Long functionId, List<PointDto> points);
-    boolean updatePoint(Long functionId, PointDto point);
+    List<Point> findPointsByFunctionId(Long functionId);
+    Optional<Point> findPointByFunctionIdAndIndex(Long functionId, Integer index);
+    void savePoints(Long functionId, List<Point> points);
+    boolean updatePoint(Long functionId, Point point);
     boolean deletePoint(Long pointId);
     boolean deleteAllPointsByFunctionId(Long functionId);
     int countPointsByFunctionId(Long functionId);

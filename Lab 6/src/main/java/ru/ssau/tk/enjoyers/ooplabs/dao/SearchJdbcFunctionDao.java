@@ -1,8 +1,8 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchCriteria;
-import ru.ssau.tk.enjoyers.ooplabs.dto.SearchResult;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
+import ru.ssau.tk.enjoyers.ooplabs.entity.SearchResult;
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
+public class SearchJdbcFunctionDao implements SearchableDao<Function> {
     private static final Logger logger = LogManager.getLogger(SearchJdbcFunctionDao.class);
 
     private final JdbcFunctionDao baseDao;
@@ -22,7 +22,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public SearchResult<FunctionDto> search(SearchCriteria criteria) {
+    public SearchResult<Function> search(SearchCriteria criteria) {
         logger.debug("Начало поиска с критериями: {}", criteria);
 
         if (logger.isDebugEnabled()) {
@@ -31,7 +31,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
                     criteria.getSortField(), criteria.getConditions().size());
         }
 
-        List<FunctionDto> results = new ArrayList<>();
+        List<Function> results = new ArrayList<>();
         int totalCount = 0;
         long startTime = System.currentTimeMillis();
 
@@ -80,7 +80,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
                     ResultSet rs = stmt.executeQuery();
 
                     while (rs.next()) {
-                        FunctionDto function = mapResultSetToFunction(rs);
+                        Function function = mapResultSetToFunction(rs);
                         results.add(function);
                     }
                 }
@@ -91,7 +91,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("ID найденных функций: {}",
-                            results.stream().map(FunctionDto::getId).toList());
+                            results.stream().map(Function::getId).toList());
                 }
 
                 logger.debug("Поиск нашёл {} функций", results.size());
@@ -112,12 +112,12 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public List<FunctionDto> findAll() {
+    public List<Function> findAll() {
         return baseDao.findByUserId(1L);
     }
 
     @Override
-    public List<FunctionDto> findByField(String fieldName, Object value) {
+    public List<Function> findByField(String fieldName, Object value) {
         logger.debug("Поиск по полю: {} = {}", fieldName, value);
         SearchCriteria criteria = new SearchCriteria()
                 .addCondition(fieldName, SearchCriteria.Operator.EQUALS, value);
@@ -125,7 +125,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public List<FunctionDto> findByFieldLike(String fieldName, String pattern) {
+    public List<Function> findByFieldLike(String fieldName, String pattern) {
         logger.debug("Поиск по шаблону: {} LIKE {}", fieldName, pattern);
         SearchCriteria criteria = new SearchCriteria()
                 .addCondition(fieldName, SearchCriteria.Operator.LIKE, "%" + pattern + "%");
@@ -133,7 +133,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public List<FunctionDto> findByFieldIn(String fieldName, List<?> values) {
+    public List<Function> findByFieldIn(String fieldName, List<?> values) {
         logger.debug("Поиск по списку значений: {} IN ({} значений)", fieldName, values.size());
         if (logger.isTraceEnabled()) {
             logger.trace("Значения для поиска IN: {}", values);
@@ -144,7 +144,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public List<FunctionDto> findWithPagination(int page, int pageSize) {
+    public List<Function> findWithPagination(int page, int pageSize) {
         logger.debug("Поиск с пагинацией: страница {}, размер {}", page, pageSize);
         int offset = (page - 1) * pageSize;
         SearchCriteria criteria = new SearchCriteria()
@@ -153,7 +153,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     @Override
-    public List<FunctionDto> findWithSorting(String sortField, SearchCriteria.SortDirection direction) {
+    public List<Function> findWithSorting(String sortField, SearchCriteria.SortDirection direction) {
         logger.debug("Поиск с сортировкой: поле {}, направление {}", sortField, direction);
         SearchCriteria criteria = new SearchCriteria()
                 .sortBy(sortField, direction);
@@ -161,16 +161,16 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     // Поиск в глубину - рекурсивный поиск по связанным данным
-    public List<FunctionDto> depthFirstSearch(Long startUserId, String namePattern) {
+    public List<Function> depthFirstSearch(Long startUserId, String namePattern) {
         logger.info("Запуск поиска в глубину: userId={}, pattern='{}'", startUserId, namePattern);
-        List<FunctionDto> results = new ArrayList<>();
+        List<Function> results = new ArrayList<>();
         depthFirstSearchRecursive(startUserId, namePattern, results, new ArrayList<>());
         logger.info("Поиск в глубину завершен: найдено {} результатов", results.size());
         return results;
     }
 
     private void depthFirstSearchRecursive(Long userId, String namePattern,
-                                           List<FunctionDto> results, List<Long> visited) {
+                                           List<Function> results, List<Long> visited) {
 
         logger.trace("Рекурсивный поиск: userId={}, посещено {}", userId, visited.size());
         if (visited.contains(userId)) {
@@ -180,16 +180,16 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
         visited.add(userId);
 
         // Ищем функции пользователя
-        List<FunctionDto> userFunctions = findByFieldLike("name", namePattern);
+        List<Function> userFunctions = findByFieldLike("name", namePattern);
         results.addAll(userFunctions);
 
         logger.trace("На уровне userId={} найдено {} функций", userId, userFunctions.size());
     }
 
     // Поиск в ширину
-    public List<FunctionDto> breadthFirstSearch(Long startUserId, String namePattern) {
+    public List<Function> breadthFirstSearch(Long startUserId, String namePattern) {
         logger.info("Запуск поиска в ширину: userId={}, pattern='{}'", startUserId, namePattern);
-        List<FunctionDto> results = new ArrayList<>();
+        List<Function> results = new ArrayList<>();
         List<Long> queue = new ArrayList<>();
         List<Long> visited = new ArrayList<>();
 
@@ -208,7 +208,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
             }
             visited.add(currentUserId);
 
-            List<FunctionDto> userFunctions = baseDao.findByUserId(currentUserId).stream()
+            List<Function> userFunctions = baseDao.findByUserId(currentUserId).stream()
                     .filter(f -> f.getName().contains(namePattern))
                     .toList();
             results.addAll(userFunctions);
@@ -220,7 +220,7 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
     }
 
     // Множественный поиск с разными критериями
-    public SearchResult<FunctionDto> multiFieldSearch(List<SearchCriteria> criteriaList) {
+    public SearchResult<Function> multiFieldSearch(List<SearchCriteria> criteriaList) {
         logger.info("Множественный поиск по {} критериям", criteriaList != null ? criteriaList.size() : 0);
         if (criteriaList == null || criteriaList.isEmpty()) {
             logger.warn("Передан пустой список критериев для множественного поиска");
@@ -234,18 +234,18 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
         }
 
         // Объединяем условия через OR
-        List<FunctionDto> allResults = new ArrayList<>();
+        List<Function> allResults = new ArrayList<>();
         int totalCount = 0;
         long startTime = System.currentTimeMillis();
 
         for (SearchCriteria criteria : criteriaList) {
-            SearchResult<FunctionDto> result = search(criteria);
+            SearchResult<Function> result = search(criteria);
             allResults.addAll(result.getItems());
             totalCount += result.getTotalCount();
         }
 
         // Убираем дубликаты
-        List<FunctionDto> uniqueResults = allResults.stream()
+        List<Function> uniqueResults = allResults.stream()
                 .distinct()
                 .toList();
 
@@ -336,8 +336,8 @@ public class SearchJdbcFunctionDao implements SearchableDao<FunctionDto> {
         }
     }
 
-    private FunctionDto mapResultSetToFunction(ResultSet rs) throws SQLException {
-        FunctionDto function = new FunctionDto(
+    private Function mapResultSetToFunction(ResultSet rs) throws SQLException {
+        Function function = new Function(
                 rs.getLong("id"),
                 rs.getLong("user_id"),
                 rs.getString("name"),

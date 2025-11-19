@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.dao;
 
 import ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;
-import ru.ssau.tk.enjoyers.ooplabs.dto.UserDto;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
 import org.junit.jupiter.api.*;
 
@@ -63,7 +63,7 @@ class UserDaoTest {
     @DisplayName("Should save and find user by ID")
     void testSaveAndFindUser() {
         // Given
-        UserDto user = new UserDto(TEST_USERNAME, "hashedpassword123", Role.USER);
+        User user = new User(TEST_USERNAME, "hashedpassword123", Role.USER);
 
         // When
         Long userId = userDao.save(user);
@@ -71,7 +71,7 @@ class UserDaoTest {
         // Then
         assertNotNull(userId, "User ID should not be null after save");
 
-        Optional<UserDto> foundUser = userDao.findById(userId);
+        Optional<User> foundUser = userDao.findById(userId);
         assertTrue(foundUser.isPresent(), "User should be found by id");
         assertEquals(TEST_USERNAME, foundUser.get().getUsername());
         assertEquals(Role.USER, foundUser.get().getRole());
@@ -82,11 +82,11 @@ class UserDaoTest {
     @DisplayName("Should find user by username")
     void testFindByUsername() {
         // Given
-        UserDto user = new UserDto(TEST_USERNAME, "password123");
+        User user = new User(TEST_USERNAME, "password123");
         userDao.save(user);
 
         // When
-        Optional<UserDto> foundUser = userDao.findByUsername(TEST_USERNAME);
+        Optional<User> foundUser = userDao.findByUsername(TEST_USERNAME);
 
         // Then
         assertAll(
@@ -101,7 +101,7 @@ class UserDaoTest {
     @DisplayName("Should check if user exists by username")
     void testExistsByUsername() {
         // Given
-        UserDto user = new UserDto(TEST_USERNAME, "password");
+        User user = new User(TEST_USERNAME, "password");
         userDao.save(user);
 
         // When & Then
@@ -115,15 +115,15 @@ class UserDaoTest {
     @Order(5)
     @DisplayName("Should update user information")
     void testUpdateUser() {
-        UserDto user = new UserDto(TEST_USERNAME, "oldpassword");
+        User user = new User(TEST_USERNAME, "oldpassword");
         Long userId = userDao.save(user);
 
-        UserDto userToUpdate = new UserDto(userId, TEST_USERNAME, "newpassword", Role.ADMIN);
+        User userToUpdate = new User(userId, TEST_USERNAME, "newpassword", Role.ADMIN);
         boolean updateResult = userDao.update(userToUpdate);
 
         assertTrue(updateResult, "Update should be successful");
 
-        Optional<UserDto> updatedUser = userDao.findById(userId);
+        Optional<User> updatedUser = userDao.findById(userId);
         assertAll(
                 () -> assertTrue(updatedUser.isPresent()),
                 () -> assertEquals(Role.ADMIN, updatedUser.get().getRole())
@@ -135,7 +135,7 @@ class UserDaoTest {
     @DisplayName("Should delete user")
     void testDeleteUser() {
         // Given
-        UserDto user = new UserDto(TEST_USERNAME, "password");
+        User user = new User(TEST_USERNAME, "password");
         Long userId = userDao.save(user);
 
         // When
@@ -154,13 +154,13 @@ class UserDaoTest {
     @DisplayName("Should find all users")
     void testFindAllUsers() {
         // Given
-        UserDto user1 = new UserDto("user1_junit", "pass1");
-        UserDto user2 = new UserDto("user2_junit", "pass2");
+        User user1 = new User("user1_junit", "pass1");
+        User user2 = new User("user2_junit", "pass2");
         userDao.save(user1);
         userDao.save(user2);
 
         // When
-        List<UserDto> users = userDao.findAll();
+        List<User> users = userDao.findAll();
 
         // Then
         assertTrue(users.size() >= 2, "Should find at least 2 users");
@@ -175,7 +175,7 @@ class UserDaoTest {
     @DisplayName("Should handle non-existent user")
     void testNonExistentUser() {
         // When
-        Optional<UserDto> user = userDao.findById(999999L);
+        Optional<User> user = userDao.findById(999999L);
 
         // Then
         assertFalse(user.isPresent(), "Non-existent user should not be found");
