@@ -14,6 +14,29 @@ import java.util.Optional;
     public class JdbcUserDao implements UserDao {
     private static final Logger logger = LogManager.getLogger(JdbcUserDao.class);
 
+        @Override
+        public Optional<User> findByCredentials(String username, String passwordHash) {
+            String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
+
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setString(1, username);
+                stmt.setString(2, passwordHash);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    User user = mapResultSetToUser(rs);
+                    logger.debug("Found user {} by credentials", username);
+                    return Optional.of(user);
+                }
+            } catch (SQLException e) {
+                logger.error("Error finding user {} by credentials - {}", username, e.getMessage());
+            }
+
+            return Optional.empty();
+        }
+
     @Override
     public Optional<User> findById(Long id) {
         String sql = "SELECT * FROM users WHERE id = ?";

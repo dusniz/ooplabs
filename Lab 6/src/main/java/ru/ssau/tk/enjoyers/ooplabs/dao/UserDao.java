@@ -7,6 +7,7 @@ import java.util.Optional;
 public interface UserDao {
     Optional<User> findById(Long id);
     Optional<User> findByUsername(String username);
+    Optional<User> findByCredentials(String username, String passwordHash);
     List<User> findAll();
     Long save(User user);
     boolean update(User user);

@@ -4,30 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="updated servlets for users, functions, points DTOs">
+    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="remade servlets using path-variables">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/secured/home.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DataGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcPointDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcPointDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchJdbcFunctionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchJdbcFunctionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchableDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchableDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/FunctionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/PointDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/SearchCriteria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/SearchCriteria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/SearchResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/SearchResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/MainServlet.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,6 +144,9 @@
       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main" />
       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp" />
       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp\secured" />
     </key>
   </component>
   <component name="RunManager" selected="Smart Tomcat.Tomcat Server">
@@ -563,7 +551,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763403597195</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="remade servlets using path-variables">
+      <option name="closed" value="true" />
+      <created>1763525377620</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1763525377620</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -630,7 +626,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add JDBC DAO implementation" />
     <MESSAGE value="fix Role enum" />
     <MESSAGE value="fix create_tables.sql" />
     <MESSAGE value="fix DAO implementation" />
@@ -655,7 +650,8 @@
     <MESSAGE value="update JdbcBenchmark" />
     <MESSAGE value="added servlets for users, functions, points DTOs" />
     <MESSAGE value="updated servlets for users, functions, points DTOs" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated servlets for users, functions, points DTOs" />
+    <MESSAGE value="remade servlets using path-variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="remade servlets using path-variables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
