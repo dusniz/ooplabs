@@ -1,26 +1,28 @@
 package ru.ssau.tk.enjoyers.ooplabs.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
 import ru.ssau.tk.enjoyers.ooplabs.dto.AuthDto;
-import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.util.JWTUtil;
 import ru.ssau.tk.enjoyers.ooplabs.util.PasswordUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet("/auth")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/register")
+public class RegisterServlet extends HttpServlet {
 
     private JdbcUserDao userDao = new JdbcUserDao();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -43,32 +45,48 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        Map<String, String> responseData = new HashMap<>();
+        Map<String, Object> responseData = new HashMap<>();
 
         try {
-            Optional<User> foundUser = userDao.findByUsername(authDto.getUsername());
+            User user = new User(
+                    authDto.getUsername(),
+                    PasswordUtil.hashPassword(authDto.getPassword())
+            );
 
-            if (foundUser.isPresent() && PasswordUtil.verifyPassword(authDto.getPassword(), foundUser.get().getPasswordHash())) {
-                User user = foundUser.get();
+            // сохраняем пользователя
+            Long savedUserId = userDao.save(user);
+            Optional<User> savedUser = userDao.findById(savedUserId);
+
+            if (savedUser.isPresent()) {
+                user = savedUser.get();
                 String token = JWTUtil.generateToken(user.getUsername(), user.getRole());
 
+                responseData.put("success", true);
+                responseData.put("message", "Registration successful");
                 responseData.put("token", token);
-                responseData.put("username", user.getUsername());
-                responseData.put("role", String.valueOf(user.getRole()));
+                responseData.put("user", Map.of(
+                        "username", user.getUsername(),
+                        "role", user.getRole()
+                ));
 
-                response.setStatus(HttpServletResponse.SC_OK);
-                objectMapper.writeValue(response.getWriter(), responseData);
-            } else {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Invalid credentials");
-                objectMapper.writeValue(response.getWriter(), error);
+                response.setStatus(HttpServletResponse.SC_CREATED);
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            objectMapper.writeValue(response.getWriter(), error);
+            responseData.put("success", false);
+            responseData.put("error", e.getMessage());
+
+        } catch (RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
+            responseData.put("success", false);
+            responseData.put("error", e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            responseData.put("success", false);
+            responseData.put("error", "Registration failed. Please try again.");
         }
+
+        objectMapper.writeValue(response.getWriter(), responseData);
     }
 }

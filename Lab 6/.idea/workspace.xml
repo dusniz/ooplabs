@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="remade servlets using path-variables">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/secured/home.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/AuthDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/RegisterServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/JWTUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/PasswordUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/ValidationUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/MainServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +67,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="framework" />
+        <entry key="$PROJECT_DIR$/.." value="manual" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -148,6 +157,9 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp\secured" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ru.ssau.tk.enjoyers.ooplabs.servlets" />
+    </key>
   </component>
   <component name="RunManager" selected="Smart Tomcat.Tomcat Server">
     <configuration name="LoadDataBaseScripts" type="Application" factoryName="Application">
@@ -221,14 +233,18 @@
       <predefined_log_file id="Tomcat Manager Log" />
       <predefined_log_file id="Tomcat Host Manager Log" />
       <option name="adminPort" value="8006" />
-      <option name="catalinaBase" value="C:\Users\dusn1z\.SmartTomcat\Lab 6\enjoyers-ooplabs" />
+      <option name="catalinaBase" value="C:\Users\mraba\.SmartTomcat\Lab 6\enjoyers-ooplabs" />
       <option name="contextPath" value="/api/v1" />
-      <option name="docBase" value="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp" />
+      <option name="docBase" value="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
+      <option name="envOptions">
+        <map />
+      </option>
       <option name="extraClassPath" value="" />
+      <option name="port" value="1111" />
       <option name="tomcatInfo">
         <TomcatInfo>
           <option name="name" value="Apache Tomcat/11.0.14" />
-          <option name="path" value="$PROJECT_DIR$/../../../Tomcat" />
+          <option name="path" value="$USER_HOME$/OneDrive/Документы/Tomcat" />
           <option name="version" value="11.0.14.0" />
         </TomcatInfo>
       </option>
@@ -237,6 +253,23 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="LoadDataBaseScripts" run_configuration_type="Application" />
+      </method>
+    </configuration>
+    <configuration default="true" type="com.poratu.idea.plugins.tomcat">
+      <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+      <predefined_log_file enabled="true" id="Tomcat Access Log" />
+      <predefined_log_file id="Tomcat Catalina Log" />
+      <predefined_log_file id="Tomcat Manager Log" />
+      <predefined_log_file id="Tomcat Host Manager Log" />
+      <option name="tomcatInfo">
+        <TomcatInfo>
+          <option name="name" value="Apache Tomcat/11.0.14" />
+          <option name="path" value="$USER_HOME$/OneDrive/Документы/Tomcat" />
+          <option name="version" value="11.0.14.0" />
+        </TomcatInfo>
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
@@ -275,9 +308,6 @@
     </configuration>
     <list>
       <item itemvalue="Application.LoadDataBaseScripts" />
-      <item itemvalue="Docker.docker-compose.yml.db-manual: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       <item itemvalue="JUnit.All in enjoyers-ooplabs" />
       <item itemvalue="JUnit.JdbcBenchmark" />
       <item itemvalue="JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints" />
@@ -286,11 +316,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="JUnit.JdbcBenchmark" />
-        <item itemvalue="Docker.docker-compose.yml.db-manual: Compose Deployment" />
         <item itemvalue="JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints" />
-        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>

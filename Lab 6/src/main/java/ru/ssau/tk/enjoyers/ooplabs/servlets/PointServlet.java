@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcPointDao;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
 
 import java.io.BufferedReader;
@@ -84,5 +85,41 @@ public class PointServlet extends HttpServlet {
         if (savedPoint.isPresent())
             printWriter.print(new JSONObject(objectMapper.writeValueAsString(savedPoint.get())));
         printWriter.close();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // парсим JSON из запроса
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null)
+                jsonBuilder.append(line);
+        }
+
+        String jsonString = jsonBuilder.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        Point point = mapper.readValue(jsonString, Point.class);
+
+        try {
+            pointDao.update(point);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String pathInfo = request.getPathInfo();
+        String[] pathVariables = pathInfo.substring(1).split("/");
+
+        if (pathVariables.length == 1) {
+            pointDao.delete(Long.parseLong(pathVariables[0]));
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 }

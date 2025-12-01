@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
+import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 
 import java.io.BufferedReader;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/users/*")
+@WebServlet("/admin/users/*")
 public class UserServlet extends HttpServlet {
 
     private final JdbcUserDao userDao = new JdbcUserDao();
@@ -70,10 +71,47 @@ public class UserServlet extends HttpServlet {
         // возвращаем пользователя
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_CREATED);
         PrintWriter printWriter = response.getWriter();
         ObjectWriter objectMapper = new ObjectMapper().writer().withDefaultPrettyPrinter();
         if (savedUser.isPresent())
             printWriter.print(new JSONObject(objectMapper.writeValueAsString(savedUser.get())));
         printWriter.close();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // парсим JSON из запроса
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null)
+                jsonBuilder.append(line);
+        }
+
+        String jsonString = jsonBuilder.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        User user = mapper.readValue(jsonString, User.class);
+
+        try {
+            userDao.update(user);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String pathInfo = request.getPathInfo();
+        String[] pathVariables = pathInfo.substring(1).split("/");
+
+        if (pathVariables.length == 1) {
+            userDao.delete(Long.parseLong(pathVariables[0]));
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 }

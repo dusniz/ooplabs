@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,5 +85,41 @@ public class FunctionServlet extends HttpServlet {
         if (savedFunction.isPresent())
             printWriter.print(new JSONObject(objectMapper.writeValueAsString(savedFunction.get())));
         printWriter.close();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // парсим JSON из запроса
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null)
+                jsonBuilder.append(line);
+        }
+
+        String jsonString = jsonBuilder.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        Function function = mapper.readValue(jsonString, Function.class);
+
+        try {
+            functionDao.update(function);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String pathInfo = request.getPathInfo();
+        String[] pathVariables = pathInfo.substring(1).split("/");
+
+        if (pathVariables.length == 1) {
+            functionDao.delete(Long.parseLong(pathVariables[0]));
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 }
