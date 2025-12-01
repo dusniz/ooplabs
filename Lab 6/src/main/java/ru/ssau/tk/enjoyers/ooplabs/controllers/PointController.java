@@ -10,6 +10,7 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.services.PointService;
 
 @RestController
+@RequestMapping("/api/v1")
 public class PointController {
 
     private static final Logger logger = LogManager.getLogger(PointController.class);

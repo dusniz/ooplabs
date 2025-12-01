@@ -12,6 +12,7 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 import ru.ssau.tk.enjoyers.ooplabs.services.UserService;
 
 @RestController
+@RequestMapping("/api/v1")
 public class UserController {
 
     private static final Logger logger = LogManager.getLogger(UserController.class);

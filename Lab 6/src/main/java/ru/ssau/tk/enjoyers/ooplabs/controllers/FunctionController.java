@@ -10,6 +10,7 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 
 @RestController
+@RequestMapping("/api/v1")
 public class FunctionController {
 
     private static final Logger logger = LogManager.getLogger(FunctionController.class);
