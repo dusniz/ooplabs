@@ -37,7 +37,7 @@ public class FunctionController {
         }
     }
 
-    @PostMapping("/functions/")
+    @PostMapping("/functions")
     public ResponseEntity<Function> createFunction(@RequestBody Function function) {
         logger.info("POST запрос на создание функции с данными: {}", function);
         try {

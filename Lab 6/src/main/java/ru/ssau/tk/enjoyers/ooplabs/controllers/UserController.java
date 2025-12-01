@@ -12,7 +12,7 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 import ru.ssau.tk.enjoyers.ooplabs.services.UserService;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/admin")
 public class UserController {
 
     private static final Logger logger = LogManager.getLogger(UserController.class);
@@ -45,7 +45,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/users/")
+    @PostMapping("/users")
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest user) {
         logger.info("POST запрос на создание пользователя");
         try {

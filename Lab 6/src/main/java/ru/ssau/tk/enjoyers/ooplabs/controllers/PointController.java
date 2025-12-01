@@ -37,7 +37,7 @@ public class PointController {
         }
     }
 
-    @PostMapping("/points/")
+    @PostMapping("/points")
     public ResponseEntity<Point> createPoint(@RequestBody Point point) {
         logger.info("POST запрос на создание точки с данными: {}", point);
         try {
