@@ -39,8 +39,8 @@ public class SecurityConfiguration {
                         // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
                         .requestMatchers("/api/v1/register").permitAll()
                         .requestMatchers("/api/v1/auth").permitAll()
-                        .requestMatchers("/api/v1/functions").permitAll()
-                        .requestMatchers("/api/v1/points").permitAll()
+                        .requestMatchers("/api/v1/functions/**").permitAll()
+                        .requestMatchers("/api/v1/points/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
