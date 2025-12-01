@@ -1,15 +1,13 @@
 package ru.ssau.tk.enjoyers.ooplabs.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FunctionDto {
-    @Id
-    private Long id;
+public class FunctionRequest{
+
     private Long userId;
     private String name;
     private String description;

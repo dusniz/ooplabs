@@ -19,14 +19,17 @@ public class PointService {
 
     private final PointRepository pointRepository;
     private final FunctionRepository functionRepository;
-    private final FunctionService functionService;
 
     public PointService(PointRepository pointRepository,
-                        FunctionRepository functionRepository,
-                        FunctionService functionService) {
+                        FunctionRepository functionRepository) {
         this.pointRepository = pointRepository;
         this.functionRepository = functionRepository;
-        this.functionService = functionService;
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Point> getPoint(Long pointId) {
+        logger.debug("Getting point by id: {}", pointId);
+        return pointRepository.findById(pointId);
     }
 
     @Transactional(readOnly = true)
@@ -34,12 +37,6 @@ public class PointService {
         logger.debug("Getting points for function id: {}", functionId);
         validateFunctionExists(functionId);
         return pointRepository.findByFunctionIdOrderByIndex(functionId);
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<Point> getPointById(Long pointId) {
-        logger.debug("Getting point by id: {}", pointId);
-        return pointRepository.findById(pointId);
     }
 
     @Transactional(readOnly = true)

@@ -5,16 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionDto;
+import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionResponse;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
-import ru.ssau.tk.enjoyers.ooplabs.mappers.FunctionMapper;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -24,44 +23,6 @@ public class FunctionService {
 
     private final FunctionRepository functionRepository;
     private final PointRepository pointRepository;
-    private final FunctionMapper functionMapper;
-
-    @Transactional(readOnly = true)
-    public Optional<FunctionDto> getFunctionDto(Long id) {
-        logger.debug("Getting function DTO with id: {}", id);
-        return functionRepository.findById(id)
-                .map(functionMapper::FunctiontoFunctionDto);
-    }
-
-    @Transactional(readOnly = true)
-    public List<FunctionDto> getUserFunctionDtos(Long userId) {
-        logger.debug("Getting function DTOs for user: {}", userId);
-        return functionRepository.findByUserId(userId).stream()
-                .map(functionMapper::FunctiontoFunctionDto)
-                .collect(Collectors.toList());
-    }
-
-    public FunctionDto createFunctionFromDto(FunctionDto functionDto) {
-        logger.info("Creating function from DTO: {}", functionDto.getName());
-
-        Function function = functionMapper.FunctionDtotoFunction(functionDto);
-        Function savedFunction = functionRepository.save(function);
-
-        logger.info("Created function from DTO with id: {}", savedFunction.getId());
-        return functionMapper.FunctiontoFunctionDto(savedFunction);
-    }
-
-    public Optional<FunctionDto> updateFunctionFromDto(Long id, FunctionDto functionDto) {
-        logger.info("Updating function from DTO with id: {}", id);
-
-        return functionRepository.findById(id)
-                .map(existingFunction -> {
-                    // Обновляем поля с помощью MapStruct
-                    functionMapper.updateEntityFromDto(functionDto, existingFunction);
-                    Function updatedFunction = functionRepository.save(existingFunction);
-                    return functionMapper.FunctiontoFunctionDto(updatedFunction);
-                });
-    }
 
     @Transactional(readOnly = true)
     public Optional<Function> getFunction(Long id) {
@@ -70,7 +31,7 @@ public class FunctionService {
     }
 
     @Transactional(readOnly = true)
-    public List<Function> getUserFunctions(Long userId) {
+    public List<Function> getFunctionByUserId(Long userId) {
         logger.debug("Getting functions for user: {}", userId);
         return functionRepository.findByUserId(userId);
     }
@@ -105,10 +66,31 @@ public class FunctionService {
         return savedFunction;
     }
 
+    public Function updateFunction(Long functionId, Function function) {
+        logger.info("Updating function: id = {}, name = {}", functionId, function.getName());
+        Function updatedFunction;
+
+        if (functionRepository.existsById(functionId)){
+            function.setId(functionId);
+            updatedFunction = functionRepository.save(function);
+        }
+        else {
+            throw new IllegalArgumentException("No function with such id");
+        }
+
+        logger.info("Updated function with id: {}", functionId);
+        return updatedFunction;
+    }
+
     public void deleteFunction(Long functionId) {
         logger.info("Deleting function: {}", functionId);
 
-        functionRepository.deleteById(functionId);
+        if (functionRepository.existsById(functionId)) {
+            functionRepository.deleteById(functionId);
+        }
+        else {
+            throw new IllegalArgumentException("No function with such id");
+        }
 
         logger.info("Deleted function: {}", functionId);
     }

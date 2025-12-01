@@ -1,12 +1,15 @@
 package ru.ssau.tk.enjoyers.ooplabs.dto;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PointDto {
+public class PointResponse {
+
+    @Id
     private Long id;
     private Long functionId;
     private Double x;
