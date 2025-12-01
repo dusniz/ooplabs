@@ -1,25 +1,24 @@
 package ru.ssau.tk.enjoyers.ooplabs.services;
 
 import lombok.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ssau.tk.enjoyers.ooplabs.dto.FunctionResponse;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class FunctionService {
-    private static final Logger logger = LoggerFactory.getLogger(FunctionService.class);
+
+    private static final Logger logger = LogManager.getLogger(FunctionService.class);
 
     private final FunctionRepository functionRepository;
     private final PointRepository pointRepository;
@@ -75,7 +74,7 @@ public class FunctionService {
             updatedFunction = functionRepository.save(function);
         }
         else {
-            throw new IllegalArgumentException("No function with such id");
+            throw new IllegalArgumentException("No function with such id: " + functionId);
         }
 
         logger.info("Updated function with id: {}", functionId);

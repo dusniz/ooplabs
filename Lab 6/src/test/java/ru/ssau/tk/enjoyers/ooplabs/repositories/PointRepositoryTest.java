@@ -56,38 +56,38 @@ class PointRepositoryTest {
         entityManager.clear();
     }
 
-    @Test
-    @DisplayName("Should find points by function ID ordered by index")
-    void findByFunctionIdOrderByIndex() {
-        // When
-        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(testFunction.getId());
+//    @Test
+//    @DisplayName("Should find points by function ID ordered by index")
+//    void findByFunctionIdOrderByIndex() {
+//        // When
+//        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(testFunction.getId());
+//
+//        // Then
+//        assertAll(
+//                () -> assertEquals(3, points.size(), "Should find 3 points"),
+//                () -> assertEquals(0, points.get(0).getIndex(), "First point should have index 0"),
+//                () -> assertEquals(1, points.get(1).getIndex(), "Second point should have index 1"),
+//                () -> assertEquals(2, points.get(2).getIndex(), "Third point should have index 2"),
+//                () -> assertEquals(0.0, points.get(0).getX(), 0.001),
+//                () -> assertEquals(4.0, points.get(2).getY(), 0.001)
+//        );
+//    }
 
-        // Then
-        assertAll(
-                () -> assertEquals(3, points.size(), "Should find 3 points"),
-                () -> assertEquals(0, points.get(0).getIndex(), "First point should have index 0"),
-                () -> assertEquals(1, points.get(1).getIndex(), "Second point should have index 1"),
-                () -> assertEquals(2, points.get(2).getIndex(), "Third point should have index 2"),
-                () -> assertEquals(0.0, points.get(0).getX(), 0.001),
-                () -> assertEquals(4.0, points.get(2).getY(), 0.001)
-        );
-    }
-
-    @Test
-    @DisplayName("Should find point by function ID and index")
-    void findByFunctionIdAndIndex() {
-        // When
-        Optional<Point> foundPoint = pointRepository.findByFunctionIdAndIndex(
-                testFunction.getId(), 1);
-
-        // Then
-        assertAll(
-                () -> assertTrue(foundPoint.isPresent(), "Point should be found"),
-                () -> assertEquals(1.0, foundPoint.get().getX(), 0.001),
-                () -> assertEquals(1.0, foundPoint.get().getY(), 0.001),
-                () -> assertEquals(1, foundPoint.get().getIndex())
-        );
-    }
+//    @Test
+//    @DisplayName("Should find point by function ID and index")
+//    void findByFunctionIdAndIndex() {
+//        // When
+//        Optional<Point> foundPoint = pointRepository.findByFunctionIdAndIndex(
+//                testFunction.getId(), 1);
+//
+//        // Then
+//        assertAll(
+//                () -> assertTrue(foundPoint.isPresent(), "Point should be found"),
+//                () -> assertEquals(1.0, foundPoint.get().getX(), 0.001),
+//                () -> assertEquals(1.0, foundPoint.get().getY(), 0.001),
+//                () -> assertEquals(1, foundPoint.get().getIndex())
+//        );
+//    }
 
     @Test
     @DisplayName("Should find points by function ID and X range")

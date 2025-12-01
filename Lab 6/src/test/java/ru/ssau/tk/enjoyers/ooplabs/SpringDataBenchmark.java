@@ -78,7 +78,7 @@ class SpringDataBenchmark {
 
             for (Function function : functions.get())
                 functionService.createFunction(function);
-            functions.set(functionService.getUserFunctions(user.getId()));
+            functions.set(functionService.getFunctionByUserId(user.getId()));
 
             for (Function function : functions.get()) {
                 // Генерируем точки для функции
@@ -173,7 +173,7 @@ class SpringDataBenchmark {
         List<Function> functions = DataGenerator.generateFunctions(user.getId(), 100, "TABULATED", "TABULATED_LINKED_LIST");
         for (Function function : functions)
             functionService.createFunction(function);
-        functions = functionService.getUserFunctions(user.getId());
+        functions = functionService.getFunctionByUserId(user.getId());
         for (Function function : functions) {
             // Генерируем точки для функции
             List<Point> points = DataGenerator.generatePoints(function.getId(), 10, 0, 10);

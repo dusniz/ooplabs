@@ -1,10 +1,11 @@
 package ru.ssau.tk.enjoyers.ooplabs.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.User;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.UserRepository;
 
@@ -14,12 +15,18 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getUser(Long id) {
+        logger.debug("Getting user with id: {}", id);
+        return userRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -44,6 +51,27 @@ public class UserService {
 
         logger.info("Created user with id: {}", savedUser.getId());
         return savedUser;
+    }
+
+    public User updateUser(Long userId, String username, String passwordHash, Role role) {
+        logger.info("Updating user with id: {}", userId);
+        User updatedUser;
+
+        if (userRepository.existsById(userId)) {
+            User user = User.builder()
+                    .id(userId)
+                    .username(username)
+                    .passwordHash(passwordHash)
+                    .role(role)
+                    .build();
+            updatedUser = userRepository.save(user);
+        }
+        else {
+            throw new IllegalArgumentException("No user with such id: " + userId);
+        }
+
+        logger.info("Updated user with id: {}", updatedUser.getId());
+        return updatedUser;
     }
 
     public boolean validateUser(String username, String passwordHash) {

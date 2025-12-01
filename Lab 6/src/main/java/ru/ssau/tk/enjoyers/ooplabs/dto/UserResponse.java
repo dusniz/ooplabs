@@ -13,6 +13,5 @@ public class UserResponse {
     @Id
     private Long id;
     private String username;
-    private String passwordHash;
     private Role role;
 }

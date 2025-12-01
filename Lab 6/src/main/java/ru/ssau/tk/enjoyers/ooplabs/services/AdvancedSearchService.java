@@ -1,7 +1,7 @@
 package ru.ssau.tk.enjoyers.ooplabs.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.LinkedList;
 
 @Service
 public class AdvancedSearchService {
-    private static final Logger logger = LoggerFactory.getLogger(AdvancedSearchService.class);
+    private static final Logger logger = LogManager.getLogger(AdvancedSearchService.class);
 
     @Autowired
     private FunctionSearchRepository functionSearchRepository;

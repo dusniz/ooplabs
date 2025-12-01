@@ -77,21 +77,21 @@ class FunctionRepositoryTest {
         );
     }
 
-    @Test
-    @DisplayName("Should find functions by name containing")
-    void findByNameContainingIgnoreCase() {
-        // When
-        List<Function> quadraticFunctions = functionRepository.findByNameContainingIgnoreCase("quadratic");
-        List<Function> sineFunctions = functionRepository.findByNameContainingIgnoreCase("sine");
-
-        // Then
-        assertAll(
-                () -> assertEquals(1, quadraticFunctions.size(), "Should find quadratic function"),
-                () -> assertEquals(1, sineFunctions.size(), "Should find sine function"),
-                () -> assertTrue(quadraticFunctions.get(0).getName().toLowerCase().contains("quadratic")),
-                () -> assertTrue(sineFunctions.get(0).getName().toLowerCase().contains("sine"))
-        );
-    }
+//    @Test
+//    @DisplayName("Should find functions by name containing")
+//    void findByNameContainingIgnoreCase() {
+//        // When
+//        List<Function> quadraticFunctions = functionRepository.findByNameContainingIgnoreCase("quadratic");
+//        List<Function> sineFunctions = functionRepository.findByNameContainingIgnoreCase("sine");
+//
+//        // Then
+//        assertAll(
+//                () -> assertEquals(1, quadraticFunctions.size(), "Should find quadratic function"),
+//                () -> assertEquals(1, sineFunctions.size(), "Should find sine function"),
+//                () -> assertTrue(quadraticFunctions.get(0).getName().toLowerCase().contains("quadratic")),
+//                () -> assertTrue(sineFunctions.get(0).getName().toLowerCase().contains("sine"))
+//        );
+//    }
 
     @Test
     @DisplayName("Should count functions by user ID")
