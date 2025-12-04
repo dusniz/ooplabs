@@ -1,0 +1,27 @@
+version: "3.1"
+
+services:
+  db-manual:
+    image: postgres:latest
+    restart: always
+    container_name: postgres-manual
+    ports:
+      - "54322:5432"
+    networks:
+      - db-manual-network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+
+  adminer-manual:
+    image: adminer
+    restart: always
+    container_name: adminer-manual
+    networks:
+      - db-manual-network
+    ports:
+      - "8082:8080"
+
+networks:
+  db-manual-network:
+    driver: bridge
