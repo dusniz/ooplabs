@@ -1,0 +1,20 @@
+package ru.ssau.tk.enjoyers.ooplabs.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserSignUpRequest {
+
+    @NotBlank(message = "Имя пользователя не может быть пустым")
+    private String username;
+
+    @NotBlank(message = "Пароль не может быть пустым")
+    private String password;
+}
