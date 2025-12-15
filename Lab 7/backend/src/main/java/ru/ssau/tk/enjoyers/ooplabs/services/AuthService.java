@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.ssau.tk.enjoyers.ooplabs.Role;
 import ru.ssau.tk.enjoyers.ooplabs.dto.JwtAuthResponse;
+import ru.ssau.tk.enjoyers.ooplabs.dto.UserResponse;
 import ru.ssau.tk.enjoyers.ooplabs.dto.UserSignInRequest;
 import ru.ssau.tk.enjoyers.ooplabs.dto.UserSignUpRequest;
 import ru.ssau.tk.enjoyers.ooplabs.entities.User;
@@ -31,6 +32,7 @@ public class AuthService {
         var jwt = jwtService.generateToken(user);
         return JwtAuthResponse.builder()
                 .token(jwt)
+                .user(new UserResponse(user.getId(), user.getUsername(), user.getRole()))
                 .build();
     }
 
@@ -47,6 +49,7 @@ public class AuthService {
         var jwt = jwtService.generateToken(user);
         return JwtAuthResponse.builder()
                 .token(jwt)
+                .user(new UserResponse(user.getId(), user.getUsername(), user.getRole()))
                 .build();
     }
 }

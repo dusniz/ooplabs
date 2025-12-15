@@ -6,8 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthResponse {
-
-    private String token;
-    UserResponse user;
+public class FactoryResponse {
+    private String factoryType;
+    private String description;
 }

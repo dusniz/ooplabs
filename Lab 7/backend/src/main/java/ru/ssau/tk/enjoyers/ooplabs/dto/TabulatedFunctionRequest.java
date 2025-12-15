@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FunctionRequest{
+public class TabulatedFunctionRequest{
 
     private Long userId;
     private String name;
