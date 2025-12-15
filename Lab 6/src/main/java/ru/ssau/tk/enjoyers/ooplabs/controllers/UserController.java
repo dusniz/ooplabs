@@ -27,7 +27,8 @@ public class UserController {
             return userService.getUser(id).map(user -> {
                 logger.info("Пользователь с ID: {} успешно найден. Имя пользователя: {}, Роль: {}",
                         id, user.getUsername(), user.getRole());
-                        UserResponse userResponse = UserResponse.builder()
+                UserResponse userResponse = UserResponse.builder()
+                        .id(user.getId())
                         .username(user.getUsername())
                         .role(user.getRole())
                         .build();
@@ -53,6 +54,7 @@ public class UserController {
             logger.info("Пользователь успешно создан с ID: {}. Имя пользователя: {}, Роль: {}",
                     newUser.getId(), newUser.getUsername(), newUser.getRole());
             UserResponse userResponse = UserResponse.builder()
+                    .id(newUser.getId())
                     .username(newUser.getUsername())
                     .role(newUser.getRole())
                     .build();
