@@ -1,0 +1,1238 @@
+Index: ../../Lab 6/docker-compose.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>version: \"3.1\"\r\n\r\nservices:\r\n  db-manual:\r\n    image: postgres:latest\r\n    restart: always\r\n    container_name: postgres-manual\r\n    ports:\r\n      - \"54322:5432\"\r\n    networks:\r\n      - db-manual-network\r\n    environment:\r\n      POSTGRES_USER: postgres\r\n      POSTGRES_PASSWORD: example\r\n\r\n  adminer-manual:\r\n    image: adminer\r\n    restart: always\r\n    container_name: adminer-manual\r\n    networks:\r\n      - db-manual-network\r\n    ports:\r\n      - \"8082:8080\"\r\n\r\nnetworks:\r\n  db-manual-network:\r\n    driver: bridge
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/docker-compose.yml b/../../Lab 6/docker-compose.yml
+--- a/../../Lab 6/docker-compose.yml	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/docker-compose.yml	(date 1765811375036)
+@@ -1,14 +1,28 @@
+ version: "3.1"
+ 
+ services:
++  #  manual:
++  #    container_name: manual
++  #    build: .
++  #    ports:
++  #      - "8080:8080"
++  #    depends_on:
++  #      - db-manual
++  #    environment:
++  #      DATABASE_URL: "postgres://user:password@db:5432/mydatabase"
++  #    networks:
++  #      - manual-network
++
+   db-manual:
+     image: postgres:latest
+     restart: always
+     container_name: postgres-manual
+     ports:
+-      - "54322:5432"
++      - "5432:5432"
+     networks:
+-      - db-manual-network
++      - manual-network
++    volumes:
++      - .\src\main\resources\scripts\create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+     environment:
+       POSTGRES_USER: postgres
+       POSTGRES_PASSWORD: example
+@@ -18,10 +32,10 @@
+     restart: always
+     container_name: adminer-manual
+     networks:
+-      - db-manual-network
++      - manual-network
+     ports:
+       - "8082:8080"
+ 
+ networks:
+-  db-manual-network:
++  manual-network:
+     driver: bridge
+\ No newline at end of file
+Index: ../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.dao;\r\n\r\nimport ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;\r\nimport ru.ssau.tk.enjoyers.ooplabs.Role;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Function;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Point;\r\nimport org.junit.jupiter.api.*;\r\nimport org.junit.jupiter.api.MethodOrderer.OrderAnnotation;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.User;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.sql.Connection;\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.SQLException;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@TestMethodOrder(OrderAnnotation.class)\r\nclass FunctionDaoTest {\r\n    private JdbcFunctionDao functionDao;\r\n    private static final Long TEST_FUNC_ID = 1L;\r\n    private static final Long TEST_USER_ID = 1L;\r\n    private Long savedFunctionId;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        StringBuilder script = new StringBuilder();\r\n        try (BufferedReader reader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\User\\\\IdeaProjects\\\\ooplabs\\\\Lab 5\\\\src\\\\main\\\\resources\\\\scripts\\\\create_tables.sql\"))) {\r\n            String line;\r\n\r\n            while ((line = reader.readLine()) != null) {\r\n                script.append(line).append(\"\\n\");\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            throw new RuntimeException(e);\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        try (Connection conn = DatabaseConnection.getConnection()) {\r\n            PreparedStatement stmt = conn.prepareStatement(script.toString());{\r\n                stmt.execute();\r\n            }\r\n        } catch (SQLException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        JdbcUserDao userDao = new JdbcUserDao();\r\n        User user = new User(1L, \"test\", \"111\", Role.USER);\r\n        userDao.save(user);\r\n\r\n        functionDao = new JdbcFunctionDao();\r\n        cleanupTestFunctions();\r\n    }\r\n\r\n    @AfterEach\r\n    void tearDown() {\r\n        cleanupTestFunctions();\r\n    }\r\n\r\n    private void cleanupTestFunctions() {\r\n        if (savedFunctionId != null) {\r\n            functionDao.delete(savedFunctionId);\r\n        }\r\n        // Дополнительная очистка по имени\r\n        functionDao.findByUserId(TEST_USER_ID).stream()\r\n                .filter(f -> f.getName().contains(\"Test Function\"))\r\n                .forEach(f -> functionDao.delete(f.getId()));\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    @DisplayName(\"Should save and find function with points\")\r\n    void testSaveAndFindFunctionWithPoints() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Test Function\", \"TABULATED\",\r\n                \"\", 0 , \"TABULATED_ARRAY\");\r\n\r\n        // When\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        // Create and save points\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 0.0, 0.0, 0),\r\n                new Point(TEST_POINT_ID++, functionId, 2.5, 6.25, 1),\r\n                new Point(TEST_POINT_ID, functionId, 5.0, 25.0, 2)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        // Then\r\n        assertNotNull(functionId, \"Function ID should not be null\");\r\n\r\n        Optional<Function> foundFunction = functionDao.findById(functionId);\r\n        List<Point> foundPoints = functionDao.findPointsByFunctionId(functionId);\r\n\r\n        assertAll(\r\n                () -> assertTrue(foundFunction.isPresent(), \"Function should be found\"),\r\n                () -> assertEquals(\"Test Function\", foundFunction.get().getName()),\r\n                () -> assertEquals(3, foundPoints.size(), \"Should find 3 points\"),\r\n                () -> assertEquals(6.25, foundPoints.get(1).getY(), 0.001)\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Should find functions by user ID\")\r\n    void testFindByUserId() {\r\n        // Given\r\n        Function function1 = new Function(TEST_USER_ID, \"Function 1\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Function function2 = new Function(TEST_USER_ID, \"Function 2\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_LINKED_LIST\");\r\n\r\n        functionDao.save(function1);\r\n        functionDao.save(function2);\r\n\r\n        List<Function> functions = functionDao.findByUserId(TEST_USER_ID);\r\n\r\n        assertAll(\r\n                () -> assertTrue(functions.size() >= 2, \"Should find at least 2 functions\"),\r\n                () -> assertTrue(functions.stream().allMatch(f -> f.getUserId().equals(TEST_USER_ID)),\r\n                        \"All functions should belong to test user\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Should find functions by user ID and function type\")\r\n    void testFindByUserIdAndType() {\r\n        // Given\r\n        Function function1 = new Function(TEST_USER_ID, \"Function 1\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Function function2 = new Function(TEST_USER_ID, \"Function 2\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_LINKED_LIST\");\r\n\r\n        functionDao.save(function1);\r\n        functionDao.save(function2);\r\n\r\n        List<Function> functions = functionDao.findByUserIdAndType(TEST_USER_ID, \"TABULATED\");\r\n\r\n        assertAll(\r\n                () -> assertTrue(functions.size() >= 2, \"Should find at least 2 functions\"),\r\n                () -> assertTrue(functions.stream().allMatch(f -> f.getUserId().equals(TEST_USER_ID)),\r\n                        \"All functions should belong to test user\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @DisplayName(\"Should update function metadata\")\r\n    void testUpdateFunction() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Update Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        // When\r\n        Function functionToUpdate = new Function(functionId, TEST_USER_ID, \"Updated Name\",\r\n                \"TABULATED\", \"Updated Description\", 0, \"TABULATED_ARRAY\");\r\n        boolean updateResult = functionDao.update(functionToUpdate);\r\n\r\n        // Then\r\n        assertTrue(updateResult, \"Update should be successful\");\r\n\r\n        Optional<Function> updatedFunction = functionDao.findById(functionId);\r\n        assertAll(\r\n                () -> assertTrue(updatedFunction.isPresent()),\r\n                () -> assertEquals(\"Updated Name\", updatedFunction.get().getName()),\r\n                () -> assertEquals(\"Updated Description\", updatedFunction.get().getDescription())\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    @DisplayName(\"Should delete function and its points\")\r\n    void testDeleteFunction() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Delete Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n\r\n        // Add points\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),\r\n                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        // When\r\n        boolean deleteResult = functionDao.delete(functionId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(deleteResult, \"Delete should be successful\"),\r\n                () -> assertFalse(functionDao.findById(functionId).isPresent(),\r\n                        \"Function should be deleted\"),\r\n                () -> assertTrue(functionDao.findPointsByFunctionId(functionId).isEmpty(),\r\n                        \"Function points should be deleted\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(5)\r\n    @DisplayName(\"Should count points by function ID\")\r\n    void testCountPointsByFunctionId() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Count Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),\r\n                new Point(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),\r\n                new Point(TEST_POINT_ID, functionId, 3.0, 9.0, 2)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        // When\r\n        int pointCount = functionDao.countPointsByFunctionId(functionId);\r\n\r\n        // Then\r\n        assertEquals(3, pointCount, \"Should count 3 points\");\r\n    }\r\n\r\n    @Test\r\n    @Order(6)\r\n    @DisplayName(\"Should find point by function ID and index\")\r\n    void testFindPointByFunctionIdAndIndex() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Point Search Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),\r\n                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        // When\r\n        Optional<Point> point = functionDao.findPointByFunctionIdAndIndex(functionId, 1);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(point.isPresent(), \"Point should be found\"),\r\n                () -> assertEquals(2.0, point.get().getX(), 0.001),\r\n                () -> assertEquals(4.0, point.get().getY(), 0.001)\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(7)\r\n    @DisplayName(\"Should update individual point\")\r\n    void testUpdatePoint() {\r\n        // Given\r\n        Function function = new Function(TEST_USER_ID, \"Point Update Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),\r\n                new Point(TEST_POINT_ID, functionId, 2.0, 4.0, 1)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        // When\r\n        Point updatedPoint = new Point(1L, functionId, 2.0, 8.0, 1); // Изменяем Y\r\n        boolean updateResult = functionDao.updatePoint(functionId, updatedPoint);\r\n\r\n        // Then\r\n        assertTrue(updateResult, \"Point update should be successful\");\r\n\r\n        Optional<Point> foundPoint = functionDao.findPointByFunctionIdAndIndex(functionId, 1);\r\n        assertAll(\r\n                () -> assertTrue(foundPoint.isPresent()),\r\n                () -> assertEquals(8.0, foundPoint.get().getY(), 0.001, \"Y value should be updated\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(8)\r\n    @DisplayName(\"Should delete individual point\")\r\n    void testDeletePoint() {\r\n        Function function = new Function(TEST_USER_ID, \"Point Update Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        Long TEST_POINT_ID = 1L;\r\n        List<Point> points = Arrays.asList(\r\n                new Point(TEST_POINT_ID++, functionId, 1.0, 1.0, 0),\r\n                new Point(TEST_POINT_ID++, functionId, 2.0, 4.0, 1),\r\n                new Point(TEST_POINT_ID, functionId, 3.0, 9.0, 2)\r\n        );\r\n        functionDao.savePoints(functionId, points);\r\n\r\n        Point pointToDelete = points.get(1);\r\n        boolean Result = functionDao.deletePoint(pointToDelete.getId());\r\n        assertTrue(Result, \"Point delete should be successful\");\r\n\r\n        functionDao.savePoints(functionId, points);\r\n        Result = functionDao.existsById(pointToDelete.getId());\r\n        assertFalse(Result, \"Check for existence of deleted point\");\r\n    }\r\n\r\n    @Test\r\n    @Order(9)\r\n    @DisplayName(\"Should check function for existence by function ID\")\r\n    void testExistsById() {\r\n        Function function = new Function(TEST_FUNC_ID, TEST_USER_ID, \"Existence by ID Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n        savedFunctionId = functionId;\r\n\r\n        assertTrue(functionDao.existsById(functionId), \"Function should exist\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java
+--- a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java	(date 1765208332258)
+@@ -8,10 +8,7 @@
+ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+ import ru.ssau.tk.enjoyers.ooplabs.entity.User;
+ 
+-import java.io.BufferedReader;
+-import java.io.FileNotFoundException;
+-import java.io.FileReader;
+-import java.io.IOException;
++import java.io.*;
+ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.SQLException;
+@@ -31,7 +28,9 @@
+     @BeforeEach
+     void setUp() {
+         StringBuilder script = new StringBuilder();
+-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
++        try (BufferedReader reader = new BufferedReader(new FileReader(new File
++                ("src\\main\\resources\\scripts\\create_tables.sql")
++                .getAbsolutePath()))) {
+             String line;
+ 
+             while ((line = reader.readLine()) != null) {
+Index: ../../Lab 6/Dockerfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>FROM eclipse-temurin:23-jdk-alpine\r\nVOLUME /tmp\r\nARG JAR_FILE=target/*.jar\r\nCOPY ${JAR_FILE} app.jar\r\nENTRYPOINT [\"sh\", \"-c\", \"java ${JAVA_OPTS} -jar /app.jar ${0} ${@}\"]
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/Dockerfile b/../../Lab 6/Dockerfile
+--- a/../../Lab 6/Dockerfile	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/Dockerfile	(date 1765224011155)
+@@ -1,5 +1,13 @@
+-FROM eclipse-temurin:23-jdk-alpine
+-VOLUME /tmp
+-ARG JAR_FILE=target/*.jar
+-COPY ${JAR_FILE} app.jar
+-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar ${0} ${@}"]
+\ No newline at end of file
++FROM tomcat:11.0-jdk21-temurin
++
++ENV CATALINA_OPTS="-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
++
++RUN rm -rf /usr/local/tomcat/webapps/*
++
++COPY .smarttomcat/enjoyers-ooplabs/conf/* $CATALINA_HOME/conf/
++COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
++
++EXPOSE 8080
++
++# Tomcat автоматически развернет WAR при запуске
++CMD ["catalina.sh", "run"]
+\ No newline at end of file
+Index: ../../Lab 6/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>ru.ssau.tk.enjoyers.ooplabs</groupId>\r\n    <artifactId>enjoyers-ooplabs</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n    <packaging>war</packaging>\r\n\r\n    <properties>\r\n        <maven.compiler.source>21</maven.compiler.source>\r\n        <maven.compiler.target>21</maven.compiler.target>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n    <dependencies>\r\n        <!-- Add these to your existing dependencies -->\r\n        <dependency>\r\n            <groupId>org.mindrot</groupId>\r\n            <artifactId>jbcrypt</artifactId>\r\n            <version>0.4</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.commons</groupId>\r\n            <artifactId>commons-lang3</artifactId>\r\n            <version>3.18.0</version>\r\n        </dependency>\r\n\r\n        <!-- JWT Library -->\r\n        <dependency>\r\n            <groupId>io.jsonwebtoken</groupId>\r\n            <artifactId>jjwt-api</artifactId>\r\n            <version>0.11.5</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>io.jsonwebtoken</groupId>\r\n            <artifactId>jjwt-impl</artifactId>\r\n            <version>0.11.5</version>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>io.jsonwebtoken</groupId>\r\n            <artifactId>jjwt-jackson</artifactId>\r\n            <version>0.11.5</version>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n\r\n        <!-- https://mvnrepository.com/artifact/org.json/json -->\r\n        <dependency>\r\n            <groupId>org.json</groupId>\r\n            <artifactId>json</artifactId>\r\n            <version>20250517</version>\r\n        </dependency>\r\n\r\n        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->\r\n        <dependency>\r\n            <groupId>com.fasterxml.jackson.core</groupId>\r\n            <artifactId>jackson-databind</artifactId>\r\n            <version>2.20.1</version>\r\n        </dependency>\r\n\r\n        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->\r\n        <dependency>\r\n            <groupId>org.postgresql</groupId>\r\n            <artifactId>postgresql</artifactId>\r\n            <version>42.7.8</version>\r\n        </dependency>\r\n\r\n        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <version>1.18.42</version>\r\n        </dependency>\r\n\r\n        <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->\r\n        <dependency>\r\n            <groupId>jakarta.servlet</groupId>\r\n            <artifactId>jakarta.servlet-api</artifactId>\r\n            <version>6.0.0</version>\r\n            <scope>provided</scope>\r\n        </dependency>\r\n\r\n        <!-- JUnit -->\r\n        <dependency>\r\n            <groupId>junit</groupId>\r\n            <artifactId>junit</artifactId>\r\n            <version>RELEASE</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n\r\n        <!-- JUnit jupiter -->\r\n        <dependency>\r\n            <groupId>org.junit.jupiter</groupId>\r\n            <artifactId>junit-jupiter</artifactId>\r\n            <version>RELEASE</version>\r\n            <scope>test</scope>\r\n        </dependency>\r\n\r\n        <!-- Log4J 2.x Core -->\r\n        <dependency>\r\n            <groupId>org.apache.logging.log4j</groupId>\r\n            <artifactId>log4j-core</artifactId>\r\n            <version>2.23.1</version>\r\n        </dependency>\r\n\r\n        <!-- Log4J 2.x API -->\r\n        <dependency>\r\n            <groupId>org.apache.logging.log4j</groupId>\r\n            <artifactId>log4j-api</artifactId>\r\n            <version>2.23.1</version>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <build>\r\n        <finalName>ooplabs</finalName>\r\n    </build>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/pom.xml b/../../Lab 6/pom.xml
+--- a/../../Lab 6/pom.xml	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/pom.xml	(date 1765224365999)
+@@ -15,6 +15,20 @@
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+     <dependencies>
++        <!-- Log4J 2.x Core -->
++        <dependency>
++            <groupId>org.apache.logging.log4j</groupId>
++            <artifactId>log4j-core</artifactId>
++            <version>2.23.1</version>
++        </dependency>
++
++        <!-- Log4J 2.x API -->
++        <dependency>
++            <groupId>org.apache.logging.log4j</groupId>
++            <artifactId>log4j-api</artifactId>
++            <version>2.23.1</version>
++        </dependency>
++
+         <!-- Add these to your existing dependencies -->
+         <dependency>
+             <groupId>org.mindrot</groupId>
+@@ -72,6 +86,7 @@
+             <groupId>org.projectlombok</groupId>
+             <artifactId>lombok</artifactId>
+             <version>1.18.42</version>
++            <scope>provided</scope>
+         </dependency>
+ 
+         <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+@@ -115,5 +130,23 @@
+ 
+     <build>
+         <finalName>ooplabs</finalName>
++        <plugins>
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <version>3.13.0</version>
++                <configuration>
++                    <source>21</source>
++                    <target>21</target>
++                    <annotationProcessorPaths>
++                        <path>
++                            <groupId>org.projectlombok</groupId>
++                            <artifactId>lombok</artifactId>
++                            <version>1.18.30</version>
++                        </path>
++                    </annotationProcessorPaths>
++                </configuration>
++            </plugin>
++        </plugins>
+     </build>
+ </project>
+\ No newline at end of file
+Index: ../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.dao;\r\n\r\nimport ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;\r\nimport ru.ssau.tk.enjoyers.ooplabs.Role;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Function;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Point;\r\nimport org.junit.jupiter.api.*;\r\nimport org.junit.jupiter.api.MethodOrderer.OrderAnnotation;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.User;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.sql.Connection;\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.SQLException;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@TestMethodOrder(OrderAnnotation.class)\r\n@DisplayName(\"JdbcPointDao Tests\")\r\nclass PointDaoTest {\r\n    private JdbcPointDao pointDao;\r\n    private static final Long TEST_FUNC_ID = 1L;\r\n    private static final Long TEST_USER_ID = 1L;\r\n    private Long savedPointId;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        StringBuilder script = new StringBuilder();\r\n        try (BufferedReader reader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\User\\\\IdeaProjects\\\\ooplabs\\\\Lab 5\\\\src\\\\main\\\\resources\\\\scripts\\\\create_tables.sql\"))) {\r\n            String line;\r\n\r\n            while ((line = reader.readLine()) != null) {\r\n                script.append(line).append(\"\\n\");\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            throw new RuntimeException(e);\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        try (Connection conn = DatabaseConnection.getConnection()) {\r\n            PreparedStatement stmt = conn.prepareStatement(script.toString());{\r\n                stmt.execute();\r\n            }\r\n        } catch (SQLException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        JdbcUserDao userDao = new JdbcUserDao();\r\n        User user = new User(1L, \"test\", \"111\", Role.USER);\r\n        userDao.save(user);\r\n\r\n        JdbcFunctionDao functionDao = new JdbcFunctionDao();\r\n        Function function = new Function(1L, 1L, \"Point Test\", \"TABULATED\",\r\n                \"\", 0, \"TABULATED_ARRAY\");\r\n        functionDao.save(function);\r\n\r\n        pointDao = new JdbcPointDao();\r\n        cleanupTestPoints();\r\n    }\r\n\r\n    @AfterEach\r\n    void tearDown() {\r\n        cleanupTestPoints();\r\n    }\r\n\r\n    private void cleanupTestPoints() {\r\n        if (savedPointId != null) {\r\n            pointDao.delete(savedPointId);\r\n        }\r\n        pointDao.deleteByFunctionId(TEST_FUNC_ID);\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    @DisplayName(\"Should save and find points by function ID\")\r\n    void testSaveAndFindPointsByFunctionId() {\r\n        Long TEST_POINT_ID = 1L;\r\n        Point point1 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 0.0, 0.0, 0);\r\n        Point point2 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 1.0, 1.0, 1);\r\n        Point point3 = new Point(TEST_POINT_ID++, TEST_FUNC_ID, 2.0, 4.0, 2);\r\n\r\n        pointDao.save(point1);\r\n        pointDao.save(point2);\r\n        pointDao.save(point3);\r\n\r\n        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);\r\n\r\n        assertAll(\r\n                () -> assertNotNull(points, \"Points list should not be null\"),\r\n                () -> assertEquals(3, points.size(), \"Should find 3 points\"),\r\n                () -> assertEquals(0, points.get(0).getIndex(), \"First point should have index 0\"),\r\n                () -> assertEquals(4.0, points.get(2).getY(), 0.001, \"Third point Y should be 4.0\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Should find point by function ID and index\")\r\n    void testFindPointByFunctionIdAndIndex() {\r\n        // Given\r\n        Point point = new Point(TEST_FUNC_ID, 5.0, 25.0, 3);\r\n        pointDao.save(point);\r\n\r\n        // When\r\n        Optional<Point> foundPoint = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 3);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(foundPoint.isPresent(), \"Point should be found\"),\r\n                () -> assertEquals(5.0, foundPoint.get().getX(), 0.001, \"X coordinate should match\"),\r\n                () -> assertEquals(25.0, foundPoint.get().getY(), 0.001, \"Y coordinate should match\"),\r\n                () -> assertEquals(3, foundPoint.get().getIndex(), \"Point index should match\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @DisplayName(\"Should update point coordinates\")\r\n    void testUpdatePoint() {\r\n        // Given\r\n        Point point = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);\r\n        Long pointId = pointDao.save(point);\r\n        savedPointId = pointId;\r\n\r\n        // When\r\n        Point pointToUpdate = new Point(pointId, TEST_FUNC_ID, 1.0, 2.0, 0);\r\n        boolean updateResult = pointDao.update(pointToUpdate);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(updateResult, \"Update should be successful\"),\r\n                () -> {\r\n                    Optional<Point> updatedPoint = pointDao.findById(pointId);\r\n                    assertTrue(updatedPoint.isPresent(), \"Updated point should be found\");\r\n                    assertEquals(2.0, updatedPoint.get().getY(), 0.001, \"Y coordinate should be updated\");\r\n                }\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    @DisplayName(\"Should delete point by ID\")\r\n    void testDeletePoint() {\r\n        // Given\r\n        Point point = new Point(TEST_FUNC_ID, 10.0, 100.0, 5);\r\n        Long pointId = pointDao.save(point);\r\n\r\n        // When\r\n        boolean deleteResult = pointDao.delete(pointId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(deleteResult, \"Delete should be successful\"),\r\n                () -> assertFalse(pointDao.findById(pointId).isPresent(), \"Point should be deleted\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(5)\r\n    @DisplayName(\"Should delete all points by function ID\")\r\n    void testDeleteAllPointsByFunctionId() {\r\n        // Given\r\n        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);\r\n        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 1);\r\n        pointDao.save(point1);\r\n        pointDao.save(point2);\r\n\r\n        // When\r\n        boolean deleteResult = pointDao.deleteByFunctionId(TEST_FUNC_ID);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(deleteResult, \"Delete should be successful\"),\r\n                () -> {\r\n                    List<Point> pointsAfterDelete = pointDao.findByFunctionId(TEST_FUNC_ID);\r\n                    assertTrue(pointsAfterDelete.isEmpty(), \"All points should be deleted\");\r\n                }\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(6)\r\n    @DisplayName(\"Should count points by function ID\")\r\n    void testCountPointsByFunctionId() {\r\n        // Given\r\n        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);\r\n        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 1);\r\n        Point point3 = new Point(TEST_FUNC_ID, 3.0, 9.0, 2);\r\n        pointDao.save(point1);\r\n        pointDao.save(point2);\r\n        pointDao.save(point3);\r\n\r\n        // When\r\n        int pointCount = pointDao.countByFunctionId(TEST_FUNC_ID);\r\n\r\n        // Then\r\n        assertEquals(3, pointCount, \"Should count 3 points\");\r\n    }\r\n\r\n    @Test\r\n    @Order(7)\r\n    @DisplayName(\"Should handle non-existent point\")\r\n    void testFindNonExistentPoint() {\r\n        // When\r\n        Optional<Point> point = pointDao.findById(999999L);\r\n\r\n        // Then\r\n        assertFalse(point.isPresent(), \"Non-existent point should not be found\");\r\n    }\r\n\r\n    @Test\r\n    @Order(8)\r\n    @DisplayName(\"Should handle non-existent point by function ID and index\")\r\n    void testFindNonExistentPointByFunctionIdAndIndex() {\r\n        // When\r\n        Optional<Point> point = pointDao.findByFunctionIdAndIndex(TEST_FUNC_ID, 999);\r\n\r\n        // Then\r\n        assertFalse(point.isPresent(), \"Non-existent point should not be found\");\r\n    }\r\n\r\n    @Test\r\n    @Order(9)\r\n    @DisplayName(\"Should handle empty points list for function\")\r\n    void testFindPointsForFunctionWithNoPoints() {\r\n        // Given - ensure no points for this function\r\n        pointDao.deleteByFunctionId(TEST_FUNC_ID);\r\n\r\n        // When\r\n        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertNotNull(points, \"Points list should not be null\"),\r\n                () -> assertTrue(points.isEmpty(), \"Points list should be empty\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(10)\r\n    @DisplayName(\"Should maintain point index uniqueness\")\r\n    void testPointIndexUniqueness() {\r\n        // Given\r\n        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);\r\n        pointDao.save(point1);\r\n\r\n        // When - try to save point with same index\r\n        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 0);\r\n\r\n        // Then - should handle unique constraint violation\r\n        // Note: Actual behavior depends on DAO implementation\r\n        // This test documents the expected constraint\r\n        assertDoesNotThrow(() -> {\r\n            // Implementation should handle or prevent duplicate indexes\r\n            pointDao.save(point2);\r\n        });\r\n    }\r\n\r\n    @Test\r\n    @Order(11)\r\n    @DisplayName(\"Should retrieve point by ID after save\")\r\n    void testFindPointById() {\r\n        // Given\r\n        Point originalPoint = new Point(TEST_FUNC_ID, 7.0, 49.0, 7);\r\n\r\n        // When\r\n        Long pointId = pointDao.save(originalPoint);\r\n        savedPointId = pointId;\r\n\r\n        Optional<Point> foundPoint = pointDao.findById(pointId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(foundPoint.isPresent(), \"Point should be found by ID\"),\r\n                () -> assertEquals(7.0, foundPoint.get().getX(), 0.001, \"X coordinate should match\"),\r\n                () -> assertEquals(49.0, foundPoint.get().getY(), 0.001, \"Y coordinate should match\"),\r\n                () -> assertEquals(7, foundPoint.get().getIndex(), \"Point index should match\"),\r\n                () -> assertEquals(TEST_FUNC_ID, foundPoint.get().getFunctionId(), \"Function ID should match\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(12)\r\n    @DisplayName(\"Should handle points with negative coordinates\")\r\n    void testPointsWithNegativeCoordinates() {\r\n        // Given\r\n        Point point = new Point(TEST_FUNC_ID, -5.0, -25.0, 10);\r\n\r\n        // When\r\n        Long pointId = pointDao.save(point);\r\n        savedPointId = pointId;\r\n\r\n        Optional<Point> foundPoint = pointDao.findById(pointId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(foundPoint.isPresent(), \"Point with negative coordinates should be saved\"),\r\n                () -> assertEquals(-5.0, foundPoint.get().getX(), 0.001, \"Negative X coordinate should be preserved\"),\r\n                () -> assertEquals(-25.0, foundPoint.get().getY(), 0.001, \"Negative Y coordinate should be preserved\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(13)\r\n    @DisplayName(\"Should handle points with decimal coordinates\")\r\n    void testPointsWithDecimalCoordinates() {\r\n        // Given\r\n        Point point = new Point(TEST_FUNC_ID, 3.14159, 2.71828, 15);\r\n\r\n        // When\r\n        Long pointId = pointDao.save(point);\r\n        savedPointId = pointId;\r\n\r\n        Optional<Point> foundPoint = pointDao.findById(pointId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(foundPoint.isPresent(), \"Point with decimal coordinates should be saved\"),\r\n                () -> assertEquals(3.14159, foundPoint.get().getX(), 0.00001, \"Decimal X coordinate should be preserved\"),\r\n                () -> assertEquals(2.71828, foundPoint.get().getY(), 0.00001, \"Decimal Y coordinate should be preserved\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(14)\r\n    @DisplayName(\"Should maintain points order by index\")\r\n    void testPointsOrderByIndex() {\r\n        // Given - save points in random index order\r\n        Point point3 = new Point(TEST_FUNC_ID, 3.0, 9.0, 3);\r\n        Point point1 = new Point(TEST_FUNC_ID, 1.0, 1.0, 1);\r\n        Point point2 = new Point(TEST_FUNC_ID, 2.0, 4.0, 2);\r\n        Point point0 = new Point(TEST_FUNC_ID, 0.0, 0.0, 0);\r\n\r\n        pointDao.save(point3);\r\n        pointDao.save(point1);\r\n        pointDao.save(point2);\r\n        pointDao.save(point0);\r\n\r\n        // When\r\n        List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);\r\n\r\n        // Then - points should be ordered by index\r\n        assertAll(\r\n                () -> assertEquals(4, points.size(), \"Should find all 4 points\"),\r\n                () -> assertEquals(0, points.get(0).getIndex(), \"First point should have index 0\"),\r\n                () -> assertEquals(1, points.get(1).getIndex(), \"Second point should have index 1\"),\r\n                () -> assertEquals(2, points.get(2).getIndex(), \"Third point should have index 2\"),\r\n                () -> assertEquals(3, points.get(3).getIndex(), \"Fourth point should have index 3\")\r\n        );\r\n    }\r\n\r\n    @Nested\r\n    @DisplayName(\"Edge Cases\")\r\n    class EdgeCasesTests {\r\n\r\n        @Test\r\n        @DisplayName(\"Should handle zero coordinates\")\r\n        void testZeroCoordinates() {\r\n            // Given\r\n            Point point = new Point(TEST_FUNC_ID, 0.0, 0.0, 0);\r\n\r\n            // When\r\n            Long pointId = pointDao.save(point);\r\n\r\n            // Then\r\n            Optional<Point> foundPoint = pointDao.findById(pointId);\r\n            assertAll(\r\n                    () -> assertTrue(foundPoint.isPresent()),\r\n                    () -> assertEquals(0.0, foundPoint.get().getX(), 0.0),\r\n                    () -> assertEquals(0.0, foundPoint.get().getY(), 0.0)\r\n            );\r\n        }\r\n\r\n        @Test\r\n        @DisplayName(\"Should handle very large coordinates\")\r\n        void testLargeCoordinates() {\r\n            // Given\r\n            Point point = new Point(TEST_FUNC_ID, 1.0E+10, -1.0E+10, 100);\r\n\r\n            // When\r\n            Long pointId = pointDao.save(point);\r\n\r\n            // Then\r\n            Optional<Point> foundPoint = pointDao.findById(pointId);\r\n            assertAll(\r\n                    () -> assertTrue(foundPoint.isPresent()),\r\n                    () -> assertEquals(1.0E+10, foundPoint.get().getX(), 1.0),\r\n                    () -> assertEquals(-1.0E+10, foundPoint.get().getY(), 1.0)\r\n            );\r\n        }\r\n\r\n        @Test\r\n        @DisplayName(\"Should handle duplicate point deletion\")\r\n        void testDuplicateDeletion() {\r\n            // Given\r\n            Point point = new Point(TEST_FUNC_ID, 1.0, 1.0, 0);\r\n            Long pointId = pointDao.save(point);\r\n\r\n            // When - delete twice\r\n            boolean firstDelete = pointDao.delete(pointId);\r\n            boolean secondDelete = pointDao.delete(pointId);\r\n\r\n            // Then\r\n            assertAll(\r\n                    () -> assertTrue(firstDelete, \"First delete should be successful\"),\r\n                    () -> assertFalse(secondDelete, \"Second delete should fail for non-existent point\")\r\n            );\r\n        }\r\n    }\r\n\r\n    @Nested\r\n    @DisplayName(\"Performance Tests\")\r\n    class PerformanceTests {\r\n\r\n        @Test\r\n        @DisplayName(\"Should handle bulk point operations efficiently\")\r\n        void testBulkOperations() {\r\n            // Given - create multiple points\r\n            int pointCount = 10;\r\n\r\n            // When\r\n            for (int i = 0; i < pointCount; i++) {\r\n                Point point = new Point(TEST_FUNC_ID, (double) i, (double) i * i, i);\r\n                pointDao.save(point);\r\n            }\r\n\r\n            List<Point> points = pointDao.findByFunctionId(TEST_FUNC_ID);\r\n\r\n            // Then\r\n            assertEquals(pointCount, points.size(), \"Should retrieve all points\");\r\n        }\r\n\r\n        @Test\r\n        @DisplayName(\"Should count points efficiently\")\r\n        void testEfficientCounting() {\r\n            // Given\r\n            int expectedCount = 5;\r\n            for (int i = 0; i < expectedCount; i++) {\r\n                Point point = new Point(TEST_FUNC_ID, (double) i, (double) i, i);\r\n                pointDao.save(point);\r\n            }\r\n\r\n            // When\r\n            long startTime = System.currentTimeMillis();\r\n            int count = pointDao.countByFunctionId(TEST_FUNC_ID);\r\n            long endTime = System.currentTimeMillis();\r\n\r\n            // Then\r\n            assertAll(\r\n                    () -> assertEquals(expectedCount, count, \"Should count points correctly\"),\r\n                    () -> assertTrue((endTime - startTime) < 1000, \"Counting should be efficient\")\r\n            );\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java
+--- a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java	(date 1765208332253)
+@@ -8,10 +8,7 @@
+ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+ import ru.ssau.tk.enjoyers.ooplabs.entity.User;
+ 
+-import java.io.BufferedReader;
+-import java.io.FileNotFoundException;
+-import java.io.FileReader;
+-import java.io.IOException;
++import java.io.*;
+ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.SQLException;
+@@ -31,7 +28,9 @@
+     @BeforeEach
+     void setUp() {
+         StringBuilder script = new StringBuilder();
+-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
++        try (BufferedReader reader = new BufferedReader(new FileReader(new File
++                ("src\\main\\resources\\scripts\\create_tables.sql")
++                .getAbsolutePath()))) {
+             String line;
+ 
+             while ((line = reader.readLine()) != null) {
+Index: ../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.dao;\r\n\r\nimport ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.User;\r\nimport ru.ssau.tk.enjoyers.ooplabs.Role;\r\nimport org.junit.jupiter.api.*;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.sql.Connection;\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.SQLException;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class)\r\nclass UserDaoTest {\r\n    private JdbcUserDao userDao;\r\n    private static final String TEST_USERNAME = \"testuser_junit\";\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        StringBuilder script = new StringBuilder();\r\n        try (BufferedReader reader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\User\\\\IdeaProjects\\\\ooplabs\\\\Lab 5\\\\src\\\\main\\\\resources\\\\scripts\\\\create_tables.sql\"))) {\r\n            String line;\r\n\r\n            while ((line = reader.readLine()) != null) {\r\n                script.append(line).append(\"\\n\");\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            throw new RuntimeException(e);\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        try (Connection conn = DatabaseConnection.getConnection()) {\r\n            PreparedStatement stmt = conn.prepareStatement(script.toString());{\r\n                stmt.execute();\r\n            }\r\n        } catch (SQLException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        userDao = new JdbcUserDao();\r\n        cleanupTestUser();\r\n    }\r\n\r\n    @AfterEach\r\n    void tearDown() {\r\n        cleanupTestUser();\r\n    }\r\n\r\n    private void cleanupTestUser() {\r\n        userDao.findByUsername(TEST_USERNAME).ifPresent(user -> userDao.delete(user.getId()));\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    @DisplayName(\"Should save and find user by ID\")\r\n    void testSaveAndFindUser() {\r\n        // Given\r\n        User user = new User(TEST_USERNAME, \"hashedpassword123\", Role.USER);\r\n\r\n        // When\r\n        Long userId = userDao.save(user);\r\n\r\n        // Then\r\n        assertNotNull(userId, \"User ID should not be null after save\");\r\n\r\n        Optional<User> foundUser = userDao.findById(userId);\r\n        assertTrue(foundUser.isPresent(), \"User should be found by id\");\r\n        assertEquals(TEST_USERNAME, foundUser.get().getUsername());\r\n        assertEquals(Role.USER, foundUser.get().getRole());\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Should find user by username\")\r\n    void testFindByUsername() {\r\n        // Given\r\n        User user = new User(TEST_USERNAME, \"password123\");\r\n        userDao.save(user);\r\n\r\n        // When\r\n        Optional<User> foundUser = userDao.findByUsername(TEST_USERNAME);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(foundUser.isPresent(), \"User should be found by username\"),\r\n                () -> assertEquals(TEST_USERNAME, foundUser.get().getUsername()),\r\n                () -> assertEquals(Role.USER, foundUser.get().getRole(), \"Default role should be USER\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    @DisplayName(\"Should check if user exists by username\")\r\n    void testExistsByUsername() {\r\n        // Given\r\n        User user = new User(TEST_USERNAME, \"password\");\r\n        userDao.save(user);\r\n\r\n        // When & Then\r\n        assertAll(\r\n                () -> assertTrue(userDao.existsByUsername(TEST_USERNAME)),\r\n                () -> assertFalse(userDao.existsByUsername(\"nonexistentuser\"))\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(5)\r\n    @DisplayName(\"Should update user information\")\r\n    void testUpdateUser() {\r\n        User user = new User(TEST_USERNAME, \"oldpassword\");\r\n        Long userId = userDao.save(user);\r\n\r\n        User userToUpdate = new User(userId, TEST_USERNAME, \"newpassword\", Role.ADMIN);\r\n        boolean updateResult = userDao.update(userToUpdate);\r\n\r\n        assertTrue(updateResult, \"Update should be successful\");\r\n\r\n        Optional<User> updatedUser = userDao.findById(userId);\r\n        assertAll(\r\n                () -> assertTrue(updatedUser.isPresent()),\r\n                () -> assertEquals(Role.ADMIN, updatedUser.get().getRole())\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(6)\r\n    @DisplayName(\"Should delete user\")\r\n    void testDeleteUser() {\r\n        // Given\r\n        User user = new User(TEST_USERNAME, \"password\");\r\n        Long userId = userDao.save(user);\r\n\r\n        // When\r\n        boolean deleteResult = userDao.delete(userId);\r\n\r\n        // Then\r\n        assertAll(\r\n                () -> assertTrue(deleteResult, \"Delete should be successful\"),\r\n                () -> assertFalse(userDao.findById(userId).isPresent(),\r\n                        \"User should be deleted\")\r\n        );\r\n    }\r\n\r\n    @Test\r\n    @Order(7)\r\n    @DisplayName(\"Should find all users\")\r\n    void testFindAllUsers() {\r\n        // Given\r\n        User user1 = new User(\"user1_junit\", \"pass1\");\r\n        User user2 = new User(\"user2_junit\", \"pass2\");\r\n        userDao.save(user1);\r\n        userDao.save(user2);\r\n\r\n        // When\r\n        List<User> users = userDao.findAll();\r\n\r\n        // Then\r\n        assertTrue(users.size() >= 2, \"Should find at least 2 users\");\r\n\r\n        // Cleanup\r\n        userDao.findByUsername(\"user1_junit\").ifPresent(u -> userDao.delete(u.getId()));\r\n        userDao.findByUsername(\"user2_junit\").ifPresent(u -> userDao.delete(u.getId()));\r\n    }\r\n\r\n    @Test\r\n    @Order(8)\r\n    @DisplayName(\"Should handle non-existent user\")\r\n    void testNonExistentUser() {\r\n        // When\r\n        Optional<User> user = userDao.findById(999999L);\r\n\r\n        // Then\r\n        assertFalse(user.isPresent(), \"Non-existent user should not be found\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java
+--- a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java	(date 1765208332263)
+@@ -5,10 +5,7 @@
+ import ru.ssau.tk.enjoyers.ooplabs.Role;
+ import org.junit.jupiter.api.*;
+ 
+-import java.io.BufferedReader;
+-import java.io.FileNotFoundException;
+-import java.io.FileReader;
+-import java.io.IOException;
++import java.io.*;
+ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.SQLException;
+@@ -25,7 +22,9 @@
+     @BeforeEach
+     void setUp() {
+         StringBuilder script = new StringBuilder();
+-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
++        try (BufferedReader reader = new BufferedReader(new FileReader(new File
++                ("src\\main\\resources\\scripts\\create_tables.sql")
++                .getAbsolutePath()))) {
+             String line;
+ 
+             while ((line = reader.readLine()) != null) {
+Index: ../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.search;\r\n\r\nimport ru.ssau.tk.enjoyers.ooplabs.DatabaseConnection;\r\nimport ru.ssau.tk.enjoyers.ooplabs.Role;\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Function;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;\r\nimport org.junit.jupiter.api.*;\r\nimport org.junit.jupiter.api.MethodOrderer.OrderAnnotation;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.User;\r\nimport ru.ssau.tk.enjoyers.ooplabs.DataGenerator;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.sql.Connection;\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.SQLException;\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\nimport static java.lang.Math.random;\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@TestMethodOrder(OrderAnnotation.class)\r\n@DisplayName(\"Search System Tests\")\r\nclass SearchTest {\r\n\r\n    private SearchJdbcFunctionDao advancedDao;\r\n    private JdbcFunctionDao functionDao;\r\n    private Long testUserId;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n        StringBuilder script = new StringBuilder();\r\n        try (BufferedReader reader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\User\\\\IdeaProjects\\\\ooplabs\\\\Lab 5\\\\src\\\\main\\\\resources\\\\scripts\\\\create_tables.sql\"))) {\r\n            String line;\r\n\r\n            while ((line = reader.readLine()) != null) {\r\n                script.append(line).append(\"\\n\");\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            throw new RuntimeException(e);\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        try (Connection conn = DatabaseConnection.getConnection()) {\r\n            PreparedStatement stmt = conn.prepareStatement(script.toString());{\r\n                stmt.execute();\r\n            }\r\n        } catch (SQLException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        JdbcUserDao userDao = new JdbcUserDao();\r\n        User user = new User(1L, \"test\", \"111\", Role.USER);\r\n        userDao.save(user);\r\n\r\n        JdbcFunctionDao baseDao = new JdbcFunctionDao();\r\n        advancedDao = new SearchJdbcFunctionDao(baseDao);\r\n        functionDao = new JdbcFunctionDao();\r\n        testUserId = 1L;\r\n\r\n        List<Function> functions = DataGenerator.generateFunctionsDto(1L, (int) (100 * random()));\r\n        functions.forEach(f -> functionDao.save(f));\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    @DisplayName(\"Single field search\")\r\n    void testSingleFieldSearch() {\r\n        String searchName = \"Test\";\r\n\r\n        List<Function> results = advancedDao.findByFieldLike(\"name\", searchName);\r\n\r\n        assertNotNull(results);\r\n        assertTrue(results.stream().allMatch(f -> f.getName().contains(searchName)));\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Multiple criteria search\")\r\n    void testMultipleCriteriaSearch() {\r\n        SearchCriteria criteria = new SearchCriteria()\r\n                .addCondition(\"type\", SearchCriteria.Operator.EQUALS, \"TABULATED\")\r\n                .addCondition(\"point_count\", SearchCriteria.Operator.GREATER_THAN, 0)\r\n                .sortBy(\"name\", SearchCriteria.SortDirection.ASC);\r\n\r\n        var result = advancedDao.search(criteria);\r\n\r\n        assertNotNull(result);\r\n        assertFalse(result.getItems().isEmpty());\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @DisplayName(\"Pagination search\")\r\n    void testPaginationSearch() {\r\n        int page = 1;\r\n        int pageSize = 5;\r\n\r\n        List<Function> results = advancedDao.findWithPagination(page, pageSize);\r\n\r\n        assertNotNull(results);\r\n        assertTrue(results.size() <= pageSize);\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    @DisplayName(\"IN clause search\")\r\n    void testInClauseSearch() {\r\n        List<String> function_classes = Arrays.asList(\"TABULATED_ARRAY\", \"TABULATED_LINKED_LIST\");\r\n\r\n        List<Function> results = advancedDao.findByFieldIn(\"function_class\", function_classes);\r\n\r\n        assertNotNull(results);\r\n        assertTrue(results.stream().allMatch(f -> function_classes.contains(f.getFunctionClass())));\r\n    }\r\n\r\n    @Test\r\n    @Order(5)\r\n    @DisplayName(\"Breadth-first search\")\r\n    void testBreadthFirstSearch() {\r\n        String searchPattern = \"Test\";\r\n\r\n        List<Function> results = advancedDao.breadthFirstSearch(testUserId, searchPattern);\r\n\r\n        assertNotNull(results);\r\n    }\r\n\r\n    @Test\r\n    @Order(6)\r\n    @DisplayName(\"Multi-criteria search\")\r\n    void testMultiCriteriaSearch() {\r\n        SearchCriteria nameCriteria = new SearchCriteria()\r\n                .addCondition(\"name\", SearchCriteria.Operator.LIKE, \"Test\");\r\n\r\n        SearchCriteria typeCriteria = new SearchCriteria()\r\n                .addCondition(\"type\", SearchCriteria.Operator.EQUALS, \"TABULATED\");\r\n\r\n        List<SearchCriteria> criteriaList = Arrays.asList(nameCriteria, typeCriteria);\r\n\r\n        var result = advancedDao.multiFieldSearch(criteriaList);\r\n\r\n        assertNotNull(result);\r\n        assertFalse(result.getItems().isEmpty());\r\n    }\r\n\r\n    @Test\r\n    @Order(7)\r\n    @DisplayName(\"Search with sorting\")\r\n    void testSearchWithSorting() {\r\n        List<Function> ascendingResults = advancedDao.findWithSorting(\"name\", SearchCriteria.SortDirection.ASC);\r\n        List<Function> descendingResults = advancedDao.findWithSorting(\"name\", SearchCriteria.SortDirection.DESC);\r\n\r\n        assertNotNull(ascendingResults);\r\n        assertNotNull(descendingResults);\r\n\r\n        if (ascendingResults.size() > 1 && descendingResults.size() > 1) {\r\n            // Проверяем, что сортировка работает\r\n            String firstAsc = ascendingResults.get(0).getName();\r\n            String lastAsc = ascendingResults.get(ascendingResults.size() - 1).getName();\r\n            String firstDesc = descendingResults.get(0).getName();\r\n            String lastDesc = descendingResults.get(descendingResults.size() - 1).getName();\r\n\r\n            assertTrue(firstAsc.compareTo(lastAsc) <= 0);\r\n            assertTrue(firstDesc.compareTo(lastDesc) >= 0);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java
+--- a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java	(date 1765289703752)
+@@ -12,10 +12,7 @@
+ import ru.ssau.tk.enjoyers.ooplabs.entity.User;
+ import ru.ssau.tk.enjoyers.ooplabs.DataGenerator;
+ 
+-import java.io.BufferedReader;
+-import java.io.FileNotFoundException;
+-import java.io.FileReader;
+-import java.io.IOException;
++import java.io.*;
+ import java.sql.Connection;
+ import java.sql.PreparedStatement;
+ import java.sql.SQLException;
+@@ -36,7 +33,8 @@
+     @BeforeEach
+     void setUp() {
+         StringBuilder script = new StringBuilder();
+-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
++        try (BufferedReader reader = new BufferedReader(new FileReader(new File
++                ("src\\main\\resources\\scripts\\create_tables.sql")))) {
+             String line;
+ 
+             while ((line = reader.readLine()) != null) {
+Index: ../../Lab 6/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_23\" default=\"true\" project-jdk-name=\"23\" project-jdk-type=\"JavaSDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/.idea/misc.xml b/../../Lab 6/.idea/misc.xml
+--- a/../../Lab 6/.idea/misc.xml	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/.idea/misc.xml	(date 1765224294401)
+@@ -8,5 +8,5 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="graalvm-jdk-21" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: ../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs.filter;\r\n\r\nimport jakarta.servlet.*;\r\nimport jakarta.servlet.annotation.WebFilter;\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\nimport ru.ssau.tk.enjoyers.ooplabs.util.JWTUtil;\r\n\r\nimport java.io.IOException;\r\n\r\n@WebFilter(\"/*\")\r\npublic class JwtAuthenticationFilter implements Filter {\r\n\r\n    @Override\r\n    public void doFilter(ServletRequest servletRequest,\r\n                         ServletResponse servletResponse,\r\n                         FilterChain filterChain) throws IOException, ServletException {\r\n\r\n        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;\r\n        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;\r\n\r\n        String path = httpRequest.getRequestURI();\r\n        if (path.contains(\"/auth\") || path.contains(\"/register\")) {\r\n            filterChain.doFilter(servletRequest, servletResponse);\r\n            return;\r\n        }\r\n\r\n        String authHeader = httpRequest.getHeader(\"Authorization\");\r\n\r\n        if (authHeader == null || !authHeader.startsWith(\"Bearer \")) {\r\n            sendError(httpResponse, \"Missing or invalid Authorization header\");\r\n            return;\r\n        }\r\n\r\n        String token = authHeader.substring(7); // Remove \"Bearer \" prefix\r\n\r\n        try {\r\n            String username = JWTUtil.getUsernameFromToken(token);\r\n            String role = JWTUtil.getRoleFromToken(token);\r\n\r\n            httpRequest.setAttribute(\"username\", username);\r\n            httpRequest.setAttribute(\"role\", role);\r\n\r\n            if (!hasAccess(path, role)) {\r\n                sendError(httpResponse, \"Insufficient permissions\");\r\n                return;\r\n            }\r\n\r\n            filterChain.doFilter(servletRequest, servletResponse);\r\n\r\n        } catch (Exception e) {\r\n            sendError(httpResponse, \"Invalid token: \" + e.getMessage());\r\n        }\r\n    }\r\n\r\n    private boolean hasAccess(String path, String role) {\r\n        if (path.contains(\"/admin\") && !\"ADMIN\".equals(role))\r\n            return false;\r\n        return true;\r\n    }\r\n\r\n    private void sendError(HttpServletResponse response, String message)\r\n            throws IOException {\r\n        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);\r\n        response.setContentType(\"application/json\");\r\n        response.getWriter().write(\"{\\\"error\\\": \\\"\" + message + \"\\\"}\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java b/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java
+--- a/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java	(date 1765811477621)
+@@ -42,7 +42,8 @@
+             httpRequest.setAttribute("role", role);
+ 
+             if (!hasAccess(path, role)) {
+-                sendError(httpResponse, "Insufficient permissions");
++                sendError(httpResponse, "Insufficient p" +
++                        "rmissions");
+                 return;
+             }
+ 
+Index: ../../Lab 6/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"1c0bc866-0cbc-41e5-965c-833c6d0496b7\" name=\"Changes\" comment=\"remade servlets using path-variables\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/AuthDto.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/RegisterServlet.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/JWTUtil.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/PasswordUtil.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/ValidationUtil.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Dockerfile\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Dockerfile\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginFilter.java\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/webapp/login.jsp\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/webapp/login.jsp\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <excluded-from-favorite>\r\n      <branch-storage>\r\n        <map>\r\n          <entry type=\"REMOTE\">\r\n            <value>\r\n              <list>\r\n                <branch-info repo=\"$PROJECT_DIR$/..\" source=\"origin/main\" />\r\n              </list>\r\n            </value>\r\n          </entry>\r\n        </map>\r\n      </branch-storage>\r\n    </excluded-from-favorite>\r\n    <favorite-branches>\r\n      <branch-storage>\r\n        <map>\r\n          <entry type=\"REMOTE\">\r\n            <value>\r\n              <list>\r\n                <branch-info repo=\"$PROJECT_DIR$/..\" source=\"origin/manual\" />\r\n                <branch-info repo=\"$PROJECT_DIR$/..\" source=\"origin/framework\" />\r\n              </list>\r\n            </value>\r\n          </entry>\r\n        </map>\r\n      </branch-storage>\r\n    </favorite-branches>\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$/..\" value=\"manual\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;VoltageRozayx&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/dusniz/ooplabs&quot;,\r\n    &quot;accountId&quot;: &quot;d9e94649-8f4f-4a58-a443-51e3a01acafe&quot;\r\n  }\r\n}</component>\r\n  <component name=\"LogFilters\">\r\n    <option name=\"FILTER_ERRORS\" value=\"false\" />\r\n    <option name=\"FILTER_WARNINGS\" value=\"false\" />\r\n    <option name=\"FILTER_INFO\" value=\"true\" />\r\n    <option name=\"FILTER_DEBUG\" value=\"true\" />\r\n    <option name=\"CUSTOM_FILTER\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"34WbXfsM8xza6YAu4znYfjBSXcN\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Application.LoadDataBaseScripts.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.docker-compose.yml.adminer: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.docker-compose.yml.db-manual: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,\r\n    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,\r\n    &quot;JUnit.All in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,\r\n    &quot;JUnit.FunctionRepositoryTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcBenchmark.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcBenchmark.performanceBulkPointsOperations.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcFunctionDaoTest.executor&quot;: &quot;Coverage&quot;,\r\n    &quot;JUnit.JdbcFunctionDaoTest.testExistsById.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcPerformanceTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcPointDaoTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.JdbcUserDaoTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.PointRepositoryTest.executor&quot;: &quot;Debug&quot;,\r\n    &quot;JUnit.PointRepositoryTest.findByFunctionIdAndIndex.executor&quot;: &quot;Debug&quot;,\r\n    &quot;JUnit.SearchTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.SpringDataBenchmark.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.dao in enjoyers-ooplabs.executor&quot;: &quot;Run&quot;,\r\n    &quot;JUnit.java in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,\r\n    &quot;JUnit.ooplabs in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,\r\n    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,\r\n    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;Shell Script.run-jdbc-tests.sh.executor&quot;: &quot;Debug&quot;,\r\n    &quot;Smart Tomcat.Tomcat Server.executor&quot;: &quot;Run&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;manual&quot;,\r\n    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/dusn1z/Documents/Spring Projects/ooplabs/Lab 6/src/main&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\dusn1z\\Documents\\Spring Projects\\ooplabs\\Lab 6\\src\\main\" />\r\n      <recent name=\"C:\\Users\\dusn1z\\Documents\\Spring Projects\\ooplabs\\Lab 6\\src\\main\\webapp\" />\r\n      <recent name=\"C:\\Users\\dusn1z\\Documents\\Spring Projects\\ooplabs\\Lab 6\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\dusn1z\\Documents\\Spring Projects\\ooplabs\\Lab 6\\src\\main\\webapp\\secured\" />\r\n    </key>\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"ru.ssau.tk.enjoyers.ooplabs.servlets\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Smart Tomcat.Tomcat Server\">\r\n    <configuration name=\"LoadDataBaseScripts\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"ru.ssau.tk.enjoyers.ooplabs.DataBaseScriptsLoader\" />\r\n      <module name=\"enjoyers-ooplabs\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"All in enjoyers-ooplabs\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"enjoyers-ooplabs\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"package\" />\r\n      <dir value=\"$PROJECT_DIR$/src/test/java\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"JdbcBenchmark\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"enjoyers-ooplabs\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"ru.ssau.tk.enjoyers.ooplabs.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"ru.ssau.tk.enjoyers.ooplabs\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"ru.ssau.tk.enjoyers.ooplabs.JdbcBenchmark\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"JdbcBenchmark.performanceReadFunctionsWithPoints\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"enjoyers-ooplabs\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"ru.ssau.tk.enjoyers.ooplabs.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"ru.ssau.tk.enjoyers.ooplabs\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"ru.ssau.tk.enjoyers.ooplabs.JdbcBenchmark\" />\r\n      <option name=\"METHOD_NAME\" value=\"performanceReadFunctionsWithPoints\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"run-jdbc-tests.sh\" type=\"ShConfigurationType\">\r\n      <option name=\"SCRIPT_TEXT\" value=\"\" />\r\n      <option name=\"INDEPENDENT_SCRIPT_PATH\" value=\"true\" />\r\n      <option name=\"SCRIPT_PATH\" value=\"$PROJECT_DIR$/src/main/resources/scripts/run-jdbc-tests.sh\" />\r\n      <option name=\"SCRIPT_OPTIONS\" value=\"\" />\r\n      <option name=\"INDEPENDENT_SCRIPT_WORKING_DIRECTORY\" value=\"true\" />\r\n      <option name=\"SCRIPT_WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/src/main/resources/scripts\" />\r\n      <option name=\"INDEPENDENT_INTERPRETER_PATH\" value=\"false\" />\r\n      <option name=\"INTERPRETER_PATH\" value=\"$PROJECT_DIR$/../../../../../Program Files/Git/bin/bash.exe\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"EXECUTE_IN_TERMINAL\" value=\"true\" />\r\n      <option name=\"EXECUTE_SCRIPT_FILE\" value=\"true\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Tomcat Server\" type=\"com.poratu.idea.plugins.tomcat\">\r\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Localhost Log\" />\r\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Access Log\" />\r\n      <predefined_log_file id=\"Tomcat Catalina Log\" />\r\n      <predefined_log_file id=\"Tomcat Manager Log\" />\r\n      <predefined_log_file id=\"Tomcat Host Manager Log\" />\r\n      <option name=\"adminPort\" value=\"8006\" />\r\n      <option name=\"catalinaBase\" value=\"C:\\Users\\mraba\\.SmartTomcat\\Lab 6\\enjoyers-ooplabs\" />\r\n      <option name=\"contextPath\" value=\"/api/v1\" />\r\n      <option name=\"docBase\" value=\"C:\\Users\\mraba\\IdeaProjects\\ooplabs\\Lab 6\\src\\main\\webapp\" />\r\n      <option name=\"envOptions\">\r\n        <map />\r\n      </option>\r\n      <option name=\"extraClassPath\" value=\"\" />\r\n      <option name=\"port\" value=\"1111\" />\r\n      <option name=\"tomcatInfo\">\r\n        <TomcatInfo>\r\n          <option name=\"name\" value=\"Apache Tomcat/11.0.14\" />\r\n          <option name=\"path\" value=\"$USER_HOME$/OneDrive/Документы/Tomcat\" />\r\n          <option name=\"version\" value=\"11.0.14.0\" />\r\n        </TomcatInfo>\r\n      </option>\r\n      <option name=\"vmOptions\" value=\"\" />\r\n      <module name=\"enjoyers-ooplabs\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n        <option name=\"RunConfigurationTask\" enabled=\"true\" run_configuration_name=\"LoadDataBaseScripts\" run_configuration_type=\"Application\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"com.poratu.idea.plugins.tomcat\">\r\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Localhost Log\" />\r\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Access Log\" />\r\n      <predefined_log_file id=\"Tomcat Catalina Log\" />\r\n      <predefined_log_file id=\"Tomcat Manager Log\" />\r\n      <predefined_log_file id=\"Tomcat Host Manager Log\" />\r\n      <option name=\"tomcatInfo\">\r\n        <TomcatInfo>\r\n          <option name=\"name\" value=\"Apache Tomcat/11.0.14\" />\r\n          <option name=\"path\" value=\"$USER_HOME$/OneDrive/Документы/Tomcat\" />\r\n          <option name=\"version\" value=\"11.0.14.0\" />\r\n        </TomcatInfo>\r\n      </option>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"docker-compose.yml: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"docker-compose.yml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"docker-compose.yml.db-manual: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"db-manual\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"docker-compose.yml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"docker-compose.yml.db: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"services\">\r\n            <list>\r\n              <option value=\"db\" />\r\n            </list>\r\n          </option>\r\n          <option name=\"sourceFilePath\" value=\"docker-compose.yml\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.LoadDataBaseScripts\" />\r\n      <item itemvalue=\"JUnit.All in enjoyers-ooplabs\" />\r\n      <item itemvalue=\"JUnit.JdbcBenchmark\" />\r\n      <item itemvalue=\"JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints\" />\r\n      <item itemvalue=\"Shell Script.run-jdbc-tests.sh\" />\r\n      <item itemvalue=\"Smart Tomcat.Tomcat Server\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.JdbcBenchmark\" />\r\n        <item itemvalue=\"JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"1c0bc866-0cbc-41e5-965c-833c6d0496b7\" name=\"Changes\" comment=\"\" />\r\n      <created>1761332315265</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1761332315265</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"initial commit*\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761332358020</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761332358020</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"add PostgreSQL driver dependency\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761351293934</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761351293934</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"add CreateTables.sql script\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761351390537</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761351390537</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"remove CreateTables.sql script\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761576079087</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761576079087</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"add DatabaseConnection class\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761581785659</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761581785659</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"add DAO interfaces\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761582482298</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761582482298</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"add JDBC DAO implementation\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761582503329</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761582503329</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"fix Role enum\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761582987315</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761582987315</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"fix create_tables.sql\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761597934129</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761597934129</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"fix create_tables.sql\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761609912305</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761609912305</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"fix DAO implementation\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761609972943</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761609972943</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"add multiple constructors to DTO\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761610007069</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761610007069</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"add DAO implementation tests\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761610046010</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761610046010</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"modify FunctionRepository\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761649218669</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761649218669</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"add FunctionRepositoryTest\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761649337518</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761649337518</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"add PointRepositoryTest\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761649355790</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761649355790</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"update PointRepository\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761650932323</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761650932323</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"add search system\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761651476566</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761651476566</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"fix AdvancedJdbcFunctionDao\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761651621059</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761651621059</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"update search system\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761657146562</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761657146562</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00021\" summary=\"add JdbcBenchmark\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761657163792</created>\r\n      <option name=\"number\" value=\"00021\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761657163792</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00022\" summary=\"fix JdbcBenchmark\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1761657254435</created>\r\n      <option name=\"number\" value=\"00022\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1761657254435</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00023\" summary=\"improve sql files management\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762280321071</created>\r\n      <option name=\"number\" value=\"00023\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762280321071</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00024\" summary=\"improve DataGenerator user logging\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762280401253</created>\r\n      <option name=\"number\" value=\"00024\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762280401253</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00025\" summary=\"update JdbcFunctionDaoTest\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762281048965</created>\r\n      <option name=\"number\" value=\"00025\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762281048965</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00026\" summary=\"rename models to entities\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762281234709</created>\r\n      <option name=\"number\" value=\"00026\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762281234709</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00027\" summary=\"improve test coverage\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762416831224</created>\r\n      <option name=\"number\" value=\"00027\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762416831224</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00028\" summary=\"improve test coverage\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762435101804</created>\r\n      <option name=\"number\" value=\"00028\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762435101804</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00029\" summary=\"update JdbcBenchmark\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1762444354707</created>\r\n      <option name=\"number\" value=\"00029\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1762444354707</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00030\" summary=\"added servlets for users, functions, points DTOs\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1763392433096</created>\r\n      <option name=\"number\" value=\"00030\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1763392433096</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00031\" summary=\"updated servlets for users, functions, points DTOs\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1763403597195</created>\r\n      <option name=\"number\" value=\"00031\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1763403597195</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00032\" summary=\"remade servlets using path-variables\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1763525377620</created>\r\n      <option name=\"number\" value=\"00032\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1763525377620</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"33\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"OPEN_GENERIC_TABS\">\r\n      <map>\r\n        <entry key=\"57ed6415-6904-4d2e-89df-47ada1202566\" value=\"TOOL_WINDOW\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_FILTERS\">\r\n      <map>\r\n        <entry key=\"Branch\">\r\n          <value>\r\n            <list>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/framework\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/manual\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"HEAD\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"main\" />\r\n                </option>\r\n              </RecentGroup>\r\n            </list>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"57ed6415-6904-4d2e-89df-47ada1202566\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"origin/framework\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"fix Role enum\" />\r\n    <MESSAGE value=\"fix create_tables.sql\" />\r\n    <MESSAGE value=\"fix DAO implementation\" />\r\n    <MESSAGE value=\"add more constructors to DTO\" />\r\n    <MESSAGE value=\"add multiple constructors to DTO\" />\r\n    <MESSAGE value=\"add JDBC implementation tests\" />\r\n    <MESSAGE value=\"add DAO implementation tests\" />\r\n    <MESSAGE value=\"modify FunctionRepository\" />\r\n    <MESSAGE value=\"add FunctionRepositoryTest\" />\r\n    <MESSAGE value=\"add PointRepositoryTest\" />\r\n    <MESSAGE value=\"update PointRepository\" />\r\n    <MESSAGE value=\"add search system\" />\r\n    <MESSAGE value=\"fix AdvancedJdbcFunctionDao\" />\r\n    <MESSAGE value=\"update search system\" />\r\n    <MESSAGE value=\"add JdbcBenchmark\" />\r\n    <MESSAGE value=\"fix JdbcBenchmark\" />\r\n    <MESSAGE value=\"improve sql files management\" />\r\n    <MESSAGE value=\"improve DataGenerator user logging\" />\r\n    <MESSAGE value=\"update JdbcFunctionDaoTest\" />\r\n    <MESSAGE value=\"rename models to entities\" />\r\n    <MESSAGE value=\"improve test coverage\" />\r\n    <MESSAGE value=\"update JdbcBenchmark\" />\r\n    <MESSAGE value=\"added servlets for users, functions, points DTOs\" />\r\n    <MESSAGE value=\"updated servlets for users, functions, points DTOs\" />\r\n    <MESSAGE value=\"remade servlets using path-variables\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"remade servlets using path-variables\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java</url>\r\n          <line>87</line>\r\n          <option name=\"timeStamp\" value=\"42\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$All_in_enjoyers_ooplabs.ic\" NAME=\"All in enjoyers-ooplabs Coverage Results\" MODIFIED=\"1761658888437\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\" />\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$JdbcFunctionDaoTest.ic\" NAME=\"JdbcFunctionDaoTest Coverage Results\" MODIFIED=\"1761659622580\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\">\r\n      <FILTER>ru.ssau.tk.enjoyers.ooplabs.dao.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$JdbcBenchmark_performanceBulkPointsOperations.ic\" NAME=\"JdbcBenchmark.performanceBulkPointsOperations Coverage Results\" MODIFIED=\"1762439917323\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\">\r\n      <FILTER>ru.ssau.tk.enjoyers.ooplabs.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$ooplabs_in_enjoyers_ooplabs.ic\" NAME=\"ooplabs in enjoyers-ooplabs Coverage Results\" MODIFIED=\"1761658392943\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\" />\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$dao_in_enjoyers_ooplabs.ic\" NAME=\"dao in enjoyers-ooplabs Coverage Results\" MODIFIED=\"1762416334819\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\" />\r\n    <SUITE FILE_PATH=\"coverage/Lab_5$java_in_enjoyers_ooplabs.ic\" NAME=\"java in enjoyers-ooplabs Coverage Results\" MODIFIED=\"1761928385226\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/.idea/workspace.xml b/../../Lab 6/.idea/workspace.xml
+--- a/../../Lab 6/.idea/workspace.xml	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/.idea/workspace.xml	(date 1765811503847)
+@@ -1,27 +1,175 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="ArtifactsWorkspaceSettings">
++    <artifacts-to-build>
++      <artifact name="unnamed" />
++    </artifacts-to-build>
++  </component>
+   <component name="AutoImportSettings">
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="remade servlets using path-variables">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/AuthDto.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/RegisterServlet.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/JWTUtil.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/PasswordUtil.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/ValidationUtil.java" afterDir="false" />
++    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="added authorization and authentication using JWT">
++      <change afterPath="$PROJECT_DIR$/../Lab 7 (frontend)/tailwind.config.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../.idea/ooplabs.iml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginFilter.java" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.gitignore" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/encodings.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Changes.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Changes/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_15_29_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_15_29_[Changes]1/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_15_29__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_4_23_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_4_23_[Changes]1/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Checkout_at_28_10_2025_4_23__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2025_7_36_pm_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/shelf/Uncommitted_changes_before_Update_at_01_12_2025_7_36_pm__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab 7 (backend)/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/catalina.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/context.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/jaspic-providers.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/jaspic-providers.xsd" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/logging.properties" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/server.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/tomcat-users.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/tomcat-users.xsd" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/.smarttomcat/enjoyers-ooplabs/conf/web.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/Dockerfile" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/docker-compose.yml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/pom.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DataBaseScriptsLoader.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DataGenerator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/Role.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/IntegralCalculator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/IntegralTask.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/MultiplyingTask.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/MultiplyingTaskExecutor.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/ReadTask.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/ReadWriteTaskExecutor.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/SynchronizedTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/SynchronizedTabulatedFunctionTask.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/WriteTask.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcPointDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcUserDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchJdbcFunctionDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/SearchableDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDao.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dto/AuthDto.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/Function.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/Point.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/SearchCriteria.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/SearchResult.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/entity/User.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/ArrayIsNotSortedException.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/DifferentLengthOfArraysException.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/InconsistentFunctionsException.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/InterpolationException.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/JwtAuthenticationFilter.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/AbstractTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/ArrayTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/CompositeFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/ConstantFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/DeBoorFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/IdentityFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/Insertable.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/LinkedListTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/MathFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/MockTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/NewtonMethod.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/Point.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/Removable.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/SqrFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/StrictTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/TabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/UnitFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/UnmodifiableTabulatedFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/ZeroFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/factory/ArrayTabulatedFunctionFactory.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/factory/LinkedListTabulatedFunctionFactory.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/factory/TabulatedFunctionFactory.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/ArrayTabulatedFunctionSerialization.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/FunctionsIO.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/LinkedListTabulatedFunctionSerialization.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/TabulatedFunctionFileInputStream.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/TabulatedFunctionFileOutputStream.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/TabulatedFunctionFileReader.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/io/TabulatedFunctionFileWriter.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/DifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/LeftSteppingDifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/MiddleSteppingDifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/RightSteppingDifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/SteppingDifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/TabulatedDifferentialOperator.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/operations/TabulatedFunctionOperationService.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/LoginServlet.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/PointServlet.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/RegisterServlet.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/UserServlet.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/JWTUtil.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/PasswordUtil.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/java/ru/ssau/tk/enjoyers/ooplabs/util/ValidationUtil.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/log4j2.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/scripts/create_table_functions.sql" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/scripts/create_table_points.sql" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/scripts/create_table_users.sql" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/scripts/create_tables.sql" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/resources/scripts/crud_operations.sql" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/webapp/login.jsp" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/main/webapp/secured/home.jsp" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/IntegralCalculatorTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/concurrent/SynchronizedTabulatedFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/FunctionDaoTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/PointDaoTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/dao/UserDaoTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/ArrayExceptionsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/FunctionExceptionsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/ListExceptionsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/OtherExceptionsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/AndThenTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/ArrayTabulatedFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/CompositeFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/CompositeTabulatedFunctionsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/ConstantFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/DeBoorFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/DecoratorTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/IdentityFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/InsertableTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/IteratorTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/LinkedListTabulatedFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/MockTabulatedFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/NewtonMethodTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/RemovableTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/SqrFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/ToStringTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/UnitFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/ZeroFunctionTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/functions/factory/FactoryTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/io/FunctionsIOTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/operations/DifferentialOperatorsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/operations/OperationsTest.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/../Lab 7 (backend)/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -81,8 +229,8 @@
+ }</component>
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+-    &quot;url&quot;: &quot;https://github.com/dusniz/ooplabs&quot;,
+-    &quot;accountId&quot;: &quot;d9e94649-8f4f-4a58-a443-51e3a01acafe&quot;
++    &quot;url&quot;: &quot;https://github.com/dusniz/ooplabs.git&quot;,
++    &quot;accountId&quot;: &quot;44e3e202-b7b6-4ebf-8b3d-aa82cb58759e&quot;
+   }
+ }</component>
+   <component name="LogFilters">
+@@ -130,6 +278,7 @@
+     &quot;JUnit.dao in enjoyers-ooplabs.executor&quot;: &quot;Run&quot;,
+     &quot;JUnit.java in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
+     &quot;JUnit.ooplabs in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
++    &quot;Maven.enjoyers-ooplabs [org.apache.maven.plugins:maven-war-plugin:3.4.0:exploded].executor&quot;: &quot;Run&quot;,
+     &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+     &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+     &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+@@ -141,20 +290,23 @@
+     &quot;git-widget-placeholder&quot;: &quot;manual&quot;,
+     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/dusn1z/Documents/Spring Projects/ooplabs/Lab 6/src/main&quot;,
+-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/mraba/IdeaProjects/ooplabs/Lab 6/src/main/webapp&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.14390244&quot;,
+     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+   }
+ }</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
+       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main" />
+       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp" />
+       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6" />
+     </key>
+     <key name="MoveFile.RECENT_KEYS">
++      <recent name="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6" />
++      <recent name="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
+       <recent name="C:\Users\dusn1z\Documents\Spring Projects\ooplabs\Lab 6\src\main\webapp\secured" />
+     </key>
+     <key name="CopyClassDialog.RECENTS_KEY">
+@@ -207,6 +359,23 @@
+       <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.JdbcBenchmark" />
+       <option name="METHOD_NAME" value="performanceReadFunctionsWithPoints" />
+       <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="SearchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="enjoyers-ooplabs" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="ru.ssau.tk.enjoyers.ooplabs.search.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <option name="PACKAGE_NAME" value="ru.ssau.tk.enjoyers.ooplabs.search" />
++      <option name="MAIN_CLASS_NAME" value="ru.ssau.tk.enjoyers.ooplabs.search.SearchTest" />
++      <option name="METHOD_NAME" value="" />
++      <option name="TEST_OBJECT" value="class" />
++      <dir value="$PROJECT_DIR$/src/test/java" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -240,7 +409,6 @@
+         <map />
+       </option>
+       <option name="extraClassPath" value="" />
+-      <option name="port" value="1111" />
+       <option name="tomcatInfo">
+         <TomcatInfo>
+           <option name="name" value="Apache Tomcat/11.0.14" />
+@@ -253,54 +421,11 @@
+       <method v="2">
+         <option name="Make" enabled="true" />
+         <option name="RunConfigurationTask" enabled="true" run_configuration_name="LoadDataBaseScripts" run_configuration_type="Application" />
+-      </method>
+-    </configuration>
+-    <configuration default="true" type="com.poratu.idea.plugins.tomcat">
+-      <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+-      <predefined_log_file enabled="true" id="Tomcat Access Log" />
+-      <predefined_log_file id="Tomcat Catalina Log" />
+-      <predefined_log_file id="Tomcat Manager Log" />
+-      <predefined_log_file id="Tomcat Host Manager Log" />
+-      <option name="tomcatInfo">
+-        <TomcatInfo>
+-          <option name="name" value="Apache Tomcat/11.0.14" />
+-          <option name="path" value="$USER_HOME$/OneDrive/Документы/Tomcat" />
+-          <option name="version" value="11.0.14.0" />
+-        </TomcatInfo>
+-      </option>
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+     <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+       <deployment type="docker-compose.yml">
+         <settings>
+-          <option name="sourceFilePath" value="docker-compose.yml" />
+-        </settings>
+-      </deployment>
+-      <method v="2" />
+-    </configuration>
+-    <configuration name="docker-compose.yml.db-manual: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+-      <deployment type="docker-compose.yml">
+-        <settings>
+-          <option name="services">
+-            <list>
+-              <option value="db-manual" />
+-            </list>
+-          </option>
+-          <option name="sourceFilePath" value="docker-compose.yml" />
+-        </settings>
+-      </deployment>
+-      <method v="2" />
+-    </configuration>
+-    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+-      <deployment type="docker-compose.yml">
+-        <settings>
+-          <option name="services">
+-            <list>
+-              <option value="db" />
+-            </list>
+-          </option>
+           <option name="sourceFilePath" value="docker-compose.yml" />
+         </settings>
+       </deployment>
+@@ -308,6 +433,7 @@
+     </configuration>
+     <list>
+       <item itemvalue="Application.LoadDataBaseScripts" />
++      <item itemvalue="JUnit.SearchTest" />
+       <item itemvalue="JUnit.All in enjoyers-ooplabs" />
+       <item itemvalue="JUnit.JdbcBenchmark" />
+       <item itemvalue="JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints" />
+@@ -316,6 +442,8 @@
+     </list>
+     <recent_temporary>
+       <list>
++        <item itemvalue="JUnit.All in enjoyers-ooplabs" />
++        <item itemvalue="JUnit.SearchTest" />
+         <item itemvalue="JUnit.JdbcBenchmark" />
+         <item itemvalue="JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints" />
+       </list>
+@@ -586,7 +714,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1763525377620</updated>
+     </task>
+-    <option name="localTasksCounter" value="33" />
++    <task id="LOCAL-00033" summary="added authorization and authentication using JWT">
++      <option name="closed" value="true" />
++      <created>1764617038259</created>
++      <option name="number" value="00033" />
++      <option name="presentableId" value="LOCAL-00033" />
++      <option name="project" value="LOCAL" />
++      <updated>1764617038259</updated>
++    </task>
++    <option name="localTasksCounter" value="34" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -653,7 +789,6 @@
+     </option>
+   </component>
+   <component name="VcsManagerConfiguration">
+-    <MESSAGE value="fix Role enum" />
+     <MESSAGE value="fix create_tables.sql" />
+     <MESSAGE value="fix DAO implementation" />
+     <MESSAGE value="add more constructors to DTO" />
+@@ -678,29 +813,31 @@
+     <MESSAGE value="added servlets for users, functions, points DTOs" />
+     <MESSAGE value="updated servlets for users, functions, points DTOs" />
+     <MESSAGE value="remade servlets using path-variables" />
+-    <option name="LAST_COMMIT_MESSAGE" value="remade servlets using path-variables" />
++    <MESSAGE value="added authorization and authentication using JWT" />
++    <option name="LAST_COMMIT_MESSAGE" value="added authorization and authentication using JWT" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+       <breakpoints>
+         <line-breakpoint enabled="true" type="java-line">
+           <url>file://$PROJECT_DIR$/src/test/java/ru/ssau/tk/enjoyers/ooplabs/search/SearchTest.java</url>
+-          <line>87</line>
++          <line>85</line>
+           <option name="timeStamp" value="42" />
+         </line-breakpoint>
+       </breakpoints>
+     </breakpoint-manager>
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/Lab_5$All_in_enjoyers_ooplabs.ic" NAME="All in enjoyers-ooplabs Coverage Results" MODIFIED="1761658888437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+-    <SUITE FILE_PATH="coverage/Lab_5$JdbcFunctionDaoTest.ic" NAME="JdbcFunctionDaoTest Coverage Results" MODIFIED="1761659622580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+-      <FILTER>ru.ssau.tk.enjoyers.ooplabs.dao.*</FILTER>
+-    </SUITE>
+     <SUITE FILE_PATH="coverage/Lab_5$JdbcBenchmark_performanceBulkPointsOperations.ic" NAME="JdbcBenchmark.performanceBulkPointsOperations Coverage Results" MODIFIED="1762439917323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+       <FILTER>ru.ssau.tk.enjoyers.ooplabs.*</FILTER>
+     </SUITE>
+-    <SUITE FILE_PATH="coverage/Lab_5$ooplabs_in_enjoyers_ooplabs.ic" NAME="ooplabs in enjoyers-ooplabs Coverage Results" MODIFIED="1761658392943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+     <SUITE FILE_PATH="coverage/Lab_5$dao_in_enjoyers_ooplabs.ic" NAME="dao in enjoyers-ooplabs Coverage Results" MODIFIED="1762416334819" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+     <SUITE FILE_PATH="coverage/Lab_5$java_in_enjoyers_ooplabs.ic" NAME="java in enjoyers-ooplabs Coverage Results" MODIFIED="1761928385226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
++    <SUITE FILE_PATH="coverage/Lab_5$ooplabs_in_enjoyers_ooplabs.ic" NAME="ooplabs in enjoyers-ooplabs Coverage Results" MODIFIED="1761658392943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
++    <SUITE FILE_PATH="coverage/Lab_6$All_in_enjoyers_ooplabs.ic" NAME="All in enjoyers-ooplabs Coverage Results" MODIFIED="1765289923716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
++    <SUITE FILE_PATH="coverage/Lab_5$All_in_enjoyers_ooplabs.ic" NAME="All in enjoyers-ooplabs Coverage Results" MODIFIED="1761658888437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
++    <SUITE FILE_PATH="coverage/Lab_5$JdbcFunctionDaoTest.ic" NAME="JdbcFunctionDaoTest Coverage Results" MODIFIED="1761659622580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
++      <FILTER>ru.ssau.tk.enjoyers.ooplabs.dao.*</FILTER>
++    </SUITE>
+   </component>
+ </project>
+\ No newline at end of file
+Index: ../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs;\r\n\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Function;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.Point;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;\r\nimport ru.ssau.tk.enjoyers.ooplabs.entity.User;\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;\r\nimport ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;\r\nimport org.junit.jupiter.api.*;\r\nimport org.junit.jupiter.api.MethodOrderer.OrderAnnotation;\r\n\r\nimport java.util.List;\r\n\r\nimport static org.junit.jupiter.api.Assertions.*;\r\n\r\n@TestMethodOrder(OrderAnnotation.class)\r\n@DisplayName(\"JDBC Performance Tests\")\r\nclass JdbcBenchmark {\r\n    private JdbcUserDao userDao;\r\n    private JdbcFunctionDao functionDao;\r\n    private SearchJdbcFunctionDao advancedDao;\r\n    private Long testUserId;\r\n    private static final int LARGE_DATA_SIZE = 1000;\r\n\r\n    @BeforeEach\r\n    void setUp() {\r\n//        StringBuilder script = new StringBuilder();\r\n//        try (BufferedReader reader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\User\\\\IdeaProjects\\\\ooplabs\\\\Lab 5\\\\src\\\\main\\\\resources\\\\scripts\\\\create_tables.sql\"))) {\r\n//            String line;\r\n//\r\n//            while ((line = reader.readLine()) != null) {\r\n//                script.append(line).append(\"\\n\");\r\n//            }\r\n//        } catch (FileNotFoundException e) {\r\n//            throw new RuntimeException(e);\r\n//        } catch (IOException e) {\r\n//            throw new RuntimeException(e);\r\n//        }\r\n//\r\n//        try (Connection conn = DatabaseConnection.getConnection()) {\r\n//            PreparedStatement stmt = conn.prepareStatement(script.toString());{\r\n//                stmt.execute();\r\n//            }\r\n//        } catch (SQLException e) {\r\n//            throw new RuntimeException(e);\r\n//        }\r\n\r\n        DataBaseScriptsLoader.load();\r\n\r\n        userDao = new JdbcUserDao();\r\n        functionDao = new JdbcFunctionDao();\r\n        advancedDao = new SearchJdbcFunctionDao(functionDao);\r\n\r\n        // Создаем тестового пользователя\r\n        User user = new User(\"perf_test_user_jdbc\", \"password\", Role.USER);\r\n        testUserId = userDao.save(user);\r\n        assertNotNull(testUserId, \"Failed to create test user\");\r\n    }\r\n\r\n    @AfterEach\r\n    void tearDown() {\r\n        // Очистка тестовых данных\r\n        if (testUserId != null) {\r\n            functionDao.findByUserId(testUserId).forEach(func -> functionDao.delete(func.getId()));\r\n            userDao.delete(testUserId);\r\n        }\r\n    }\r\n\r\n    @Test\r\n    @Order(1)\r\n    @DisplayName(\"Performance: Save functions with points\")\r\n    void performanceSaveFunctionsWithPoints() {\r\n        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);\r\n\r\n        assertAll(() -> {\r\n            long startTime = System.currentTimeMillis();\r\n\r\n            for (Function function : functions) {\r\n                Long functionId = functionDao.save(function);\r\n                assertNotNull(functionId, \"Failed to save function\");\r\n\r\n                // Генерируем точки для функции\r\n                List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);\r\n                functionDao.savePoints(functionId, points);\r\n            }\r\n\r\n            long endTime = System.currentTimeMillis();\r\n            long duration = endTime - startTime;\r\n\r\n            System.out.printf(\"JDBC: Saved %d functions with points in %d ms (%.2f ms per function)%n\",\r\n                    LARGE_DATA_SIZE, duration, (double) duration / LARGE_DATA_SIZE);\r\n\r\n            List<Function> savedFunctions = functionDao.findByUserId(testUserId);\r\n            assertEquals(LARGE_DATA_SIZE, savedFunctions.size());\r\n        });\r\n    }\r\n\r\n    @Test\r\n    @Order(2)\r\n    @DisplayName(\"Performance: Read functions with points\")\r\n    void performanceReadFunctionsWithPoints() {\r\n        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);\r\n        for (Function function : functions) {\r\n            Long functionId = functionDao.save(function);\r\n            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);\r\n            functionDao.savePoints(functionId, points);\r\n        }\r\n\r\n        assertAll(() -> {\r\n            long startTime = System.currentTimeMillis();\r\n\r\n            List<Function> foundFunctions = functionDao.findByUserId(testUserId);\r\n            for (Function function : foundFunctions) {\r\n                List<Point> points = functionDao.findPointsByFunctionId(function.getId());\r\n\r\n                assertFalse(points.isEmpty(), \"Function should have points\");\r\n            }\r\n\r\n            long endTime = System.currentTimeMillis();\r\n            long duration = endTime - startTime;\r\n\r\n            System.out.printf(\"JDBC: Read %d functions with points in %d ms%n\",\r\n                    foundFunctions.size(), duration);\r\n        });\r\n    }\r\n\r\n    @Test\r\n    @Order(3)\r\n    @DisplayName(\"Performance: Bulk points operations\")\r\n    void performanceBulkPointsOperations() {\r\n        Function function = new Function(testUserId, \"Bulk Test Function\", \"TABULATED\",\r\n                \"Benchmark function\", 0, \"TABULATED_ARRAY\");\r\n        Long functionId = functionDao.save(function);\r\n\r\n        assertAll(() -> {\r\n            List<Point> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);\r\n\r\n            long startTime = System.currentTimeMillis();\r\n            functionDao.savePoints(functionId, points);\r\n            long insertTime = System.currentTimeMillis() - startTime;\r\n\r\n            startTime = System.currentTimeMillis();\r\n            List<Point> readPoints = functionDao.findPointsByFunctionId(functionId);\r\n            long readTime = System.currentTimeMillis() - startTime;\r\n\r\n            startTime = System.currentTimeMillis();\r\n            functionDao.deleteAllPointsByFunctionId(functionId);\r\n            long deleteTime = System.currentTimeMillis() - startTime;\r\n\r\n            System.out.printf(\"JDBC Points Operations:%n\");\r\n            System.out.printf(\"  Insert %d points: %d ms%n\", LARGE_DATA_SIZE * 10, insertTime);\r\n            System.out.printf(\"  Read %d points: %d ms%n\", readPoints.size(), readTime);\r\n            System.out.printf(\"  Delete points: %d ms%n\", deleteTime);\r\n        });\r\n    }\r\n\r\n    @Test\r\n    @Order(4)\r\n    @DisplayName(\"Search with sorting\")\r\n    void testSearchWithSorting() {\r\n        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);\r\n        for (Function function : functions) {\r\n            Long functionId = functionDao.save(function);\r\n            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);\r\n            functionDao.savePoints(functionId, points);\r\n        }\r\n\r\n        List<Function> ascendingResults = advancedDao.findWithSorting(\"name\", SearchCriteria.SortDirection.ASC);\r\n        List<Function> descendingResults = advancedDao.findWithSorting(\"name\", SearchCriteria.SortDirection.DESC);\r\n\r\n        assertNotNull(ascendingResults);\r\n        assertNotNull(descendingResults);\r\n\r\n        if (ascendingResults.size() > 1 && descendingResults.size() > 1) {\r\n            // Проверяем, что сортировка работает\r\n            String firstAsc = ascendingResults.get(0).getName();\r\n            String lastAsc = ascendingResults.get(ascendingResults.size() - 1).getName();\r\n            String firstDesc = descendingResults.get(0).getName();\r\n            String lastDesc = descendingResults.get(descendingResults.size() - 1).getName();\r\n\r\n            assertTrue(firstAsc.compareTo(lastAsc) <= 0);\r\n            assertTrue(firstDesc.compareTo(lastDesc) >= 0);\r\n        }\r\n    }\r\n\r\n//    @Test\r\n//    @Order(5)\r\n//    @DisplayName(\"Performance: Concurrent access\")\r\n//    @Timeout(value = 60, unit = TimeUnit.SECONDS)\r\n//    void performanceConcurrentAccess() throws InterruptedException {\r\n//        int threadCount = 10;\r\n//        int operationsPerThread = LARGE_DATA_SIZE / threadCount;\r\n//\r\n//        Thread[] threads = new Thread[threadCount];\r\n//        final int[] successfulOperations = new int[threadCount];\r\n//\r\n//        long startTime = System.currentTimeMillis();\r\n//\r\n//        for (int i = 0; i < threadCount; i++) {\r\n//            final int threadIndex = i;\r\n//            threads[i] = new Thread(() -> {\r\n//                try {\r\n//                    for (int j = 0; j < operationsPerThread; j++) {\r\n//                        // Каждый поток работает со своей функцией\r\n//                        FunctionDto function = new FunctionDto(\r\n//                                testUserId,\r\n//                                \"Concurrent_Func_\" + threadIndex + \"_\" + j,\r\n//                                \"TABULATED\", \"Benchmark function\", 0, \"TABULATED_ARRAY\"\r\n//                        );\r\n//\r\n//                        Long functionId = functionDao.save(function);\r\n//                        if (functionId != null) {\r\n//                            successfulOperations[threadIndex]++;\r\n//                        }\r\n//                    }\r\n//                } catch (Exception e) {\r\n//                    System.err.println(\"Thread \" + threadIndex + \" failed: \" + e.getMessage());\r\n//                }\r\n//            });\r\n//            threads[i].start();\r\n//        }\r\n//\r\n//        // Ждем завершения всех потоков\r\n//        for (Thread thread : threads) {\r\n//            thread.join();\r\n//        }\r\n//\r\n//        long endTime = System.currentTimeMillis();\r\n//        long duration = endTime - startTime;\r\n//\r\n//        int totalOperations = 0;\r\n//        for (int count : successfulOperations) {\r\n//            totalOperations += count;\r\n//        }\r\n//\r\n//        System.out.printf(\"JDBC Concurrent: %d threads, %d total operations in %d ms%n\",\r\n//                threadCount, totalOperations, duration);\r\n//\r\n//        assertTrue(totalOperations >= operationsPerThread * threadCount * 0.9,\r\n//                \"At least 90% of operations should succeed\");\r\n//    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java
+--- a/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/test/java/ru/ssau/tk/enjoyers/ooplabs/JdbcBenchmark.java	(date 1765289919954)
+@@ -1,243 +1,243 @@
+-package ru.ssau.tk.enjoyers.ooplabs;
+-
+-import ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;
+-import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
+-import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
+-import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
+-import ru.ssau.tk.enjoyers.ooplabs.entity.User;
+-import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
+-import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
+-import org.junit.jupiter.api.*;
+-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+-
+-import java.util.List;
+-
+-import static org.junit.jupiter.api.Assertions.*;
+-
+-@TestMethodOrder(OrderAnnotation.class)
+-@DisplayName("JDBC Performance Tests")
+-class JdbcBenchmark {
+-    private JdbcUserDao userDao;
+-    private JdbcFunctionDao functionDao;
+-    private SearchJdbcFunctionDao advancedDao;
+-    private Long testUserId;
+-    private static final int LARGE_DATA_SIZE = 1000;
+-
+-    @BeforeEach
+-    void setUp() {
+-//        StringBuilder script = new StringBuilder();
+-//        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
+-//            String line;
++//package ru.ssau.tk.enjoyers.ooplabs;
++//
++//import ru.ssau.tk.enjoyers.ooplabs.dao.SearchJdbcFunctionDao;
++//import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
++//import ru.ssau.tk.enjoyers.ooplabs.entity.Point;
++//import ru.ssau.tk.enjoyers.ooplabs.entity.SearchCriteria;
++//import ru.ssau.tk.enjoyers.ooplabs.entity.User;
++//import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
++//import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcUserDao;
++//import org.junit.jupiter.api.*;
++//import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+ //
+-//            while ((line = reader.readLine()) != null) {
+-//                script.append(line).append("\n");
+-//            }
+-//        } catch (FileNotFoundException e) {
+-//            throw new RuntimeException(e);
+-//        } catch (IOException e) {
+-//            throw new RuntimeException(e);
+-//        }
++//import java.util.List;
++//
++//import static org.junit.jupiter.api.Assertions.*;
++//
++//@TestMethodOrder(OrderAnnotation.class)
++//@DisplayName("JDBC Performance Tests")
++//class JdbcBenchmark {
++//    private JdbcUserDao userDao;
++//    private JdbcFunctionDao functionDao;
++//    private SearchJdbcFunctionDao advancedDao;
++//    private Long testUserId;
++//    private static final int LARGE_DATA_SIZE = 1000;
++//
++//    @BeforeEach
++//    void setUp() {
++////        StringBuilder script = new StringBuilder();
++////        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\ooplabs\\Lab 5\\src\\main\\resources\\scripts\\create_tables.sql"))) {
++////            String line;
++////
++////            while ((line = reader.readLine()) != null) {
++////                script.append(line).append("\n");
++////            }
++////        } catch (FileNotFoundException e) {
++////            throw new RuntimeException(e);
++////        } catch (IOException e) {
++////            throw new RuntimeException(e);
++////        }
++////
++////        try (Connection conn = DatabaseConnection.getConnection()) {
++////            PreparedStatement stmt = conn.prepareStatement(script.toString());{
++////                stmt.execute();
++////            }
++////        } catch (SQLException e) {
++////            throw new RuntimeException(e);
++////        }
++//
++//        DataBaseScriptsLoader.load();
++//
++//        userDao = new JdbcUserDao();
++//        functionDao = new JdbcFunctionDao();
++//        advancedDao = new SearchJdbcFunctionDao(functionDao);
++//
++//        // Создаем тестового пользователя
++//        User user = new User("perf_test_user_jdbc", "password", Role.USER);
++//        testUserId = userDao.save(user);
++//        assertNotNull(testUserId, "Failed to create test user");
++//    }
+ //
+-//        try (Connection conn = DatabaseConnection.getConnection()) {
+-//            PreparedStatement stmt = conn.prepareStatement(script.toString());{
+-//                stmt.execute();
+-//            }
+-//        } catch (SQLException e) {
+-//            throw new RuntimeException(e);
+-//        }
+-
+-        DataBaseScriptsLoader.load();
+-
+-        userDao = new JdbcUserDao();
+-        functionDao = new JdbcFunctionDao();
+-        advancedDao = new SearchJdbcFunctionDao(functionDao);
+-
+-        // Создаем тестового пользователя
+-        User user = new User("perf_test_user_jdbc", "password", Role.USER);
+-        testUserId = userDao.save(user);
+-        assertNotNull(testUserId, "Failed to create test user");
+-    }
+-
+-    @AfterEach
+-    void tearDown() {
+-        // Очистка тестовых данных
+-        if (testUserId != null) {
+-            functionDao.findByUserId(testUserId).forEach(func -> functionDao.delete(func.getId()));
+-            userDao.delete(testUserId);
+-        }
+-    }
+-
+-    @Test
+-    @Order(1)
+-    @DisplayName("Performance: Save functions with points")
+-    void performanceSaveFunctionsWithPoints() {
+-        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
+-
+-        assertAll(() -> {
+-            long startTime = System.currentTimeMillis();
+-
+-            for (Function function : functions) {
+-                Long functionId = functionDao.save(function);
+-                assertNotNull(functionId, "Failed to save function");
+-
+-                // Генерируем точки для функции
+-                List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+-                functionDao.savePoints(functionId, points);
+-            }
+-
+-            long endTime = System.currentTimeMillis();
+-            long duration = endTime - startTime;
+-
+-            System.out.printf("JDBC: Saved %d functions with points in %d ms (%.2f ms per function)%n",
+-                    LARGE_DATA_SIZE, duration, (double) duration / LARGE_DATA_SIZE);
+-
+-            List<Function> savedFunctions = functionDao.findByUserId(testUserId);
+-            assertEquals(LARGE_DATA_SIZE, savedFunctions.size());
+-        });
+-    }
+-
+-    @Test
+-    @Order(2)
+-    @DisplayName("Performance: Read functions with points")
+-    void performanceReadFunctionsWithPoints() {
+-        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
+-        for (Function function : functions) {
+-            Long functionId = functionDao.save(function);
+-            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+-            functionDao.savePoints(functionId, points);
+-        }
+-
+-        assertAll(() -> {
+-            long startTime = System.currentTimeMillis();
+-
+-            List<Function> foundFunctions = functionDao.findByUserId(testUserId);
+-            for (Function function : foundFunctions) {
+-                List<Point> points = functionDao.findPointsByFunctionId(function.getId());
+-
+-                assertFalse(points.isEmpty(), "Function should have points");
+-            }
+-
+-            long endTime = System.currentTimeMillis();
+-            long duration = endTime - startTime;
+-
+-            System.out.printf("JDBC: Read %d functions with points in %d ms%n",
+-                    foundFunctions.size(), duration);
+-        });
+-    }
+-
+-    @Test
+-    @Order(3)
+-    @DisplayName("Performance: Bulk points operations")
+-    void performanceBulkPointsOperations() {
+-        Function function = new Function(testUserId, "Bulk Test Function", "TABULATED",
+-                "Benchmark function", 0, "TABULATED_ARRAY");
+-        Long functionId = functionDao.save(function);
+-
+-        assertAll(() -> {
+-            List<Point> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);
+-
+-            long startTime = System.currentTimeMillis();
+-            functionDao.savePoints(functionId, points);
+-            long insertTime = System.currentTimeMillis() - startTime;
+-
+-            startTime = System.currentTimeMillis();
+-            List<Point> readPoints = functionDao.findPointsByFunctionId(functionId);
+-            long readTime = System.currentTimeMillis() - startTime;
+-
+-            startTime = System.currentTimeMillis();
+-            functionDao.deleteAllPointsByFunctionId(functionId);
+-            long deleteTime = System.currentTimeMillis() - startTime;
+-
+-            System.out.printf("JDBC Points Operations:%n");
+-            System.out.printf("  Insert %d points: %d ms%n", LARGE_DATA_SIZE * 10, insertTime);
+-            System.out.printf("  Read %d points: %d ms%n", readPoints.size(), readTime);
+-            System.out.printf("  Delete points: %d ms%n", deleteTime);
+-        });
+-    }
+-
+-    @Test
+-    @Order(4)
+-    @DisplayName("Search with sorting")
+-    void testSearchWithSorting() {
+-        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
+-        for (Function function : functions) {
+-            Long functionId = functionDao.save(function);
+-            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
+-            functionDao.savePoints(functionId, points);
+-        }
+-
+-        List<Function> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
+-        List<Function> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
+-
+-        assertNotNull(ascendingResults);
+-        assertNotNull(descendingResults);
+-
+-        if (ascendingResults.size() > 1 && descendingResults.size() > 1) {
+-            // Проверяем, что сортировка работает
+-            String firstAsc = ascendingResults.get(0).getName();
+-            String lastAsc = ascendingResults.get(ascendingResults.size() - 1).getName();
+-            String firstDesc = descendingResults.get(0).getName();
+-            String lastDesc = descendingResults.get(descendingResults.size() - 1).getName();
+-
+-            assertTrue(firstAsc.compareTo(lastAsc) <= 0);
+-            assertTrue(firstDesc.compareTo(lastDesc) >= 0);
+-        }
+-    }
+-
++//    @AfterEach
++//    void tearDown() {
++//        // Очистка тестовых данных
++//        if (testUserId != null) {
++//            functionDao.findByUserId(testUserId).forEach(func -> functionDao.delete(func.getId()));
++//            userDao.delete(testUserId);
++//        }
++//    }
++//
+ //    @Test
+-//    @Order(5)
+-//    @DisplayName("Performance: Concurrent access")
+-//    @Timeout(value = 60, unit = TimeUnit.SECONDS)
+-//    void performanceConcurrentAccess() throws InterruptedException {
+-//        int threadCount = 10;
+-//        int operationsPerThread = LARGE_DATA_SIZE / threadCount;
++//    @Order(1)
++//    @DisplayName("Performance: Save functions with points")
++//    void performanceSaveFunctionsWithPoints() {
++//        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
+ //
+-//        Thread[] threads = new Thread[threadCount];
+-//        final int[] successfulOperations = new int[threadCount];
+-//
+-//        long startTime = System.currentTimeMillis();
++//        assertAll(() -> {
++//            long startTime = System.currentTimeMillis();
+ //
+-//        for (int i = 0; i < threadCount; i++) {
+-//            final int threadIndex = i;
+-//            threads[i] = new Thread(() -> {
+-//                try {
+-//                    for (int j = 0; j < operationsPerThread; j++) {
+-//                        // Каждый поток работает со своей функцией
+-//                        FunctionDto function = new FunctionDto(
+-//                                testUserId,
+-//                                "Concurrent_Func_" + threadIndex + "_" + j,
+-//                                "TABULATED", "Benchmark function", 0, "TABULATED_ARRAY"
+-//                        );
+-//
+-//                        Long functionId = functionDao.save(function);
+-//                        if (functionId != null) {
+-//                            successfulOperations[threadIndex]++;
+-//                        }
+-//                    }
+-//                } catch (Exception e) {
+-//                    System.err.println("Thread " + threadIndex + " failed: " + e.getMessage());
+-//                }
+-//            });
+-//            threads[i].start();
++//            for (Function function : functions) {
++//                Long functionId = functionDao.save(function);
++//                assertNotNull(functionId, "Failed to save function");
++//
++//                // Генерируем точки для функции
++//                List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
++//                functionDao.savePoints(functionId, points);
++//            }
++//
++//            long endTime = System.currentTimeMillis();
++//            long duration = endTime - startTime;
++//
++//            System.out.printf("JDBC: Saved %d functions with points in %d ms (%.2f ms per function)%n",
++//                    LARGE_DATA_SIZE, duration, (double) duration / LARGE_DATA_SIZE);
++//
++//            List<Function> savedFunctions = functionDao.findByUserId(testUserId);
++//            assertEquals(LARGE_DATA_SIZE, savedFunctions.size());
++//        });
++//    }
++//
++//    @Test
++//    @Order(2)
++//    @DisplayName("Performance: Read functions with points")
++//    void performanceReadFunctionsWithPoints() {
++//        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE);
++//        for (Function function : functions) {
++//            Long functionId = functionDao.save(function);
++//            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
++//            functionDao.savePoints(functionId, points);
+ //        }
+ //
+-//        // Ждем завершения всех потоков
+-//        for (Thread thread : threads) {
+-//            thread.join();
+-//        }
++//        assertAll(() -> {
++//            long startTime = System.currentTimeMillis();
++//
++//            List<Function> foundFunctions = functionDao.findByUserId(testUserId);
++//            for (Function function : foundFunctions) {
++//                List<Point> points = functionDao.findPointsByFunctionId(function.getId());
++//
++//                assertFalse(points.isEmpty(), "Function should have points");
++//            }
+ //
+-//        long endTime = System.currentTimeMillis();
+-//        long duration = endTime - startTime;
++//            long endTime = System.currentTimeMillis();
++//            long duration = endTime - startTime;
+ //
+-//        int totalOperations = 0;
+-//        for (int count : successfulOperations) {
+-//            totalOperations += count;
++//            System.out.printf("JDBC: Read %d functions with points in %d ms%n",
++//                    foundFunctions.size(), duration);
++//        });
++//    }
++//
++//    @Test
++//    @Order(3)
++//    @DisplayName("Performance: Bulk points operations")
++//    void performanceBulkPointsOperations() {
++//        Function function = new Function(testUserId, "Bulk Test Function", "TABULATED",
++//                "Benchmark function", 0, "TABULATED_ARRAY");
++//        Long functionId = functionDao.save(function);
++//
++//        assertAll(() -> {
++//            List<Point> points = DataGenerator.generatePointsDto(functionId, LARGE_DATA_SIZE * 10, 0, 10000);
++//
++//            long startTime = System.currentTimeMillis();
++//            functionDao.savePoints(functionId, points);
++//            long insertTime = System.currentTimeMillis() - startTime;
++//
++//            startTime = System.currentTimeMillis();
++//            List<Point> readPoints = functionDao.findPointsByFunctionId(functionId);
++//            long readTime = System.currentTimeMillis() - startTime;
++//
++//            startTime = System.currentTimeMillis();
++//            functionDao.deleteAllPointsByFunctionId(functionId);
++//            long deleteTime = System.currentTimeMillis() - startTime;
++//
++//            System.out.printf("JDBC Points Operations:%n");
++//            System.out.printf("  Insert %d points: %d ms%n", LARGE_DATA_SIZE * 10, insertTime);
++//            System.out.printf("  Read %d points: %d ms%n", readPoints.size(), readTime);
++//            System.out.printf("  Delete points: %d ms%n", deleteTime);
++//        });
++//    }
++//
++//    @Test
++//    @Order(4)
++//    @DisplayName("Search with sorting")
++//    void testSearchWithSorting() {
++//        List<Function> functions = DataGenerator.generateFunctionsDto(testUserId, LARGE_DATA_SIZE / 10);
++//        for (Function function : functions) {
++//            Long functionId = functionDao.save(function);
++//            List<Point> points = DataGenerator.generatePointsDto(functionId, 10, 0, 10);
++//            functionDao.savePoints(functionId, points);
+ //        }
+ //
+-//        System.out.printf("JDBC Concurrent: %d threads, %d total operations in %d ms%n",
+-//                threadCount, totalOperations, duration);
++//        List<Function> ascendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.ASC);
++//        List<Function> descendingResults = advancedDao.findWithSorting("name", SearchCriteria.SortDirection.DESC);
++//
++//        assertNotNull(ascendingResults);
++//        assertNotNull(descendingResults);
+ //
+-//        assertTrue(totalOperations >= operationsPerThread * threadCount * 0.9,
+-//                "At least 90% of operations should succeed");
++//        if (ascendingResults.size() > 1 && descendingResults.size() > 1) {
++//            // Проверяем, что сортировка работает
++//            String firstAsc = ascendingResults.get(0).getName();
++//            String lastAsc = ascendingResults.get(ascendingResults.size() - 1).getName();
++//            String firstDesc = descendingResults.get(0).getName();
++//            String lastDesc = descendingResults.get(descendingResults.size() - 1).getName();
++//
++//            assertTrue(firstAsc.compareTo(lastAsc) <= 0);
++//            assertTrue(firstDesc.compareTo(lastDesc) >= 0);
++//        }
+ //    }
+-}
++//
++////    @Test
++////    @Order(5)
++////    @DisplayName("Performance: Concurrent access")
++////    @Timeout(value = 60, unit = TimeUnit.SECONDS)
++////    void performanceConcurrentAccess() throws InterruptedException {
++////        int threadCount = 10;
++////        int operationsPerThread = LARGE_DATA_SIZE / threadCount;
++////
++////        Thread[] threads = new Thread[threadCount];
++////        final int[] successfulOperations = new int[threadCount];
++////
++////        long startTime = System.currentTimeMillis();
++////
++////        for (int i = 0; i < threadCount; i++) {
++////            final int threadIndex = i;
++////            threads[i] = new Thread(() -> {
++////                try {
++////                    for (int j = 0; j < operationsPerThread; j++) {
++////                        // Каждый поток работает со своей функцией
++////                        FunctionDto function = new FunctionDto(
++////                                testUserId,
++////                                "Concurrent_Func_" + threadIndex + "_" + j,
++////                                "TABULATED", "Benchmark function", 0, "TABULATED_ARRAY"
++////                        );
++////
++////                        Long functionId = functionDao.save(function);
++////                        if (functionId != null) {
++////                            successfulOperations[threadIndex]++;
++////                        }
++////                    }
++////                } catch (Exception e) {
++////                    System.err.println("Thread " + threadIndex + " failed: " + e.getMessage());
++////                }
++////            });
++////            threads[i].start();
++////        }
++////
++////        // Ждем завершения всех потоков
++////        for (Thread thread : threads) {
++////            thread.join();
++////        }
++////
++////        long endTime = System.currentTimeMillis();
++////        long duration = endTime - startTime;
++////
++////        int totalOperations = 0;
++////        for (int count : successfulOperations) {
++////            totalOperations += count;
++////        }
++////
++////        System.out.printf("JDBC Concurrent: %d threads, %d total operations in %d ms%n",
++////                threadCount, totalOperations, duration);
++////
++////        assertTrue(totalOperations >= operationsPerThread * threadCount * 0.9,
++////                "At least 90% of operations should succeed");
++////    }
++//}
+Index: ../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.ssau.tk.enjoyers.ooplabs;\r\n\r\nimport java.sql.Connection;\r\nimport java.sql.DriverManager;\r\nimport java.sql.SQLException;\r\nimport java.util.Properties;\r\n\r\npublic class DatabaseConnection {\r\n    private static final String URL = \"jdbc:postgresql://localhost:54322/postgres\";\r\n    private static final String username = \"postgres\";\r\n    private static final String password = \"example\";\r\n\r\n    public static Connection getConnection() throws SQLException {\r\n        Connection connection = null;\r\n\r\n        try {\r\n            Class.forName(\"org.postgresql.Driver\");\r\n            connection = DriverManager.getConnection(URL, username, password);\r\n        } catch (ClassNotFoundException e) {\r\n            System.out.println(\"PostgreSQL JDBC Driver not found!\");\r\n        } catch (SQLException e) {\r\n            System.err.format(\"SQL State: %s\\n%s\", e.getSQLState(), e.getMessage());\r\n            System.out.println();\r\n            throw new SQLException(\"Failed to connect to database!\", e);\r\n        }\r\n        \r\n        return connection;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java b/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java
+--- a/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java	(revision a86bae2de06092980f094ed4a8ab7e98c6bd740f)
++++ b/../../Lab 6/src/main/java/ru/ssau/tk/enjoyers/ooplabs/DatabaseConnection.java	(date 1765289581253)
+@@ -6,7 +6,7 @@
+ import java.util.Properties;
+ 
+ public class DatabaseConnection {
+-    private static final String URL = "jdbc:postgresql://localhost:54322/postgres";
++    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+     private static final String username = "postgres";
+     private static final String password = "example";
+ 

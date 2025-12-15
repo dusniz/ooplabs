@@ -1,0 +1,41 @@
+version: "3.1"
+
+services:
+  #  manual:
+  #    container_name: manual
+  #    build: .
+  #    ports:
+  #      - "8080:8080"
+  #    depends_on:
+  #      - db-manual
+  #    environment:
+  #      DATABASE_URL: "postgres://user:password@db:5432/mydatabase"
+  #    networks:
+  #      - manual-network
+
+  db-manual:
+    image: postgres:latest
+    restart: always
+    container_name: postgres-manual
+    ports:
+      - "5432:5432"
+    networks:
+      - manual-network
+    volumes:
+      - .\src\main\resources\scripts\create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+
+  adminer-manual:
+    image: adminer
+    restart: always
+    container_name: adminer-manual
+    networks:
+      - manual-network
+    ports:
+      - "8082:8080"
+
+networks:
+  manual-network:
+    driver: bridge
