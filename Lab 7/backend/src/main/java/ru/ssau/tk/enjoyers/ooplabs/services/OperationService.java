@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
@@ -392,13 +393,15 @@ public class OperationService {
         logger.info("Retrieving list of available mathematical functions");
 
         List<String> functions = new ArrayList<>();
-        functions.add("Linear: ax + b");
-        functions.add("Quadratic: ax^2 + bx + c");
-        functions.add("Exponential: a * e^(bx)");
-        functions.add("Logarithmic: a * ln(bx)");
-        functions.add("Sinusoidal: a * sin(bx + c)");
-        functions.add("Polynomial (n-th degree)");
-        functions.add("Rational: P(x)/Q(x)");
+        functions.add("Линейная: y = x");
+        functions.add("Квадратичная: y = x^2");
+        functions.add("Нулевая: y = 0");
+        functions.add("Единичная: y = 1");
+        functions.add("Натуральный логарифм: y = ln(x)");
+        functions.add("Синусоида y = sin(x)");
+        functions.add("Косинусоида: y = cos(x)");
+        functions.add("Тангенс: y = tan(x)");
+        functions.add("Котангенс: y = cot(x)");
 
         return functions;
     }
