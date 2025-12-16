@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.enjoyers.ooplabs.dto.*;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.functions.SqrFunction;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 import ru.ssau.tk.enjoyers.ooplabs.services.OperationService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,6 +44,32 @@ public class FunctionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             logger.error("function GET INTERNAL_SERVER_ERROR ID: {} {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{id}/evaluate")
+    public ResponseEntity<EvaluationResponse> evaluateFunctionAt(
+            @PathVariable("id") Long id,
+            @RequestParam(value = "x", required = true) Double x) {
+
+        logger.info("GET запрос на вычисление функции с ID: {} в точке x={}", id, x);
+        try {
+            Optional<Function> function = functionService.getFunction(id);
+            if (function.isEmpty()) {
+                logger.warn("Функция с ID: {} не найдена", id);
+                return ResponseEntity.notFound().build();
+            }
+            Double result = functionClassApply(function.get().getFunctionClass(), x);
+            EvaluationResponse evaluationResult = new EvaluationResponse(id, x, result);
+            logger.info("Функция с ID: {} успешно вычислена в точке x={}, результат: {}",
+                    id, x, result);
+            return ResponseEntity.ok(evaluationResult);
+        } catch (IllegalArgumentException e) {
+            logger.error("function evaluate GET BAD_REQUEST ID: {} {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            logger.error("function evaluate GET INTERNAL_SERVER_ERROR ID: {} {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -367,5 +395,18 @@ public class FunctionController {
             logger.error("createFunctionFromPoints INTERNAL_SERVER_ERROR: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    protected double functionClassApply(String functionClass, double x) {
+        double evaluated = 0;
+        switch (functionClass) {
+            case "SqrFunction":
+                SqrFunction sqrFunction = new SqrFunction();
+                evaluated = sqrFunction.apply(x);
+                break;
+            default:
+                throw new IllegalArgumentException("No such function class found!");
+        }
+        return evaluated;
     }
 }
