@@ -12,6 +12,7 @@ import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 import ru.ssau.tk.enjoyers.ooplabs.services.PointService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,9 +57,11 @@ public class PointController {
                 points = pointService.getPointsByFunctionId(functionId);
                 logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
             } else if (function.isPresent()) {
+                ArrayList<Point> temp = new ArrayList<Point>();
                 for (int x = -10; x <= 10; x++) {
-                    points.add(new Point(null, functionId, (double) x, functionService.functionEvaluate(function.get(), x), x + 10));
+                    temp.add(new Point(null, functionId, (double) x, functionService.functionEvaluate(function.get(), x), x + 10));
                 }
+                points = temp;
             }
             return ResponseEntity.ok(points);
         } catch (IllegalArgumentException e) {
