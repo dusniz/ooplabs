@@ -401,4 +401,20 @@ public class FunctionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<FunctionResponse> deleteFunctionById(@PathVariable Long id) {
+        logger.info("DELETE запрос на удаление функции с ID: {}", id);
+        try {
+            functionService.deleteFunction(id);
+            logger.info("Функция с ID: {} успешно удалена", id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            logger.error("point DELETE BAD_REQUEST {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            logger.error("point DELETE INTERNAL_SERVER_ERROR {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
