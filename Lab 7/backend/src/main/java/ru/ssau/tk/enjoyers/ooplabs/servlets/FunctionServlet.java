@@ -11,11 +11,13 @@ import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entity.User;
+import ru.ssau.tk.enjoyers.ooplabs.functions.SqrFunction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -53,6 +55,36 @@ public class FunctionServlet extends HttpServlet {
                     functions = functionDao.findByUserId(userId);
                     break;
                 }
+            case 3:
+                if (pathVariables[1].equals("evaluate")) {
+                    Long id = Long.parseLong(pathVariables[0]);
+                    Optional<Function> function = functionDao.findById(id);
+
+                    if (function.isPresent()) {
+                        String xParam = request.getParameter("x");
+                        if (xParam == null) {
+                            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                            return;
+                        }
+
+                        double x = Double.parseDouble(xParam);
+                        double result = functionClassApply(function.get().getFunctionClass(), x);
+
+                        response.setContentType("application/json");
+                        response.setCharacterEncoding("UTF-8");
+                        PrintWriter printWriter = response.getWriter();
+                        JSONObject responseJson = new JSONObject();
+                        responseJson.put("functionId", id);
+                        responseJson.put("x", x);
+                        responseJson.put("result", result);
+                        printWriter.print(responseJson.toString());
+                        printWriter.close();
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    }
+                    return;
+                }
+                break;
             default:
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -128,5 +160,18 @@ public class FunctionServlet extends HttpServlet {
         }
         else
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+    protected double functionClassApply(String functionClass, double x) {
+        double evaluated = 0;
+        switch (functionClass) {
+            case "SqrFunction":
+                SqrFunction sqrFunction = new SqrFunction();
+                evaluated = sqrFunction.apply(x);
+                break;
+            default:
+                throw new IllegalArgumentException("No such function class found!");
+        }
+        return evaluated;
     }
 }
