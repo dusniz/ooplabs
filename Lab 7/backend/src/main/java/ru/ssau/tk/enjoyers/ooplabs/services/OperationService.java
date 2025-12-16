@@ -4,6 +4,8 @@ import lombok.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
@@ -232,7 +234,20 @@ public class OperationService {
         Function function = functionRepository.findById(functionId)
                 .orElseThrow(() -> new IllegalArgumentException("Function not found"));
 
-        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(functionId);
+
+        logger.info("GET запрос на получение всех точек фукнции с ID: {}", functionId);
+
+        List<Point> points = List.of();
+        if (function.getType().equals("TABULATED")) {
+            points = pointRepository.findByFunctionIdOrderByIndex(functionId);
+            logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
+        } else {
+            ArrayList<Point> temp = new ArrayList<Point>();
+            for (int x = -10; x <= 10; x++) {
+                temp.add(new Point(null, functionId, (double) x, functionEvaluate(function, x), x + 10));
+            }
+            points = temp;
+        }
 
         if (points.size() < 2) {
             throw new IllegalArgumentException("Function must have at least 2 points for differentiation");
@@ -462,5 +477,52 @@ public class OperationService {
         }
         this.currentFactoryType = factoryType;
         logger.info("Factory type changed to: {}", factoryType);
+    }
+
+    public double functionEvaluate(Function function, double x) {
+        String functionClass = function.getFunctionClass();
+        return switch (functionClass) {
+            case "SqrFunction" -> {
+                SqrFunction sqrFunction = new SqrFunction();
+                yield sqrFunction.apply(x);
+            }
+            case "IdentityFunction" -> {
+                IdentityFunction identityFunction = new IdentityFunction();
+                yield identityFunction.apply(x);
+            }
+//            case "ConstantFunction" -> {
+//                ConstantFunction constantFunction = new ConstantFunction();
+//                yield constantFunction.apply(x);
+//            }
+            case "ZeroFunction" -> {
+                ZeroFunction zeroFunction = new ZeroFunction();
+                yield zeroFunction.apply(x);
+            }
+            case "UnitFunction" -> {
+                UnitFunction unitFunction = new UnitFunction();
+                yield unitFunction.apply(x);
+            }
+            case "NaturalLogarithmFunction" -> {
+                NaturalLogarithmFunction naturalLogarithmFunction = new NaturalLogarithmFunction();
+                yield naturalLogarithmFunction.apply(x);
+            }
+            case "SineFunction" -> {
+                SineFunction sineFunction = new SineFunction();
+                yield sineFunction.apply(x);
+            }
+            case "CosineFunction" -> {
+                CosineFunction cosineFunction = new CosineFunction();
+                yield cosineFunction.apply(x);
+            }
+            case "TangentFunction" -> {
+                TangentFunction tangentFunction = new TangentFunction();
+                yield tangentFunction.apply(x);
+            }
+            case "CotangentFunction" -> {
+                CotangentFunction cotangentFunction = new CotangentFunction();
+                yield cotangentFunction.apply(x);
+            }
+            default -> throw new IllegalArgumentException("No such function class found!");
+        };
     }
 }
