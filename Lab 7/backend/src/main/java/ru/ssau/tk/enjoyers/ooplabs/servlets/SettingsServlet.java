@@ -26,7 +26,7 @@ public class SettingsServlet extends HttpServlet {
         if (pathVariables.length == 1 && pathVariables[0].equals("factory-type")) {
             Map<String, String> result = new HashMap<>();
             result.put("factoryType", currentFactoryType);
-            result.put("availableTypes", "TabulatedFunction,MathFunction,CompositeFunction");
+            result.put("availableTypes", "ARRAY,LIST");
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -69,7 +69,7 @@ public class SettingsServlet extends HttpServlet {
             } else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 Map<String, String> error = new HashMap<>();
-                error.put("error", "Invalid factory type. Must be one of: TabulatedFunction, MathFunction, CompositeFunction");
+                error.put("error", "Invalid factory type. Must be one of: ARRAY, LIST");
                 objectMapper.writeValue(response.getWriter(), error);
             }
         } else {
@@ -78,10 +78,6 @@ public class SettingsServlet extends HttpServlet {
     }
 
     private boolean isValidFactoryType(String factoryType) {
-        return factoryType != null && (
-                factoryType.equals("TabulatedFunction") ||
-                        factoryType.equals("MathFunction") ||
-                        factoryType.equals("CompositeFunction")
-        );
+        return factoryType != null && (factoryType.equals("ARRAY") || factoryType.equals("LIST"));
     }
 }
