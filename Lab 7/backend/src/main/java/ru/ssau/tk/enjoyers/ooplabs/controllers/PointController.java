@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.ssau.tk.enjoyers.ooplabs.dto.PointResponse;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
@@ -22,6 +23,8 @@ public class PointController {
 
     @Autowired
     private FunctionService functionService;
+
+    @Autowired
     private PointService pointService;
 
     @GetMapping("/points/{id}")
@@ -54,7 +57,7 @@ public class PointController {
                 logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
             } else if (function.isPresent()) {
                 for (int x = -10; x <= 10; x++) {
-                    points.add(pointService.createPoint(functionId, (double) x, functionService.functionEvaluate(function.get(), x), x));
+                    points.add(new Point(null, functionId, (double) x, functionService.functionEvaluate(function.get(), x), x + 10));
                 }
             }
             return ResponseEntity.ok(points);
