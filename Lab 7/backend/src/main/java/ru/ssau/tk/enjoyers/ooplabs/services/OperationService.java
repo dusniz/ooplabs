@@ -237,10 +237,9 @@ public class OperationService {
 
         logger.info("GET запрос на получение всех точек фукнции с ID: {}", functionId);
 
-        List<Point> points = List.of();
+        List<Point> points;
         if (function.getType().equals("TABULATED")) {
             points = pointRepository.findByFunctionIdOrderByIndex(functionId);
-            logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
         } else {
             ArrayList<Point> temp = new ArrayList<Point>();
             for (int x = -10; x <= 10; x++) {
@@ -295,7 +294,16 @@ public class OperationService {
         Function function = functionRepository.findById(functionId)
                 .orElseThrow(() -> new IllegalArgumentException("Function not found"));
 
-        List<Point> points = pointRepository.findByFunctionIdOrderByIndex(functionId);
+        List<Point> points;
+        if (function.getType().equals("TABULATED")) {
+            points = pointRepository.findByFunctionIdOrderByIndex(functionId);
+        } else {
+            ArrayList<Point> temp = new ArrayList<Point>();
+            for (int x = -10; x <= 10; x++) {
+                temp.add(new Point(null, functionId, (double) x, functionEvaluate(function, x), x + 10));
+            }
+            points = temp;
+        }
 
         if (points.size() < 2) {
             throw new IllegalArgumentException("Function must have at least 2 points for integration");
