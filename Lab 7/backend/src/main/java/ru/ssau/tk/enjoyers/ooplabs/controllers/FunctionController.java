@@ -3,12 +3,14 @@ package ru.ssau.tk.enjoyers.ooplabs.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.enjoyers.ooplabs.dto.*;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.TooComplex;
 import ru.ssau.tk.enjoyers.ooplabs.functions.SqrFunction;
 import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 import ru.ssau.tk.enjoyers.ooplabs.services.OperationService;
@@ -81,6 +83,9 @@ public class FunctionController {
             Function newFunction = functionService.createFunction(function);
             logger.info("Функция успешно создана с ID: {}", newFunction.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(newFunction);
+        } catch (TooComplex e) {
+            logger.error("function POST BAD_REQUEST: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             logger.error("function POST INTERNAL_SERVER_ERROR {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

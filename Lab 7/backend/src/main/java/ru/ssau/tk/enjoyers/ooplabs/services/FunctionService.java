@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.TooComplex;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
@@ -58,7 +59,10 @@ public class FunctionService {
     public Function createFunction(Function function) {
         logger.info("Creating function: {}", function.getName());
 
-        // Сохраняем функцию
+        if (function.getPointCount() > 100000) {
+            throw new TooComplex("Слишком много точек!");
+        }
+
         Function savedFunction = functionRepository.save(function);
 
         logger.info("Created function with id: {}", savedFunction.getId());
