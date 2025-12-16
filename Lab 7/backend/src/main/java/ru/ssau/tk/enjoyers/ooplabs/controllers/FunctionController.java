@@ -378,6 +378,7 @@ public class FunctionController {
             Function result = operationService.createFunctionFromPoints(
                     request.getUserId(),
                     request.getName(),
+                    request.getDescription(),
                     points
             );
 

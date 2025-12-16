@@ -448,13 +448,13 @@ public class OperationService {
         return savedFunction;
     }
 
-    public Function createFunctionFromPoints(Long userId, String name, List<Point> points) {
+    public Function createFunctionFromPoints(Long userId, String name, String description, List<Point> points) {
         logger.info("Creating function from {} points for user {}", points.size(), userId);
 
         Function function = Function.builder()
                 .userId(userId)
                 .name(name)
-                .description("Tabulated function with " + points.size() + " points")
+                .description(description)
                 .type("TABULATED")
                 .pointCount(points.size())
                 .functionClass("TabulatedFunction")
