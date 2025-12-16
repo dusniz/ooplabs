@@ -10,9 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="add point count per function restriction">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/TooComplex.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/CosineFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/CotangentFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/NaturalLogarithmFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/SineFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/functions/TangentFunction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +29,8 @@
         <option value="Interface" />
         <option value="Enum" />
         <option value="Kotlin Class" />
-        <option value="Class" />
         <option value="Exception" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -73,12 +76,12 @@
     &quot;assignee&quot;: &quot;VoltageRozayx&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/dusniz/ooplabs.git&quot;,
-    &quot;accountId&quot;: &quot;44e3e202-b7b6-4ebf-8b3d-aa82cb58759e&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/dusniz/ooplabs.git",
+    "accountId": "a903004e-d03a-4bbc-bf5c-fd60900919d7"
   }
-}</component>
+}]]></component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -98,52 +101,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.LoadDataBaseScripts.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml.adminer: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml.db-manual: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.All in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
-    &quot;JUnit.FunctionRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcBenchmark.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcBenchmark.performanceBulkPointsOperations.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcFunctionDaoTest.executor&quot;: &quot;Coverage&quot;,
-    &quot;JUnit.JdbcFunctionDaoTest.testExistsById.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcPerformanceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcPointDaoTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JdbcUserDaoTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PointRepositoryTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.PointRepositoryTest.findByFunctionIdAndIndex.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.SearchTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SpringDataBenchmark.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.dao in enjoyers-ooplabs.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.java in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
-    &quot;JUnit.ooplabs in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
-    &quot;Maven.enjoyers-ooplabs [org.apache.maven.plugins:maven-war-plugin:3.4.0:exploded].executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Shell Script.run-jdbc-tests.sh.executor&quot;: &quot;Debug&quot;,
-    &quot;Smart Tomcat.Tomcat Server.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;manual&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mraba/IdeaProjects/ooplabs/Lab 7/backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.14390244&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.LoadDataBaseScripts.executor": "Run",
+    "Docker.Dockerfile.executor": "Run",
+    "Docker.docker-compose.yml.adminer: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.db-manual: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml.db: Compose Deployment.executor": "Run",
+    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in enjoyers-ooplabs.executor": "Coverage",
+    "JUnit.FunctionRepositoryTest.executor": "Run",
+    "JUnit.JdbcBenchmark.executor": "Run",
+    "JUnit.JdbcBenchmark.performanceBulkPointsOperations.executor": "Run",
+    "JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints.executor": "Run",
+    "JUnit.JdbcFunctionDaoTest.executor": "Coverage",
+    "JUnit.JdbcFunctionDaoTest.testExistsById.executor": "Run",
+    "JUnit.JdbcPerformanceTest.executor": "Run",
+    "JUnit.JdbcPointDaoTest.executor": "Run",
+    "JUnit.JdbcUserDaoTest.executor": "Run",
+    "JUnit.PointRepositoryTest.executor": "Debug",
+    "JUnit.PointRepositoryTest.findByFunctionIdAndIndex.executor": "Debug",
+    "JUnit.SearchTest.executor": "Run",
+    "JUnit.SpringDataBenchmark.executor": "Run",
+    "JUnit.UserRepositoryTest.executor": "Run",
+    "JUnit.dao in enjoyers-ooplabs.executor": "Run",
+    "JUnit.java in enjoyers-ooplabs.executor": "Coverage",
+    "JUnit.ooplabs in enjoyers-ooplabs.executor": "Coverage",
+    "Maven.enjoyers-ooplabs [org.apache.maven.plugins:maven-war-plugin:3.4.0:exploded].executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Shell Script.run-jdbc-tests.sh.executor": "Debug",
+    "Smart Tomcat.Tomcat Server.executor": "Run",
+    "git-widget-placeholder": "manual",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Program Files/Apache Software Foundation/Tomcat 11.0/conf",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15429688",
+    "project.structure.side.proportion": "0.14390244",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
@@ -249,18 +252,23 @@
       <predefined_log_file id="Tomcat Manager Log" />
       <predefined_log_file id="Tomcat Host Manager Log" />
       <option name="adminPort" value="8006" />
-      <option name="catalinaBase" value="C:\Users\mraba\.SmartTomcat\Lab 6\enjoyers-ooplabs" />
+      <option name="catalinaBase" value="C:\Program Files\Apache Software Foundation\Tomcat 11.0\conf" />
       <option name="contextPath" value="/api/v1" />
-      <option name="docBase" value="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
+      <option name="docBase" value="C:\Users\User\IdeaProjects\ooplabs\Lab 7\backend\src\main\webapp" />
+      <option name="envOptions">
+        <map />
+      </option>
       <option name="extraClassPath" value="" />
+      <option name="port" value="8443" />
       <option name="tomcatInfo">
         <TomcatInfo>
-          <option name="name" value="Apache Tomcat/11.0.14" />
-          <option name="path" value="$USER_HOME$/OneDrive/Документы/Tomcat" />
+          <option name="name" value="Apache Tomcat/11.0.14 (4)" />
+          <option name="path" value="$PROJECT_DIR$/../../../../../../Program Files/Apache Software Foundation/Tomcat 11.0" />
           <option name="version" value="11.0.14.0" />
         </TomcatInfo>
       </option>
       <option name="vmOptions" value="" />
+      <module name="enjoyers-ooplabs" />
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="RunConfigurationTask" enabled="true" run_configuration_name="LoadDataBaseScripts" run_configuration_type="Application" />
@@ -582,7 +590,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765838756270</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="add point count per function restriction">
+      <option name="closed" value="true" />
+      <created>1765860475684</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1765860475684</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

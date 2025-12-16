@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
-import ru.ssau.tk.enjoyers.ooplabs.functions.SqrFunction;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class FunctionServlet extends HttpServlet {
                         }
 
                         double x = Double.parseDouble(xParam);
-                        double result = functionClassApply(function.get().getFunctionClass(), x);
+                        double result = functionClassApply(function.get(), x);
 
                         response.setContentType("application/json");
                         response.setCharacterEncoding("UTF-8");
@@ -165,16 +165,50 @@ public class FunctionServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
-    protected double functionClassApply(String functionClass, double x) {
-        double evaluated = 0;
-        switch (functionClass) {
-            case "SqrFunction":
+    protected double functionClassApply(Function function, double x) {
+        String functionClass = function.getFunctionClass();
+        return switch (functionClass) {
+            case "SqrFunction" -> {
                 SqrFunction sqrFunction = new SqrFunction();
-                evaluated = sqrFunction.apply(x);
-                break;
-            default:
-                throw new IllegalArgumentException("No such function class found!");
-        }
-        return evaluated;
+                yield sqrFunction.apply(x);
+            }
+            case "IdentityFunction" -> {
+                IdentityFunction identityFunction = new IdentityFunction();
+                yield identityFunction.apply(x);
+            }
+//            case "ConstantFunction" -> {
+//                ConstantFunction constantFunction = new ConstantFunction();
+//                yield constantFunction.apply(x);
+//            }
+            case "ZeroFunction" -> {
+                ZeroFunction zeroFunction = new ZeroFunction();
+                yield zeroFunction.apply(x);
+            }
+            case "UnitFunction" -> {
+                UnitFunction unitFunction = new UnitFunction();
+                yield unitFunction.apply(x);
+            }
+            case "NaturalLogarithmFunction" -> {
+                NaturalLogarithmFunction naturalLogarithmFunction = new NaturalLogarithmFunction();
+                yield naturalLogarithmFunction.apply(x);
+            }
+            case "SineFunction" -> {
+                SineFunction sineFunction = new SineFunction();
+                yield sineFunction.apply(x);
+            }
+            case "CosineFunction" -> {
+                CosineFunction cosineFunction = new CosineFunction();
+                yield cosineFunction.apply(x);
+            }
+            case "TangentFunction" -> {
+                TangentFunction tangentFunction = new TangentFunction();
+                yield tangentFunction.apply(x);
+            }
+            case "CotangentFunction" -> {
+                CotangentFunction cotangentFunction = new CotangentFunction();
+                yield cotangentFunction.apply(x);
+            }
+            default -> throw new IllegalArgumentException("No such function class found!");
+        };
     }
 }
