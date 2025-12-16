@@ -406,16 +406,16 @@ public class OperationService {
         return functions;
     }
 
-    public Function createFunctionFromMathExpression(Long userId, String name, String expression, String variable) {
-        logger.info("Creating function from math expression: {}", expression);
+    public Function createFunctionFromMathExpression(Long userId, String name, String description, String functionClass) {
+        logger.info("Creating function from math class: {}", functionClass);
 
         Function function = Function.builder()
                 .userId(userId)
                 .name(name)
-                .description("Mathematical function: " + expression)
+                .description(description)
                 .type("MATH")
-                .pointCount(0) // Будет вычислено при табулировании
-                .functionClass("MathExpression")
+                .pointCount(0)
+                .functionClass(functionClass)
                 .build();
 
         Function savedFunction = functionRepository.save(function);
