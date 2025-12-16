@@ -419,56 +419,10 @@ public class OperationService {
                 .build();
 
         Function savedFunction = functionRepository.save(function);
-
-        // Здесь должна быть логика парсинга математического выражения
-        // и создания точек. Для простоты создадим несколько точек
-
-        List<Point> points = new ArrayList<>();
-        int numPoints = 10;
-
-        for (int i = 0; i < numPoints; i++) {
-            double x = -5.0 + i * 1.0; // От -5 до 5
-
-            // Простая реализация: для выражения "x^2 + 2x + 1"
-            double y = evaluateExpression(expression, x);
-
-            Point point = Point.builder()
-                    .functionId(savedFunction.getId())
-                    .x(x)
-                    .y(y)
-                    .index(i)
-                    .build();
-            points.add(point);
-        }
-
-        pointRepository.saveAll(points);
-
-        // Обновляем количество точек
-        function.setPointCount(points.size());
         functionRepository.save(function);
 
         logger.info("Function created from math expression. ID: {}", savedFunction.getId());
         return savedFunction;
-    }
-
-    private double evaluateExpression(String expression, double x) {
-        // Простая реализация вычисления выражения
-        // В реальном приложении здесь нужен парсер математических выражений
-
-        if (expression.contains("x^2")) {
-            return x * x + 2 * x + 1; // Пример: x^2 + 2x + 1
-        } else if (expression.contains("sin")) {
-            return Math.sin(x);
-        } else if (expression.contains("cos")) {
-            return Math.cos(x);
-        } else if (expression.contains("exp")) {
-            return Math.exp(x);
-        } else if (expression.contains("ln")) {
-            return Math.log(x);
-        } else {
-            // Линейная функция по умолчанию
-            return 2 * x + 3;
-        }
     }
 
     public Function createFunctionFromPoints(Long userId, String name, List<Point> points) {
