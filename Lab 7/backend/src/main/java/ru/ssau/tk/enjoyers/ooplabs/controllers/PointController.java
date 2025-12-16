@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.services.PointService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class PointController {
@@ -33,6 +35,22 @@ public class PointController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             logger.error("point GET INTERNAL_SERVER_ERROR ID: {} {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/points/functionId/{id}")
+    public ResponseEntity<List<Point>> getPointsByFunctionId(@PathVariable("id") Long functionId) {
+        logger.info("GET запрос на получение всех точек фукнции с ID: {}", functionId);
+        try {
+            List<Point> points = pointService.getPointsByFunctionId(functionId);
+            logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
+            return ResponseEntity.ok(points);
+        } catch (IllegalArgumentException e) {
+            logger.error("point GET BAD_REQUEST by function ID: {} {}", functionId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (Exception e) {
+            logger.error("point GET INTERNAL_SERVER_ERROR by function ID: {} {}", functionId, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
