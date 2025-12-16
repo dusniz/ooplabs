@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
+import ru.ssau.tk.enjoyers.ooplabs.services.FunctionService;
 import ru.ssau.tk.enjoyers.ooplabs.services.PointService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,6 +21,7 @@ public class PointController {
     private static final Logger logger = LogManager.getLogger(PointController.class);
 
     @Autowired
+    private FunctionService functionService;
     private PointService pointService;
 
     @GetMapping("/points/{id}")
@@ -43,8 +47,16 @@ public class PointController {
     public ResponseEntity<List<Point>> getPointsByFunctionId(@PathVariable("id") Long functionId) {
         logger.info("GET запрос на получение всех точек фукнции с ID: {}", functionId);
         try {
-            List<Point> points = pointService.getPointsByFunctionId(functionId);
-            logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
+            Optional<Function> function = functionService.getFunction(functionId);
+            List<Point> points = List.of();
+            if (function.isPresent() && function.get().getType().equals("TABULATED")) {
+                points = pointService.getPointsByFunctionId(functionId);
+                logger.info("Найдено {} точек функции с ID: {}", points.size(), functionId);
+            } else if (function.isPresent()) {
+                for (int x = -10; x <= 10; x++) {
+                    points.add(pointService.createPoint(functionId, (double) x, functionService.functionEvaluate(function.get(), x), x));
+                }
+            }
             return ResponseEntity.ok(points);
         } catch (IllegalArgumentException e) {
             logger.error("point GET BAD_REQUEST by function ID: {} {}", functionId, e.getMessage());
