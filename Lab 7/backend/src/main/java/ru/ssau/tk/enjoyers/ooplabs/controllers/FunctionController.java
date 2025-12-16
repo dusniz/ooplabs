@@ -62,7 +62,7 @@ public class FunctionController {
                 logger.warn("Функция с ID: {} не найдена", id);
                 return ResponseEntity.notFound().build();
             }
-            Double result = functionClassApply(function.get().getFunctionClass(), x);
+            Double result = functionService.functionEvaluate(function.get(), x);
             EvaluationResponse evaluationResult = new EvaluationResponse(id, x, result);
             logger.info("Функция с ID: {} успешно вычислена в точке x={}, результат: {}",
                     id, x, result);
@@ -400,18 +400,5 @@ public class FunctionController {
             logger.error("createFunctionFromPoints INTERNAL_SERVER_ERROR: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    protected double functionClassApply(String functionClass, double x) {
-        double evaluated = 0;
-        switch (functionClass) {
-            case "SqrFunction":
-                SqrFunction sqrFunction = new SqrFunction();
-                evaluated = sqrFunction.apply(x);
-                break;
-            default:
-                throw new IllegalArgumentException("No such function class found!");
-        }
-        return evaluated;
     }
 }

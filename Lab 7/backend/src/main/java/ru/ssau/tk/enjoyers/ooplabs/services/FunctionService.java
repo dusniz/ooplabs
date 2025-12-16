@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Function;
 import ru.ssau.tk.enjoyers.ooplabs.entities.Point;
 import ru.ssau.tk.enjoyers.ooplabs.exceptions.TooComplex;
+import ru.ssau.tk.enjoyers.ooplabs.functions.*;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.FunctionRepository;
 import ru.ssau.tk.enjoyers.ooplabs.repositories.PointRepository;
 
@@ -109,5 +110,52 @@ public class FunctionService {
         long count = functionRepository.countByUserId(userId);
         logger.debug("User {} has {} functions", userId, count);
         return count;
+    }
+
+    public double functionEvaluate(Function function, double x) {
+        String functionClass = function.getFunctionClass();
+        return switch (functionClass) {
+            case "SqrFunction" -> {
+                SqrFunction sqrFunction = new SqrFunction();
+                yield sqrFunction.apply(x);
+            }
+            case "IdentityFunction" -> {
+                IdentityFunction identityFunction = new IdentityFunction();
+                yield identityFunction.apply(x);
+            }
+//            case "ConstantFunction" -> {
+//                ConstantFunction constantFunction = new ConstantFunction();
+//                yield constantFunction.apply(x);
+//            }
+            case "ZeroFunction" -> {
+                ZeroFunction zeroFunction = new ZeroFunction();
+                yield zeroFunction.apply(x);
+            }
+            case "UnitFunction" -> {
+                UnitFunction unitFunction = new UnitFunction();
+                yield unitFunction.apply(x);
+            }
+            case "NaturalLogarithmFunction" -> {
+                NaturalLogarithmFunction naturalLogarithmFunction = new NaturalLogarithmFunction();
+                yield naturalLogarithmFunction.apply(x);
+            }
+            case "SineFunction" -> {
+                SineFunction sineFunction = new SineFunction();
+                yield sineFunction.apply(x);
+            }
+            case "CosineFunction" -> {
+                CosineFunction cosineFunction = new CosineFunction();
+                yield cosineFunction.apply(x);
+            }
+            case "TangentFunction" -> {
+                TangentFunction tangentFunction = new TangentFunction();
+                yield tangentFunction.apply(x);
+            }
+            case "CotangentFunction" -> {
+                CotangentFunction cotangentFunction = new CotangentFunction();
+                yield cotangentFunction.apply(x);
+            }
+            default -> throw new IllegalArgumentException("No such function class found!");
+        };
     }
 }
