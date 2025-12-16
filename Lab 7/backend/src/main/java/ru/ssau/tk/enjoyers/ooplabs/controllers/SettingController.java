@@ -27,9 +27,9 @@ public class SettingController {
 
             FactoryResponse response = FactoryResponse.builder()
                     .factoryType(factoryType)
-                    .description(factoryType.equals("TABULATED") ?
-                            "Табулированные функции (на основе точек)" :
-                            "Математические функции (на основе выражений)")
+                    .description(factoryType.equals("ARRAY") ?
+                            "Табулированные функции на основе массива" :
+                            "Табулированные функции на основе списка")
                     .build();
 
             logger.info("Тип фабрики успешно получен: {}", factoryType);

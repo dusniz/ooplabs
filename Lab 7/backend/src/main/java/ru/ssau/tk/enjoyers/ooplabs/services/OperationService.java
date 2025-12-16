@@ -500,8 +500,8 @@ public class OperationService {
     }
 
     public void setFactoryType(String factoryType) {
-        if (!factoryType.equals("TABULATED") && !factoryType.equals("MATH")) {
-            throw new IllegalArgumentException("Invalid factory type. Must be 'TABULATED' or 'MATH'");
+        if (!factoryType.equals("ARRAY") && !factoryType.equals("LIST")) {
+            throw new IllegalArgumentException("Invalid factory type. Must be 'ARRAY' or 'LIST'");
         }
         this.currentFactoryType = factoryType;
         logger.info("Factory type changed to: {}", factoryType);
