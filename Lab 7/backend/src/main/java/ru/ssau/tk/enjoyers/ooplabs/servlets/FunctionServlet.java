@@ -10,14 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import ru.ssau.tk.enjoyers.ooplabs.dao.JdbcFunctionDao;
 import ru.ssau.tk.enjoyers.ooplabs.entity.Function;
-import ru.ssau.tk.enjoyers.ooplabs.entity.User;
 import ru.ssau.tk.enjoyers.ooplabs.functions.SqrFunction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -113,7 +111,12 @@ public class FunctionServlet extends HttpServlet {
         Function function = mapper.readValue(jsonString, Function.class);
 
         // сохраняем функцию
-        Long savedFunctionId = functionDao.save(function);
+        Long savedFunctionId = null;
+        try {
+            savedFunctionId = functionDao.save(function);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
         Optional<Function> savedFunction = functionDao.findById(savedFunctionId);
 
         // возвращаем функцию

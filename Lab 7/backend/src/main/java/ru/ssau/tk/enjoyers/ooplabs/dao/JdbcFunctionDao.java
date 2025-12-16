@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import ru.ssau.tk.enjoyers.ooplabs.exceptions.TooComplex;
 
 public class JdbcFunctionDao implements FunctionDao {
     private static final Logger logger = LogManager.getLogger(JdbcFunctionDao.class);
@@ -109,6 +110,9 @@ public class JdbcFunctionDao implements FunctionDao {
 
     @Override
     public Long save(Function function) {
+        if (function.getPointCount() > 100000) {
+            throw new TooComplex("Слишком много точек!");
+        }
         String sql = "INSERT INTO functions (user_id, name, description, type, point_count, function_class) " +
                 "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
 

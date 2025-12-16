@@ -9,13 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="added new endpoints for better compatibility">
+    <list default="true" id="1c0bc866-0cbc-41e5-965c-833c6d0496b7" name="Changes" comment="add point count per function restriction">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/exceptions/TooComplex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/CorsFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/filter/CorsFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/dao/JdbcFunctionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ssau/tk/enjoyers/ooplabs/servlets/FunctionServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +27,7 @@
         <option value="Enum" />
         <option value="Kotlin Class" />
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -99,52 +98,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.LoadDataBaseScripts.executor": "Run",
-    "Docker.Dockerfile.executor": "Run",
-    "Docker.docker-compose.yml.adminer: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.db-manual: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.db: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in enjoyers-ooplabs.executor": "Coverage",
-    "JUnit.FunctionRepositoryTest.executor": "Run",
-    "JUnit.JdbcBenchmark.executor": "Run",
-    "JUnit.JdbcBenchmark.performanceBulkPointsOperations.executor": "Run",
-    "JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints.executor": "Run",
-    "JUnit.JdbcFunctionDaoTest.executor": "Coverage",
-    "JUnit.JdbcFunctionDaoTest.testExistsById.executor": "Run",
-    "JUnit.JdbcPerformanceTest.executor": "Run",
-    "JUnit.JdbcPointDaoTest.executor": "Run",
-    "JUnit.JdbcUserDaoTest.executor": "Run",
-    "JUnit.PointRepositoryTest.executor": "Debug",
-    "JUnit.PointRepositoryTest.findByFunctionIdAndIndex.executor": "Debug",
-    "JUnit.SearchTest.executor": "Run",
-    "JUnit.SpringDataBenchmark.executor": "Run",
-    "JUnit.UserRepositoryTest.executor": "Run",
-    "JUnit.dao in enjoyers-ooplabs.executor": "Run",
-    "JUnit.java in enjoyers-ooplabs.executor": "Coverage",
-    "JUnit.ooplabs in enjoyers-ooplabs.executor": "Coverage",
-    "Maven.enjoyers-ooplabs [org.apache.maven.plugins:maven-war-plugin:3.4.0:exploded].executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Shell Script.run-jdbc-tests.sh.executor": "Debug",
-    "Smart Tomcat.Tomcat Server.executor": "Run",
-    "git-widget-placeholder": "manual",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/mraba/IdeaProjects/ooplabs/Lab 7/backend",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15429688",
-    "project.structure.side.proportion": "0.14390244",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.LoadDataBaseScripts.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.adminer: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.db-manual: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.FunctionRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcBenchmark.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcBenchmark.performanceBulkPointsOperations.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcBenchmark.performanceReadFunctionsWithPoints.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcFunctionDaoTest.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.JdbcFunctionDaoTest.testExistsById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcPerformanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcPointDaoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JdbcUserDaoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointRepositoryTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.PointRepositoryTest.findByFunctionIdAndIndex.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.SearchTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SpringDataBenchmark.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.dao in enjoyers-ooplabs.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.java in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.ooplabs in enjoyers-ooplabs.executor&quot;: &quot;Coverage&quot;,
+    &quot;Maven.enjoyers-ooplabs [org.apache.maven.plugins:maven-war-plugin:3.4.0:exploded].executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Shell Script.run-jdbc-tests.sh.executor&quot;: &quot;Debug&quot;,
+    &quot;Smart Tomcat.Tomcat Server.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;manual&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mraba/IdeaProjects/ooplabs/Lab 7/backend&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.14390244&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
@@ -253,9 +252,6 @@
       <option name="catalinaBase" value="C:\Users\mraba\.SmartTomcat\Lab 6\enjoyers-ooplabs" />
       <option name="contextPath" value="/api/v1" />
       <option name="docBase" value="C:\Users\mraba\IdeaProjects\ooplabs\Lab 6\src\main\webapp" />
-      <option name="envOptions">
-        <map />
-      </option>
       <option name="extraClassPath" value="" />
       <option name="tomcatInfo">
         <TomcatInfo>
@@ -656,7 +652,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="add more constructors to DTO" />
     <MESSAGE value="add multiple constructors to DTO" />
     <MESSAGE value="add JDBC implementation tests" />
     <MESSAGE value="add DAO implementation tests" />
@@ -681,7 +676,8 @@
     <MESSAGE value="added authorization and authentication using JWT" />
     <MESSAGE value="initial commit" />
     <MESSAGE value="added new endpoints for better compatibility" />
-    <option name="LAST_COMMIT_MESSAGE" value="added new endpoints for better compatibility" />
+    <MESSAGE value="add point count per function restriction" />
+    <option name="LAST_COMMIT_MESSAGE" value="add point count per function restriction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
